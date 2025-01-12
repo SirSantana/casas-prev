@@ -1,7 +1,7 @@
 import CardCasa from "../components/cardCasa";
 
 
-const construcciones = [
+export const construcciones = [
   {
     id: 1,
     nombre: "Casa Pequeña Moderna",

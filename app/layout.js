@@ -1,11 +1,11 @@
 import "./globals.css";
 import Navigation from "./components/navigation";
 
-import { Inter } from 'next/font/google';
+import { Geist } from 'next/font/google';
 
-const interFont = Inter({
+const geist = Geist({
   subsets: ['latin'],
-  weight: ['400', '700'], // Specify font weights needed
+  weight: ['400', '500','600','700', '800'], // Specify font weights needed
 });
 
 export const metadata = {
@@ -15,9 +15,9 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="es">
       <body
-        className={interFont.className}
+      className={geist.className}
       >
         <Navigation />
         {children}

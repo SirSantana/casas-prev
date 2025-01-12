@@ -1,9 +1,11 @@
+import Link from "next/link";
 
 
 
 export default function CardCasa({casa}) {
   return (
-    <div
+    <Link
+    href={`/modelos/${casa.id}`}
       key={casa.id}
       className="bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition duration-300"
     >
@@ -50,6 +52,6 @@ export default function CardCasa({casa}) {
                 </p>
               </div>
             </div> */}
-    </div>
+    </Link>
   )
 }
