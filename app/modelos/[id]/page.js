@@ -16,7 +16,7 @@ export default async function Modelos({ params }) {
     imagenes
   } = tipo
   return (
-    <div  className="min-h-screen bg-gray-50">
+    <div  className="min-h-screen max-w-4xl mx-auto bg-gray-50">
       {/* Header con imagen destacada */}
       <div className="relative w-full h-64 lg:h-96">
         <img
@@ -97,7 +97,7 @@ export default async function Modelos({ params }) {
         </div>
 
         {/* Botones de acción */}
-          <button className="fixed bottom-6 w-[90%] bg-[#AD7C53] font-semibold text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition">
+          <button className="fixed bottom-6 w-[90%] max-w-xs bg-[#AD7C53] font-semibold text-white px-6 py-3 rounded-lg hover:bg-[#853F03] transition">
             Cotizar Ahora
           </button>
       </div>
