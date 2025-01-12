@@ -76,7 +76,7 @@ export default async function Modelos({ params }) {
             </div> */}
             <div className="mt-6 bg-[#F9F5F3] p-4 rounded-lg border-[#AD7C53] border-2 text-[#AD7C53]">
               <h3 className="text-xl font-medium ">Precio Base:</h3>
-              <p className="text-2xl font-bold">${precioBase.toLocaleString()} USD</p>
+              <p className="text-2xl font-bold">${precioBase.toLocaleString('es-CO')} </p>
             </div>
           </div>
         </div>

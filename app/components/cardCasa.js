@@ -3,6 +3,7 @@ import Link from "next/link";
 
 
 export default function CardCasa({casa}) {
+  console.log(Math.round(Number(casa.precioBase) / casa.tamaño))
   return (
     <Link
     href={`/modelos/${casa.id}`}
@@ -22,7 +23,7 @@ export default function CardCasa({casa}) {
             <p className="font-bold text-2xl">{casa.baños}</p>
           </div><div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
             <p className="text-sm">Precio m²</p>
-            <p className="font-bold text-2xl">${Math.round(casa.precioBase / casa.tamaño)}</p>
+            <p className="font-bold text-2xl">${Math.round(Number(casa.precioBase) / casa.tamaño).toLocaleString('es-CO')}</p>
           </div>
         </div>
         <img

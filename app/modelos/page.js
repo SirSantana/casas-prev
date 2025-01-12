@@ -10,7 +10,7 @@ export const construcciones = [
     habitaciones: 2,
     baños: 1,
     materiales: ["Concreto prefabricado", "Madera tratada"],
-    precioBase: 20000, // USD
+    precioBase: 16000000, // USD
     tiempoConstruccion: "4 semanas",
     opcionesAdicionales: ["Paneles solares", "Terraza pequeña", "Sistema de aislamiento térmico"],
     imagenes: ["planoprueba.jpg", "casa-pequena-moderna-2.jpg"]
@@ -23,7 +23,7 @@ export const construcciones = [
     habitaciones: 3,
     baños: 2,
     materiales: ["Acero estructural", "Paneles aislantes"],
-    precioBase: 45000, // USD
+    precioBase: 35000000, // USD
     tiempoConstruccion: "8 semanas",
     opcionesAdicionales: ["Garaje", "Ampliación futura", "Domótica básica"],
     imagenes: ["planoprueba.jpg", "casa-mediana-familiar-2.jpg"]
@@ -36,7 +36,7 @@ export const construcciones = [
     habitaciones: 5,
     baños: 4,
     materiales: ["Vidrio templado", "Acero reforzado", "Madera de alta calidad"],
-    precioBase: 100000, // USD
+    precioBase: 70000000, // USD
     tiempoConstruccion: "12 semanas",
     opcionesAdicionales: ["Piscina", "Jardín amplio", "Sistema de energía renovable"],
     imagenes: ["planoprueba.jpg", "casa-grande-lujo-2.jpg"]
@@ -49,7 +49,7 @@ export const construcciones = [
     habitaciones: 3,
     baños: 2,
     materiales: ["Madera reciclada", "Paneles de cáñamo", "Aislante natural"],
-    precioBase: 35000, // USD
+    precioBase: 25000000, // USD
     tiempoConstruccion: "6 semanas",
     opcionesAdicionales: ["Recolección de agua de lluvia", "Energía solar", "Huerto integrado"],
     imagenes: ["planoprueba.jpg", "casa-ecologica-2.jpg"]
@@ -62,7 +62,7 @@ export const construcciones = [
     habitaciones: 2,
     baños: 1,
     materiales: ["Concreto prefabricado", "Metal laminado"],
-    precioBase: 25000, // USD
+    precioBase: 19000000, // USD
     tiempoConstruccion: "5 semanas",
     opcionesAdicionales: ["Techo verde", "Ventanas panorámicas", "Piso radiante"],
     imagenes: ["planoprueba.jpg", "casa-minimalista-2.jpg"]
@@ -75,7 +75,7 @@ export const construcciones = [
     habitaciones: 1,
     baños: 1,
     materiales: ["Concreto reforzado", "Madera tratada"],
-    precioBase: 15000, // USD
+    precioBase: 14000000, // USD
     tiempoConstruccion: "3 semanas",
     opcionesAdicionales: ["Techo expandible", "Paneles solares básicos"],
     imagenes: ["planoprueba.jpg", "casa-compacta-2.jpg"]
