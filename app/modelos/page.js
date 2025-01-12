@@ -83,8 +83,8 @@ const construcciones = [
 ];
 export default function Modelos() {
   return (
-    <div style={{backgroundColor:'#E8E4E2', height:'60vh'}} className="bg-gray-100 p-8">
-      <div className=" sm:mb-24 sm:mt-16">
+    <div style={{backgroundColor:'#E8E4E2', height:'60vh'}} className="bg-gray-100  p-8">
+      <div className="mb-12 mt-8">
         <h1 className="font-bold text-blue-950 text-4xl text-center">Casas Prefabricadas</h1>
         <p className="text-gray-600 text-center mt-4">
           Descubre nuestras opciones de construcción prefabricada para todos los estilos y necesidades.
