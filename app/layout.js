@@ -19,7 +19,7 @@ export default function RootLayout({ children }) {
       <body
         className={interFont.className}
       >
-        {/* <Navigation /> */}
+        <Navigation />
         {children}
       </body>
     </html>

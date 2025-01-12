@@ -1,3 +1,4 @@
+import CardCasa from "../components/cardCasa";
 
 
 const construcciones = [
@@ -82,64 +83,17 @@ const construcciones = [
 ];
 export default function Modelos() {
   return (
-    <div className="bg-gray-100 min-h-screen p-8">
-      <div className="mb-8">
+    <div style={{backgroundColor:'#E8E4E2', height:'60vh'}} className="bg-gray-100 p-8">
+      <div className=" sm:mb-24 sm:mt-16">
         <h1 className="font-bold text-blue-950 text-4xl text-center">Casas Prefabricadas</h1>
         <p className="text-gray-600 text-center mt-4">
           Descubre nuestras opciones de construcción prefabricada para todos los estilos y necesidades.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl m-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 max-w-6xl m-auto">
         {construcciones.map((casa) => (
-          <div
-            key={casa.id}
-            className="bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition duration-300"
-          >
-           
-            <div className="p-6 ">
-              <h2 style={{ color: '#AD7C53' }} className="text-6xl font-bold ">{casa.tamaño}m²</h2>
-              <div className="mt-8 mb-8" style={{ color: '#393D46', display: 'flex', flexDirection: 'row', gap: '10px', justifyContent:'space-between', alignItems:'center' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                  <p className="text-sm">Habitaciones</p>
-                  <p className="font-bold text-2xl">{casa.habitaciones}</p>
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                  <p className="text-sm">Baños</p>
-                  <p className="font-bold text-2xl">{casa.baños}</p>
-                </div><div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                  <p className="text-sm">Precio m²</p>
-                  <p className="font-bold text-2xl">${Math.round(casa.precioBase/casa.tamaño)}</p>
-                </div>
-              </div>
-              <img
-              src={casa.imagenes[0]}
-              alt={casa.nombre}
-              className="min-w-10 h-48 object-cover mx-auto"
-            />
-            <p style={{color:'#AD7C53'}} className="mt-4 text-right font-medium" >Ver detalle <span><i className="fa-solid fa-arrow-right-long"></i></span></p>
-            </div>
-
-           
-            {/* <div className="p-6">
-              <h2 className="text-xl font-bold text-gray-800">{casa.nombre}</h2>
-              <p className="text-gray-600 mt-2">{casa.descripcion}</p>
-              <div className="mt-4">
-                <p className="text-gray-800">
-                  <span className="font-bold">Tamaño:</span> {casa.tamaño}
-                </p>
-                <p className="text-gray-800">
-                  <span className="font-bold">Habitaciones:</span> {casa.habitaciones}
-                </p>
-                <p className="text-gray-800">
-                  <span className="font-bold">Baños:</span> {casa.baños}
-                </p>
-                <p className="text-gray-800">
-                  <span className="font-bold">Precio Base:</span> ${casa.precioBase.toLocaleString()}m² USD
-                </p>
-              </div>
-            </div> */}
-          </div>
+          <CardCasa casa={casa} key={casa.id} />
         ))}
       </div>
     </div>
