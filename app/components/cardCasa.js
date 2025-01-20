@@ -2,11 +2,10 @@ import Link from "next/link";
 
 
 
-export default function CardCasa({casa}) {
-  console.log(Math.round(Number(casa.precioBase) / casa.tamaño))
+export default function CardCasa({ casa }) {
   return (
     <Link
-    href={`/modelos/${casa.id}`}
+      href={`/modelos/${casa.id}`}
       key={casa.id}
       className="bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition duration-300"
     >
@@ -33,7 +32,6 @@ export default function CardCasa({casa}) {
         />
         <p style={{ color: '#AD7C53' }} className="mt-4 text-right font-medium" >Ver detalle <span><i className="fa-solid fa-arrow-right-long"></i></span></p>
       </div>
-
 
       {/* <div className="p-6">
               <h2 className="text-xl font-bold text-gray-800">{casa.nombre}</h2>

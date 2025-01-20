@@ -1,4 +1,8 @@
+import SelectTipo from "@/app/components/modelo/selectTipo";
 import { construcciones } from "../page";
+import ButtonFooterFixed from "@/app/components/modelo/ButtonFooterFixed";
+import CaracteristicasPrincipales from "@/app/components/modelo/CaracteristicasPrincipales";
+import SliderImages from "@/app/components/modelo/SliderImages";
 
 export default async function Modelos({ params }) {
   const { id } = await params;
@@ -95,11 +99,11 @@ export default async function Modelos({ params }) {
             ))}
           </ul> */}
         </div>
+        <SliderImages imagenes={imagenes}/>
+        <CaracteristicasPrincipales habitaciones={habitaciones} baños={baños} tamaño={tamaño}/>
+        <SelectTipo/>
 
-        {/* Botones de acción */}
-          <button className="fixed bottom-6 w-[90%] max-w-xs bg-[#AD7C53] font-semibold text-white px-6 py-3 rounded-lg hover:bg-[#853F03] transition">
-            Cotizar Ahora
-          </button>
+      <ButtonFooterFixed/>
       </div>
     </div>
   )

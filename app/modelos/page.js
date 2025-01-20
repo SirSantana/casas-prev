@@ -6,14 +6,14 @@ export const construcciones = [
     id: 1,
     nombre: "Casa Pequeña Moderna",
     descripcion: "Casa compacta con diseño moderno y eficiente, ideal para parejas o pequeñas familias.",
-    tamaño: 50,
+    tamaño: 36,
     habitaciones: 2,
     baños: 1,
     materiales: ["Concreto prefabricado", "Madera tratada"],
     precioBase: 16000000, // USD
     tiempoConstruccion: "4 semanas",
     opcionesAdicionales: ["Paneles solares", "Terraza pequeña", "Sistema de aislamiento térmico"],
-    imagenes: ["planoprueba.jpg", "casa-pequena-moderna-2.jpg"]
+    imagenes: ["https://res.cloudinary.com/db3veuotr/image/upload/v1737376551/casa36mimg1_tvun2y.webp", "https://res.cloudinary.com/db3veuotr/image/upload/v1737376677/casa36mimg2_tw2ucg.webp", "https://res.cloudinary.com/db3veuotr/image/upload/v1737376743/casa36mimg3_rzgqph.webp","https://res.cloudinary.com/db3veuotr/image/upload/v1737376825/casa36mimg4_oeuplg.webp"]
   },
   {
     id: 2,
