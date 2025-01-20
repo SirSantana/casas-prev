@@ -32,7 +32,7 @@ export default function ButtonFooterFixed() {
         className="bg-blue-500 hover:bg-blue-600 font-medium text-white px-6 py-3 rounded-lg transition duration-300 ease-in-out"
         style={{ flexShrink: 0, borderRadius:'32px',}}
       >
-        Cotizar Ahora
+        Estoy interesado
       </button>
     </div>
   )

@@ -50,7 +50,7 @@ export default function SliderImages({ imagenes }) {
               key={index}
               style={{
                 ...styles.indicator,
-                backgroundColor: currentIndex === index ? "#007BFF" : "#ccc",
+                backgroundColor: currentIndex === index ? "white" : "#D9D9D9",
               }}
             />
           ))}
@@ -72,13 +72,12 @@ export default function SliderImages({ imagenes }) {
   );
 }
 
-const styles = {
+export const styles = {
   sliderContainer: {
     position: "relative",
     width: "100%",
     maxWidth: "600px",
     overflow: "hidden",
-    borderRadius: "8px",
     margin: "0 auto",
   },
   slider: {

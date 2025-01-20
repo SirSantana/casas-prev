@@ -13,7 +13,8 @@ export const construcciones = [
     precioBase: 16000000, // USD
     tiempoConstruccion: "4 semanas",
     opcionesAdicionales: ["Paneles solares", "Terraza pequeña", "Sistema de aislamiento térmico"],
-    imagenes: ["https://res.cloudinary.com/db3veuotr/image/upload/v1737376551/casa36mimg1_tvun2y.webp", "https://res.cloudinary.com/db3veuotr/image/upload/v1737376677/casa36mimg2_tw2ucg.webp", "https://res.cloudinary.com/db3veuotr/image/upload/v1737376743/casa36mimg3_rzgqph.webp","https://res.cloudinary.com/db3veuotr/image/upload/v1737376825/casa36mimg4_oeuplg.webp"]
+    imagenes: ["https://res.cloudinary.com/db3veuotr/image/upload/v1737376551/casa36mimg1_tvun2y.webp", "https://res.cloudinary.com/db3veuotr/image/upload/v1737376677/casa36mimg2_tw2ucg.webp", "https://res.cloudinary.com/db3veuotr/image/upload/v1737376743/casa36mimg3_rzgqph.webp","https://res.cloudinary.com/db3veuotr/image/upload/v1737376825/casa36mimg4_oeuplg.webp"],
+    planos:['https://res.cloudinary.com/db3veuotr/image/upload/v1737407447/plano2-36m_vb7idd.svg','https://res.cloudinary.com/db3veuotr/image/upload/v1737407439/plano1-36m_veuiw1.svg']
   },
   {
     id: 2,
