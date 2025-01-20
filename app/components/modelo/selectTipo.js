@@ -73,7 +73,7 @@ export default function SelectTipo() {
             </svg>
           ) :
             <svg xmlns="http://www.w3.org/2000/svg" class="ionicon"width={24}
-            height={24} viewBox="0 0 512 512"><circle cx="256" cy="256" r="192" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" /></svg>
+            height={24} viewBox="0 0 512 512"><circle cx="256" cy="256" r="192" fill="none" stroke="#d1d5db" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" /></svg>
 
           }
         </button>
