@@ -1,7 +1,16 @@
+'use client'
+import { usePathname} from "next/navigation";
 
 
 
 export default function ButtonFooterFixed() {
+  const pathname = usePathname();
+  
+  const sendWhatsappMessage = ({ numero, path = null, text }) => {
+    let url = `https://api.whatsapp.com/send?phone=573112248158`;
+    url += `&text=${encodeURI(text ? text : `Buen dia, estoy interesado en una casa prefabricada de este estilo https://casas-prev.vercel.app${pathname}`)}&app_absent=0`
+    window.open(url);
+  }
   return (
     <div
       style={{
@@ -29,6 +38,7 @@ export default function ButtonFooterFixed() {
         </h3>
       </div>
       <button
+      onClick={sendWhatsappMessage}
         className="bg-blue-500 hover:bg-blue-600 font-medium text-white px-6 py-3 rounded-lg transition duration-300 ease-in-out"
         style={{ flexShrink: 0, borderRadius:'32px',}}
       >
