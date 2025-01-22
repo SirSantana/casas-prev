@@ -5,17 +5,17 @@ import { useState } from "react";
 const tiposDeCasa = [
   {
     id: 1,
-    nombre: "Casa de Campo",
-    descripcion: "Explicación de la casa de campo",
+    nombre: "Casa Dos Aguas",
+    descripcion: "Tejado a dos aguas tiene dos secciones inclinadas en su techo, una hacia cada lado.",
   },
   {
     id: 2,
-    nombre: "Casa Moderna",
+    nombre: "Casa Cubo",
     descripcion: "Explicación de la casa Moderna",
   },
   {
     id: 3,
-    nombre: "Casa Mixta",
+    nombre: "Casa Tropical",
     descripcion: "Explicación de la casa Mixta",
   },
 ];
@@ -43,12 +43,12 @@ export default function SelectTipo() {
             >
               {casa.nombre}
             </h4>
-            <p
+            {/* <p
               className={`text-sm ${seleccionado === casa.id ? "text-blue-400" : "text-gray-500"
                 }`}
             >
               {casa.descripcion}
-            </p>
+            </p> */}
           </div>
           {seleccionado === casa.id ? (
             <svg

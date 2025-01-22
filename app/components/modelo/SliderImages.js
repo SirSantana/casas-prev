@@ -76,7 +76,7 @@ export const styles = {
   sliderContainer: {
     position: "relative",
     width: "100%",
-    maxWidth: "600px",
+    maxWidth: "500px",
     overflow: "hidden",
     margin: "0 auto",
   },
