@@ -10,6 +10,9 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        primary: "#6A0DAD", // Morado vibrante
+        darkGray: "#333333", // Gris oscuro
+        black: "#000000", // Negro
       },
     },
   },
