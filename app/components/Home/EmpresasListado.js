@@ -86,7 +86,7 @@ const FiltroEmpresas = () => {
           empresasFiltradas.map((empresa) => (
             <Link
               key={empresa.id}
-              href={`/casa/${empresa.id}`}
+              href={`/modelos/1`}
               className="border border-[#CFD5E1] rounded-xl p-8 w-[320px] shadow-md bg-white flex flex-col items-center gap-4 transition-transform transform hover:scale-[1.01] duration-300 ease-in-out"
             >
               {/* Imagen en la parte superior */}
