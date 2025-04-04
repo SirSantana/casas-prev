@@ -1,11 +1,11 @@
 const Footer = () => {
     return (
-      <footer className="bg-gray-900 text-gray-300 py-10">
+      <footer className="bg-[#261B37] text-gray-300 py-10">
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Logo y descripción */}
             <div>
-              <img src="/logo.svg" alt="Logo" className="h-10 mb-4" />
+              <img src="/logo-morado-claro.svg" alt="Logo" className="h-10 mb-4" />
               <p className="text-sm">
                 Encuentra las mejores opciones en casas prefabricadas en Colombia. Compara, cotiza y haz realidad tu nuevo hogar.
               </p>
@@ -48,7 +48,7 @@ const Footer = () => {
           </div>
   
           {/* Línea divisoria */}
-          <div className="border-t border-gray-700 mt-8 pt-6 text-center text-sm">
+          <div className="border-t border-[#D6BEFF] mt-8 pt-6 text-center text-sm">
             <p>&copy; {new Date().getFullYear()} PrefabCasas. Todos los derechos reservados.</p>
           </div>
         </div>

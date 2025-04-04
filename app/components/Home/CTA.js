@@ -1,6 +1,6 @@
 const CTAFinal = () => {
     return (
-      <section className="bg-gray-900 text-white py-16 px-6 text-center">
+      <section className="bg-[#261B37] text-white py-16 px-6 text-center rounded-t-2xl">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl font-bold">Encuentra la Casa Prefabricada Perfecta</h2>
           <p className="text-lg text-gray-300 mt-4">

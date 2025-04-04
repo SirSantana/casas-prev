@@ -15,7 +15,7 @@ const HeroSection = () => {
   };
 
   return (
-    <section  className="relative w-full h-[90vh] bg-white py-24 pt-32 flex items-center justify-center">
+    <section  className="relative w-full bg-white py-24 pt-40 flex items-center justify-center">
       {/* Grid Background */}
       <div className="relative max-w-7xl mx-auto flex flex-col md:flex-row items-center px-6">
         {/* Contenido izquierdo */}
@@ -47,11 +47,10 @@ const HeroSection = () => {
 
         {/* Imagen decorativa */}
         <div className="flex-1 flex justify-center mt-12 md:mt-0">
-          <Image
+          <img
             src="/ck40-1.jpg"
             alt="Casa prefabricada moderna"
-            width={500}
-            height={500}
+           style={{maxWidth:'500px', width:'100%'}}
             className="rounded-lg shadow-lg"
           />
         </div>
