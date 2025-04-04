@@ -1,4 +1,5 @@
 "use client";
+import ImageGallery from "@/app/components/Fabricantes/ImageSlider";
 import Image from "next/image";
 import { useState } from "react";
 const  empresa={
@@ -39,11 +40,15 @@ const PerfilEmpresa = () => {
     console.log("Formulario enviado:", form);
     // Aquí puedes hacer el fetch/post a tu backend o servicio de correo
   };
-
+  
   return (
-    <div className="max-w-[1200px] mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <>
+    <ImageGallery />
+    <div className="max-w-[1100px] mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
       {/* Información de la empresa */}
+      
       <div className="lg:col-span-2 space-y-6">
+        
         <div className="flex items-center gap-4">
           <Image src={empresa.logo} alt="Logo" width={50} height={50} />
           <h1 className="text-2xl font-bold text-gray-900">
@@ -142,6 +147,8 @@ const PerfilEmpresa = () => {
         </form>
       </div>
     </div>
+    </>
+
   );
 };
 
