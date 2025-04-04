@@ -41,6 +41,9 @@ export const metadata = {
   icons: {
     icon: "/logo-back.png",
   },
+  other: {
+    "google-site-verification": "google-site-verification=3yXQGCXdFNabrL2sqAUv8Mz9oFEKsw1sKKJZ_2g5Avo"
+  }
 };
 
 export default function RootLayout({ children }) {
