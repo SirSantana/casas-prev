@@ -42,7 +42,7 @@ export const metadata = {
     icon: "/logo-back.png",
   },
   other: {
-    "google-site-verification": "google-site-verification=3yXQGCXdFNabrL2sqAUv8Mz9oFEKsw1sKKJZ_2g5Avo"
+    "google-site-verification": "3yXQGCXdFNabrL2sqAUv8Mz9oFEKsw1sKKJZ_2g5Avo"
   }
 };
 
