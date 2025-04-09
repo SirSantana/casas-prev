@@ -1,7 +1,24 @@
 'use client';
 import { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import { faqs } from "@/app/page";
+ const faqs = [
+  {
+    question: "¿Cuánto tiempo tarda la construcción de una casa prefabricada?",
+    answer: "Depende del tamaño y diseño, pero en general, una casa prefabricada puede construirse en 2 a 4 meses, mucho más rápido que una casa tradicional.",
+  },
+  {
+    question: "¿Son seguras las casas prefabricadas?",
+    answer: "Sí, están diseñadas con materiales resistentes y cumplen con las normativas de construcción, ofreciendo gran seguridad estructural.",
+  },
+  {
+    question: "¿Puedo personalizar el diseño de mi casa prefabricada?",
+    answer: "Sí, muchas empresas permiten personalizar el diseño, acabados y distribución de los espacios según tus necesidades.",
+  },
+  {
+    question: "¿Es más barata una casa prefabricada que una tradicional?",
+    answer: "En la mayoría de los casos, sí. Las casas prefabricadas reducen costos de materiales y mano de obra, haciendo que sean más asequibles.",
+  },
+];
 const FAQSection = () => {
   
 
