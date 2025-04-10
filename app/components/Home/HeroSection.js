@@ -20,10 +20,10 @@ const HeroSection = () => {
       <div className="relative max-w-7xl mx-auto flex flex-col md:flex-row items-center px-6">
         {/* Contenido izquierdo */}
         <div className="flex-1 text-center md:text-left">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight">
+          <h1 className="text-4xl md:text-5xl font-extrabold text-primary leading-tight">
             Encuentra la <span className="text-purple-600">casa prefabricada</span> ideal para ti
           </h1>
-          <p className="mt-4 text-lg text-gray-600">
+          <p className="mt-4 text-lg text-terciary">
           Explora empresas confiables en Colombia y solicita una cotización fácilmente.
           </p>
 

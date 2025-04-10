@@ -8,11 +8,13 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-        primary: "#6A0DAD", // Morado vibrante
-        darkGray: "#333333", // Gris oscuro
+        primary: "#261B37", // Morado vibrante
+        secondary: "#EBDFFF", // 
+        accent: "#D6BEFF", // Amarillo
+        gray: "#6c788e", // Gris oscuro
         black: "#000000", // Negro
+        white:'#FFFFFF',
+        terciary:'#3F274F', // Gris claro
       },
     },
   },

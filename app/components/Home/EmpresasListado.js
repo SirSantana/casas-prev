@@ -47,13 +47,13 @@ const FiltroEmpresas = () => {
     <div className="max-w-7xl mx-auto py-12 px-6 grid grid-cols-1 md:grid-cols-[1fr_3fr] gap-6">
       {/* Filtros - Sidebar */}
       <aside className="bg-white   h-fit">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Filtrar Empresas</h3>
+        <h3 className="text-lg font-semibold text-primary mb-4">Filtrar Empresas</h3>
 
         {/* Filtrar por Ciudad */}
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">Ubicación</label>
+          <label className="block text-sm font-medium text-terciary">Ubicación</label>
           <select
-            className="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500"
+            className="mt-1 text-terciary block w-full border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500"
             value={filtroUbicacion}
             onChange={(e) => setFiltroUbicacion(e.target.value)}
           >
@@ -66,9 +66,9 @@ const FiltroEmpresas = () => {
 
         {/* Filtrar por Tipo de Casa */}
         <div>
-          <label className="block text-sm font-medium text-gray-700">Tipo de Casa</label>
+          <label className="block text-sm font-medium text-terciary">Tipo de Casa</label>
           <select
-            className="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500"
+            className=" text-terciary mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500"
             value={filtroTipo}
             onChange={(e) => setFiltroTipo(e.target.value)}
           >
@@ -98,7 +98,7 @@ const FiltroEmpresas = () => {
 
               {/* Contenido centrado */}
               <div className="text-center">
-                <h3 className="text-xl font-medium text-gray-900" style={{ fontWeight: '600' }}>{empresa.nombre}</h3>
+                <h3 className="text-xl font-medium text-primary" style={{ fontWeight: '600' }}>{empresa.nombre}</h3>
                 <p style={{ color: '#6C788E' }} className="text-gray-500">{empresa.ubicacion}, {empresa.tipo}</p>
                 <span
                   style={{

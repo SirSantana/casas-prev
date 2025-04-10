@@ -9,6 +9,9 @@ import FAQSection from "./components/Home/FAQ";
 import CTAFinal from "./components/Home/CTA";
 import Footer from "./components/Home/Footer";
 import Head from "next/head";
+import HowItWorksSection from "./components/Home/HowItWorks";
+import SmartFormSection from "./components/Home/SmartFormSection";
+import TestimonialsSection from "./components/Home/Testimonials";
 
 // export const metadata = {
 //   title: "Casas Prefabricadas en Colombia | Encuentra los Mejores Proveedoresss",
@@ -54,21 +57,50 @@ import Head from "next/head";
 export default function Home() {
   const faqs = [
     {
-      question: "¿Cuánto tiempo tarda la construcción de una casa prefabricada?",
-      answer: "Depende del tamaño y diseño, pero en general, una casa prefabricada puede construirse en 2 a 4 meses, mucho más rápido que una casa tradicional.",
+      question: "¿Cuánto tiempo dura la construcción de una casa prefabricada?",
+      answer: "El tiempo de construcción varía según el tamaño y diseño de la vivienda. Generalmente, una casa prefabricada puede estar lista entre 2 a 4 meses, siendo más rápido que una construcción tradicional.",
     },
     {
-      question: "¿Son seguras las casas prefabricadas?",
-      answer: "Sí, están diseñadas con materiales resistentes y cumplen con las normativas de construcción, ofreciendo gran seguridad estructural.",
+      question: "¿Que tan buenas son las casas prefabricadas en Colombia?",
+      answer: "Sí, las casas prefabricadas están diseñadas con materiales resistentes y cumplen con las normativas de construcción vigentes, ofreciendo una seguridad estructural comparable a las viviendas tradicionales.",
     },
     {
       question: "¿Puedo personalizar el diseño de mi casa prefabricada?",
-      answer: "Sí, muchas empresas permiten personalizar el diseño, acabados y distribución de los espacios según tus necesidades.",
+      answer: "Absolutamente. Muchas empresas ofrecen opciones de personalización en diseño, acabados y distribución de espacios para adaptarse a las necesidades y gustos del cliente.",
     },
     {
-      question: "¿Es más barata una casa prefabricada que una tradicional?",
-      answer: "En la mayoría de los casos, sí. Las casas prefabricadas reducen costos de materiales y mano de obra, haciendo que sean más asequibles.",
+      question: "¿Es más económica una casa prefabricada que una tradicional?",
+      answer: "En la mayoría de los casos, sí. Las casas prefabricadas suelen reducir costos de materiales y mano de obra, lo que las hace más asequibles que las construcciones tradicionales.",
     },
+    {
+      question: "¿Qué mantenimiento requiere una casa prefabricada?",
+      answer: "El mantenimiento es similar al de una casa convencional. Sin embargo, debido al uso de materiales modernos y técnicas de construcción avanzadas, algunas casas prefabricadas pueden requerir incluso menos mantenimiento.",
+    },
+    {
+      question: "¿Cuantos años dura una casa prefabricada?",
+      answer: "Con un mantenimiento adecuado, las casas prefabricadas pueden tener una durabilidad comparable a las tradicionales, ofreciendo una vida útil prolongada.",
+    },
+    {
+      question: "¿Necesito permisos para instalar una casa prefabricada?",
+      answer: "Sí, es necesario obtener los mismos permisos y cumplir con las regulaciones locales que se requieren para una construcción tradicional.",
+    },
+    {
+      question: "¿Dónde puedo instalar una casa prefabricada?",
+      answer: "Las casas prefabricadas pueden instalarse en terrenos urbanos o rurales, siempre que cumplan con las normativas locales y el terreno sea edificable.",
+    },
+    {
+      question: "¿Las casas prefabricadas son eficientes energéticamente?",
+      answer: "Sí, muchas casas prefabricadas están diseñadas con altos estándares de eficiencia energética, incorporando aislamientos de calidad y sistemas sostenibles.",
+    },
+    {
+      question: "¿Puedo financiar la compra de una casa prefabricada?",
+      answer: "Sí, es posible financiar una casa prefabricada mediante hipotecas o préstamos personales, dependiendo de las políticas de las entidades financieras y el cumplimiento de ciertos requisitos.",
+    },
+    {
+      question: "¿Qué desventajas tienen las casas prefabricadas?",
+      answer: "Aunque las casas prefabricadas ofrecen muchas ventajas, también presentan algunas desventajas. Una de ellas es la percepción social, ya que algunas personas aún las consideran de menor calidad frente a las tradicionales. Además, pueden tener limitaciones en diseño si se elige un modelo muy estándar, y en ciertos casos, los costos de transporte e instalación en zonas remotas pueden elevarse. También es importante verificar que cumplan con todas las normativas locales para evitar problemas legales.",
+    }
+    
   ];
   return (
     <>
@@ -109,8 +141,12 @@ export default function Home() {
         <Navbar />
         <HeroSection />
         <EmpresasList />
+        <TestimonialsSection />
+        <HowItWorksSection />
         <BenefitsSection />
-        <FAQSection />
+        <SmartFormSection />
+        
+        <FAQSection faqs={faqs}/>
         <CTAFinal />
         <Footer />
       </div>

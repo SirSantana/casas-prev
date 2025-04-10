@@ -26,11 +26,11 @@ const Navbar = () => {
         </Link>
 
         {/* Links desktop */}
-        <div className="hidden md:flex items-center space-x-6 text-sm font-medium text-gray-800">
+        <div className="hidden md:flex items-center space-x-6 text-sm font-medium text-terciary">
           <Link href="/casas" className="hover:text-primary transition">Casas</Link>
           <Link href="/sobre-nosotros" className="hover:text-primary transition">Sobre Nosotros</Link>
           <Link href="/contacto" className="hover:text-primary transition">Contacto</Link>
-          <Link href="/cotizar" className="ml-4 bg-primary text-white px-4 py-2 rounded-xl hover:bg-primary/80 transition-all">
+          <Link href="/cotizar" className=" ml-4 bg-primary text-white px-4 py-2 rounded-xl hover:bg-primary/80 transition-all">
             Cotizar
           </Link>
         </div>
