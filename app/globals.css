@@ -20,3 +20,57 @@ body {
   font-family: Geist,   sans-serif;
   box-sizing: border-box;
 }
+/* Estilo para navegadores WebKit (Chrome, Safari) */
+.range-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #261B37; /* Color primary */
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.range-slider::-webkit-slider-runnable-track {
+  height: 8px;
+  background: #EBDFFF; /* Color secondary */
+  border-radius: 4px;
+}
+
+/* Estilo para Firefox */
+.range-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #261B37; /* Color primary */
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.range-slider::-moz-range-track {
+  height: 8px;
+  background: #EBDFFF; /* Color secondary */
+  border-radius: 4px;
+}
+
+/* Estilo para Edge */
+.range-slider::-ms-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #261B37; /* Color primary */
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.range-slider::-ms-track {
+  height: 8px;
+  background: #EBDFFF; /* Color secondary */
+  border-radius: 4px;
+  border-color: transparent;
+  color: transparent;
+}
