@@ -1,59 +1,27 @@
-import Image from "next/image";
-import ServerCo from "./components/serverCo";
-import ClientCo from "./components/clietnCo";
-import Navbar from "./components/Header";
-import EmpresasList from "./components/Home/EmpresasListado";
+import dynamic from 'next/dynamic';
+// Componentes dinámicos para carga diferida (excepto HeroSection que es crítico)
+const EmpresasList = dynamic(() => import("./components/Home/EmpresasListado"), {
+  loading: () => <div className="min-h-[300px] flex items-center justify-center">Cargando...</div>,
+});
+
+const BenefitsSection = dynamic(() => import("./components/Home/Beneficios"));
+const FAQSection = dynamic(() => import("./components/Home/FAQ"));
+const CTAFinal = dynamic(() => import("./components/Home/CTA"));
+const HowItWorksSection = dynamic(() => import("./components/Home/HowItWorks"));
+const SmartFormSection = dynamic(() => import("./components/Home/SmartFormSection"));
+const TestimonialsSection = dynamic(() => import("./components/Home/Testimonials"));
+
+// HeroSection se mantiene estático porque es contenido crítico
 import HeroSection from "./components/Home/HeroSection";
-import BenefitsSection from "./components/Home/Beneficios";
-import FAQSection from "./components/Home/FAQ";
-import CTAFinal from "./components/Home/CTA";
-import Footer from "./components/Home/Footer";
-import Head from "next/head";
-import HowItWorksSection from "./components/Home/HowItWorks";
-import SmartFormSection from "./components/Home/SmartFormSection";
-import TestimonialsSection from "./components/Home/Testimonials";
+import Layout from './components/Layout';
 
-// export const metadata = {
-//   title: "Casas Prefabricadas en Colombia | Encuentra los Mejores Proveedoresss",
-//   description:
-//     "Descubre las mejores empresas de casas prefabricadas en Colombia. Compara precios, modelos y solicita cotizaciones sin compromiso.",
-//   keywords: [
-//     "casas prefabricadas",
-//     "casas modulares",
-//     "construcción rápida",
-//     "casas económicas",
-//     "Colombia",
-//   ],
-//   authors: [{ name: "PreFab Casas" }],
-//   robots: "index, follow",
-//   openGraph: {
-//     title: "Casas Prefabricadas en Colombia | Encuentra los Mejores Proveedores",
-//     description: "Encuentra empresas de casas prefabricadas, compara precios y solicita cotizaciones.",
-//     url: "https://www.prefabcasas.com",
-//     type: "website",
-//     images: [
-//       {
-//         url: "/ck40-1.jpg",
-//         width: 1200,
-//         height: 630,
-//         alt: "Casa prefabricada",
-//       },
-//     ],
-//   },
-//   twitter: {
-//     card: "summary_large_image",
-//     title: "Casas Prefabricadas en Colombia | Encuentra los Mejores Proveedores",
-//     description: "Descubre las mejores empresas de casas prefabricadas en Colombia.",
-//     images: ["/ck40-1.jpg"],
-//   },
-//   alternates: {
-//     canonical: "https://www.prefabcasas.com",
-//   },
-//   icons: {
-//     icon: "/logo.svg",
-//   },
-// };
-
+export const metadata = {
+  title: 'Casas Prefabricadas en Colombia',
+  description: 'Encuentra las mejores empresas de casas prefabricadas en Colombia',
+  openGraph: {
+    images: '/og-image.jpg',
+  },
+}
 export default function Home() {
   const faqs = [
     {
@@ -100,56 +68,20 @@ export default function Home() {
       question: "¿Qué desventajas tienen las casas prefabricadas?",
       answer: "Aunque las casas prefabricadas ofrecen muchas ventajas, también presentan algunas desventajas. Una de ellas es la percepción social, ya que algunas personas aún las consideran de menor calidad frente a las tradicionales. Además, pueden tener limitaciones en diseño si se elige un modelo muy estándar, y en ciertos casos, los costos de transporte e instalación en zonas remotas pueden elevarse. También es importante verificar que cumplan con todas las normativas locales para evitar problemas legales.",
     }
-    
+
   ];
   return (
     <>
-      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "WebSite",
-              "name": "Casas Prefabricadas en Colombia",
-              "url": "https://www.prefabcasas.com",
-              "description": "Encuentra las mejores empresas de casas prefabricadas en Colombia.",
-              "publisher": {
-                "@type": "Organization",
-                "name": "Tu Empresa"
-              }
-            })
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "FAQPage",
-              "mainEntity": faqs.map(faq => ({
-                "@type": "Question",
-                "name": faq.question,
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": faq.answer
-                }
-              }))
-            })
-          }}
-        />
-        <Navbar />
+      <Layout faqs={faqs}>
         <HeroSection />
         <EmpresasList />
         <TestimonialsSection />
         <HowItWorksSection />
         <BenefitsSection />
         <SmartFormSection />
-        
-        <FAQSection faqs={faqs}/>
+        <FAQSection faqs={faqs} />
         <CTAFinal />
-        <Footer />
-      </div>
+      </Layout>
     </>
   );
 }

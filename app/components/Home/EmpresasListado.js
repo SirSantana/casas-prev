@@ -194,7 +194,7 @@ const FiltroEmpresas = () => {
                 {/* Contenido */}
                 <div className="flex-1">
                   <div className="flex justify-between items-start">
-                    <h3 className="text-lg font-bold text-primary">
+                    <h3 className="text-lg font-semibold text-primary">
                       {empresa.nombre}
                     </h3>
                     <span className="bg-secondary/20 text-primary text-xs px-2 py-1 rounded">
