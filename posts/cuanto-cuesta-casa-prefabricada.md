@@ -1,14 +1,9 @@
-const { default: MarkdownViewer } = require("@/app/components/Blog/MarkdownVisualizer");
-export const metadata = {
-  title: 'Cuanto cuesta una casa prefabricada en Colombia?',
-  description: 'Todo lo que necesitas saber sobre casas prefabricadas en Colombia: precios, tipos y ventajas',
-  keywords: ['blog', 'casas prefabricadas', 'artículos', 'Colombia'],
-  openGraph: {
-    images: '/ck40-1.jpg',
-  },
-};
-export default function ArticlePage () {
-  const articleContent = `
+---
+title: "Cuanto cuesta una casa prefabricada en Colombia?"
+description: "Descubre por qué las casas prefabricadas son una excelente opción para construir tu hogar en Colombia: eficiencia, costos y sostenibilidad."
+date: "2025-20-04"
+---
+
 
 ![Casas Prefabricadas en Colombia cuanto cuestan?](/ck40-1.jpg)
 
@@ -275,14 +270,3 @@ Para que tu proyecto de casa prefabricada en Colombia sea un éxito:
 5.  🌟 **Elige un proveedor confiable** con experiencia comprobada y buena reputación en Colombia.
 
 Con una planificación financiera clara y una comprensión completa de todos los factores y costos involucrados, tu casa prefabricada en Colombia puede ser el hogar eficiente, seguro y accesible que siempre has soñado. ¡Anímate a investigar, preguntar y hacer realidad tu proyecto de vivienda! 🎉`
-
-  const meta = {
-    title: "Cuanto cuesta una casa prefabricada en Colombia?",
-    description: "Todo lo que necesitas saber sobre casas prefabricadas en Colombia: precios, tipos y ventajas",
-    date: "15 de Junio, 2024"
-  };
-
-  return (
-    <MarkdownViewer content={articleContent} meta={meta} />
-  );
-};

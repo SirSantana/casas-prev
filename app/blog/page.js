@@ -25,6 +25,18 @@ export default function BlogPage() {
       destacado: true,
       link: "cuanto-cuesta-casa-prefabricada"
     },
+    {
+      id: 2,
+      titulo: "Casas Prefabricadas vs. Casas Tradicionales en Colombia",
+      extracto: "Descubre las diferencias clave entre las casas prefabricadas y las tradicionales en Colombia: tiempo de construcción, costos, materiales, flexibilidad, durabilidad, y más.",
+      autor: "María Rodríguez",
+      fecha: "18 de abril, 2025",
+      tiempoLectura: "5 min",
+      categoria: "Construcción",
+      imagen: "/ck40-1.jpg",
+      destacado: false,
+      link: "casas-prefabricadas-vs-casas-tradicionales"
+    }
 
   ];
 
@@ -124,6 +136,14 @@ export default function BlogPage() {
                 <div className="h-60 relative bg-gray-300 overflow-hidden">
                   {/* En un proyecto real, aquí iría la imagen */}
                   <div className="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent opacity-0 group-hover:opacity-60 transition-opacity duration-300"></div>
+                  <Image
+                    src={articulo.imagen}
+                    alt={articulo.titulo}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    priority={true}
+                  />
                   <span className="absolute top-4 left-4 bg-accent text-primary px-3 py-1 rounded-full text-sm font-bold">{articulo.categoria}</span>
                   <div className="absolute bottom-4 right-4 bg-white rounded-full p-2 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -152,7 +172,7 @@ export default function BlogPage() {
                         <p className="font-medium text-primary text-sm">{articulo.autor}</p>
                       </div>
                     </div>
-                    <Link href={`/blog/${articulo.id}`} className="text-primary font-medium hover:text-terciary transition-colors duration-300 flex items-center">
+                    <Link href={`/blog/${articulo.link}`} className="text-primary font-medium hover:text-terciary transition-colors duration-300 flex items-center">
                       Leer más
                     </Link>
                   </div>
