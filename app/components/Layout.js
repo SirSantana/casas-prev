@@ -16,7 +16,7 @@ export const metadata = {
   metadataBase: new URL("https://www.prefabcasas.com"),
   openGraph: {
     siteName: "PrefabCasas",
-    images: "/og-default.jpg",
+    images: "/ck40-1.jpg",
     locale: "es_CO",
     type: "website"
   },

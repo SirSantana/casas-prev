@@ -3,7 +3,7 @@ title: "¿Cuánto cuesta una casa prefabricada en Colombia?"
 description: "Descubre por qué las casas prefabricadas son una excelente opción para construir tu hogar en Colombia: eficiencia, costos y sostenibilidad."
 date: "2025-04-20"
 slug: "cuanto-cuesta-casa-prefabricada"
-image: "/public/ck40-1.jpg"
+image: "/ck40-1.jpg"
 keywords:
   - casas prefabricadas en Colombia
   - precio casa prefabricada
