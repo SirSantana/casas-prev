@@ -1,67 +1,41 @@
-// components/Layout.jsx
-import Head from 'next/head';
+// app/layout.js
 import Navbar from "./Header";
 import Footer from "./Home/Footer";
+import { Poppins } from "next/font/google";
 
-export default function Layout({
-  children,
-  title = "Casas Prefabricadas en Colombia",
-  description = "Encuentra las mejores empresas de casas prefabricadas en Colombia",
-  faqs = []
-}) {
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"], // Pesos disponibles para la fuente
+});
+export const metadata = {
+  title: {
+    default: "Casas Prefabricadas en Colombia",
+    template: "%s | PrefabCasas"
+  },
+  description: "Encuentra las mejores empresas de casas prefabricadas en Colombia",
+  metadataBase: new URL("https://www.prefabcasas.com"),
+  openGraph: {
+    siteName: "PrefabCasas",
+    images: "/og-default.jpg",
+    locale: "es_CO",
+    type: "website"
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@PrefabCasas"
+  }
+};
+
+export default function RootLayout({ children }) {
   return (
-    <>
-      <Head>
-        <title>{title}</title>
-        <meta name="description" content={description} />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      {/* Schema Markup */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebSite",
-            "name": title,
-            "url": "https://www.prefabcasas.com",
-            "description": description,
-            "publisher": {
-              "@type": "Organization",
-              "name": "PrefabCasas"
-            }
-          })
-        }}
-      />
-
-      {faqs.length > 0 && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "FAQPage",
-              "mainEntity": faqs.map(faq => ({
-                "@type": "Question",
-                "name": faq.question,
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": faq.answer
-                }
-              }))
-            })
-          }}
-        />
-      )}
-
-      <div className="max-w-[1200px] mx-auto px-4">
-        <Navbar />
-        <main className="min-h-[calc(100vh-140px)]">
-          {children}
-        </main>
-        <Footer />
-      </div>
-    </>
+    <html lang="es">
+      <body className={poppins.className}>
+        <div className="max-w-[1200px] mx-auto px-4">
+          <Navbar />
+          <main className="min-h-[calc(100vh-140px)]">{children}</main>
+          <Footer />
+        </div>
+      </body>
+    </html>
   );
 }

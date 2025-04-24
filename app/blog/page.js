@@ -36,6 +36,19 @@ export default function BlogPage() {
       imagen: "/ck40-1.jpg",
       destacado: false,
       link: "casas-prefabricadas-vs-casas-tradicionales"
+    },
+    {
+      id: 3,
+      titulo: "¿Qué Materiales se Usan para Construir una Casa Prefabricada en Colombia?",
+      extracto: "Descubre los materiales que se utilizan para construir casas prefabricadas en Colombia: materiales de construcción, materiales de interiores, materiales de ventilación, y más.",
+      autor: "María Rodríguez",
+      fecha: "18 de abril, 2025",
+      tiempoLectura: "5 min",
+      categoria: "Construcción",
+      imagen: "/ck40-1.jpg",
+      destacado: false,
+      link: "material-casas-prefabricadas"
+    
     }
 
   ];

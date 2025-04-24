@@ -1,7 +1,22 @@
 ---
-title: "Cuanto cuesta una casa prefabricada en Colombia?"
+title: "¿Cuánto cuesta una casa prefabricada en Colombia?"
 description: "Descubre por qué las casas prefabricadas son una excelente opción para construir tu hogar en Colombia: eficiencia, costos y sostenibilidad."
-date: "2025-20-04"
+date: "2025-04-20"
+slug: "cuanto-cuesta-casa-prefabricada"
+image: "/public/ck40-1.jpg"
+keywords:
+  - casas prefabricadas en Colombia
+  - precio casa prefabricada
+  - cuánto cuesta una casa prefabricada
+  - viviendas modulares económicas
+  - casas prefabricadas modernas
+faqs:
+  - question: "¿Cuál es el precio promedio de una casa prefabricada en Colombia?"
+    answer: "El precio varía según el tamaño, materiales y acabados, pero una casa prefabricada básica puede costar desde $50 millones de pesos colombianos."
+  - question: "¿Qué factores influyen en el precio de una casa prefabricada?"
+    answer: "Entre los principales factores están el tamaño de la vivienda, el tipo de estructura, la calidad de los materiales, el transporte y la instalación."
+  - question: "¿Son más económicas que las casas tradicionales?"
+    answer: "Sí, en general las casas prefabricadas pueden ser entre un 20% y 40% más económicas que las construidas de forma tradicional."
 ---
 
 
