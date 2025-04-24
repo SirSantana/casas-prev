@@ -1,7 +1,14 @@
 ---
-title: "Casas Prefabricadas vs. Casas Tradicionales en Colombia"
-description: "Descubre las diferencias clave entre las casas prefabricadas y las tradicionales en Colombia: tiempo de construcción, costos, materiales, flexibilidad, durabilidad, y más."
-date: "2025-23-04"
+title: "Casas Prefabricadas vs Casas Tradicionales en Colombia"
+description: "Descubre las diferencias clave entre las casas prefabricadas y las tradicionales en Colombia: tiempo de construcción, costos, materiales, flexibilidad, durabilidad, y más. Analiza sus pros y contras para tomar la mejor decisión."
+date: "2025-04-23"
+slug: "casas-prefabricadas-vs-tradicionales"
+image: "/ck40-1.jpg" # Asegúrate de tener una imagen relevante aquí
+faqs:
+  - question: "¿Las casas prefabricadas duran lo mismo que las tradicionales?"
+    answer: "Sí, con materiales y mantenimiento adecuados, su durabilidad puede ser comparable."
+  - question: "¿Se pueden conseguir permisos para casas prefabricadas tan fácil como para tradicionales en Colombia?"
+    answer: "Sí, los requisitos de permisos y normativas suelen ser los mismos para ambos tipos de construcción."
 ---
 
 ![Casas Prefabricadas en Colombia cuanto cuestan?](/ck40-1.jpg)
