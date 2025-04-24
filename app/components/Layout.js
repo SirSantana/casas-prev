@@ -23,7 +23,7 @@ export const metadata = {
   twitter: {
     card: "summary_large_image",
     site: "@PrefabCasas"
-  }
+  },
 };
 
 export default function RootLayout({ children }) {
