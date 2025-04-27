@@ -1,9 +1,9 @@
-import SelectTipo from "@/app/components/modelo/selectTipo";
+import SelectTipo from "@/components/modelo/selectTipo";
 import { construcciones } from "../page";
-import ButtonFooterFixed from "@/app/components/modelo/ButtonFooterFixed";
-import CaracteristicasPrincipales from "@/app/components/modelo/CaracteristicasPrincipales";
-import SliderImages from "@/app/components/modelo/SliderImages";
-import TiposPlanos from "@/app/components/modelo/Planos";
+import ButtonFooterFixed from "@/components/modelo/ButtonFooterFixed";
+import CaracteristicasPrincipales from "@/components/modelo/CaracteristicasPrincipales";
+import SliderImages from "@/components/modelo/SliderImages";
+import TiposPlanos from "@/components/modelo/Planos";
 
 export default async function Modelos({ params }) {
   const { id } = await params;
