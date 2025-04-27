@@ -19,7 +19,7 @@ import {
   CircleDollarSign,
   CheckCircle2
 } from "lucide-react";
-import ImageGallery from "@/app/components/Fabricantes/ImageSlider";
+import ImageGallery from "@/components/Fabricantes/ImageSlider";
 
 const empresa = {
   nombre: "Casas Modernas S.A.S",
