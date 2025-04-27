@@ -10,7 +10,6 @@ export default function Modelos() {
           Descubre nuestras opciones de construcción prefabricada para todos los estilos y necesidades.
         </p>
       </div>
-
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 max-w-6xl m-auto">
         {construcciones.map((casa) => (
           <CardCasa casa={casa} key={casa.id} />
