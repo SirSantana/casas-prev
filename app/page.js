@@ -14,6 +14,7 @@ const TestimonialsSection = dynamic(() => import("./components/Home/Testimonials
 // HeroSection se mantiene estático porque es contenido crítico
 import HeroSection from "./components/Home/HeroSection";
 import Layout from './components/Layout';
+import EmpresaJoinForm from './components/Form/EmpresaJoinForm';
 
 export const metadata = {
   title: 'Casas Prefabricadas en Colombia | Encuentra Empresas y Precios',
@@ -151,6 +152,7 @@ export default function Home() {
         <HowItWorksSection />
         <BenefitsSection />
         <SmartFormSection />
+        <EmpresaJoinForm />
         <FAQSection faqs={faqs} />
       </Layout>
     </>

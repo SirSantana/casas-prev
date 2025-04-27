@@ -48,8 +48,14 @@ const Footer = () => {
                   </a>
                 </li>
                 <li>
-                  <a href="/contacto" className="hover:text-white transition-colors flex items-center gap-1 group">
+                  <a href="/empresas/registro" className="hover:text-white transition-colors flex items-center gap-1 group">
                     <span>Contacto</span>
+                    <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-all" />
+                  </a>
+                </li>
+                <li>
+                  <a href="/empresas/registro" className="hover:text-white transition-colors flex items-center gap-1 group">
+                    <span>Tienes una Empresa?</span>
                     <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-all" />
                   </a>
                 </li>

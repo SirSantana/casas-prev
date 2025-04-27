@@ -28,8 +28,8 @@ const Navbar = () => {
         {/* Links desktop */}
         <div className="hidden md:flex items-center space-x-6 text-sm font-medium text-terciary">
           <Link href="/casas" className="hover:text-primary transition">Casas</Link>
-          <Link href="/sobre-nosotros" className="hover:text-primary transition">Sobre Nosotros</Link>
-          <Link href="/contacto" className="hover:text-primary transition">Contacto</Link>
+          <Link href="/empresas/registro" className="hover:text-primary transition">Tienes una Empresa?</Link>
+          <Link href="/empresas/registro" className="hover:text-primary transition">Contacto</Link>
           <Link href="/cotizar" className=" ml-4 bg-primary text-white px-4 py-2 rounded-xl hover:bg-primary/80 transition-all">
             Cotizar
           </Link>
@@ -49,7 +49,7 @@ const Navbar = () => {
         <div className="md:hidden bg-white border-t border-gray-200 shadow-md">
           <ul className="flex flex-col items-center gap-4 py-6 text-sm font-medium text-gray-800">
             <Link href="/casas" onClick={() => setMenuOpen(false)}>Casas</Link>
-            <Link href="/sobre-nosotros" onClick={() => setMenuOpen(false)}>Sobre Nosotros</Link>
+            <Link href="/sobre-nosotros" onClick={() => setMenuOpen(false)}>Tienes una Empresa?</Link>
             <Link href="/contacto" onClick={() => setMenuOpen(false)}>Contacto</Link>
             <Link
               href="/cotizar"

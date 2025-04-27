@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import Button, { ButtonVariant } from "../Button/Button";
-import renderStars from "@/app/utils/renderStars";
+import renderStars from "../../utils/renderStars";
 
 const empresasData = [
   {
