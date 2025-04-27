@@ -1,5 +1,5 @@
-import MarkdownViewer from "@/app/components/Blog/MarkdownVisualizer";
-import { getPostBySlug, getPostSlugs } from "@/lib/posts";
+import MarkdownViewer from "@/components/Blog/MarkdownVisualizer";
+import { getPostBySlug, getPostSlugs } from "../../../lib/posts";
 
 export async function generateMetadata({ params }) {
   const post = await getPostBySlug(params.slug);
