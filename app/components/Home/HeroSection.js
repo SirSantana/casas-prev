@@ -59,13 +59,31 @@ const HeroSection = () => {
             Te conectamos con las <span className="font-semibold text-terciary">mejores empresas certificadas</span> de Colombia para hacer realidad tu proyecto. 
           </p>
           <div className="w-full max-w-2xl mt-8">
+          <button
+            type="submit"
+            className="w-full sm:w-auto m-0 sm:m-1 px-4 py-2 sm:px-5 sm:py-3 bg-primary hover:bg-terciary text-white font-medium rounded-b-lg sm:rounded-lg whitespace-nowrap transition-all duration-300 flex items-center justify-center z-10 text-sm md:text-base"
+          >
+            <span className="mr-1 sm:mr-2">Explorar</span>
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              className="h-4 w-4 sm:h-5 sm:w-5" 
+              fill="none" 
+              viewBox="0 0 24 24" 
+              stroke="currentColor"
+              aria-hidden="true"
+            >
+              <path 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                strokeWidth={2} 
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" 
+              />
+            </svg>
+          </button>
           {/* Buscador con más personalidad */}
-          <form onSubmit={handleSearch} className="w-full">
+          {/* <form onSubmit={handleSearch} className="w-full">
         <div className="relative flex flex-col sm:flex-row items-center bg-white rounded-lg md:rounded-xl shadow-[0_4px_30px_rgba(0,0,0,0.05)] border border-secondary hover:shadow-[0_8px_30px_rgba(0,0,0,0.1)] transition-all duration-300 group">
-          {/* Efecto gradiente (solo desktop) */}
           <div className="absolute -inset-0.5 bg-gradient-to-r from-accent to-secondary rounded-lg md:rounded-xl blur opacity-20 group-hover:opacity-30 transition hidden sm:block"></div>
-          
-          {/* Parte del input */}
           <div className="flex items-center w-full sm:w-auto sm:flex-1">
             <input
               type="text"
@@ -76,8 +94,6 @@ const HeroSection = () => {
               aria-label="Buscar casas prefabricadas"
             />
           </div>
-          
-          {/* Botón de búsqueda */}
           <button
             type="submit"
             className="w-full sm:w-auto m-0 sm:m-1 px-4 py-2 sm:px-5 sm:py-3 bg-primary hover:bg-terciary text-white font-medium rounded-b-lg sm:rounded-lg whitespace-nowrap transition-all duration-300 flex items-center justify-center z-10 text-sm md:text-base"
@@ -101,11 +117,10 @@ const HeroSection = () => {
           </button>
         </div>
         
-        {/* Texto de ayuda */}
         <p className="mt-2 text-xs sm:text-sm text-gray pl-1 flex items-center">
           <span className="mr-1">📌</span> Ej: "Casa campestre en Bogotá" o "Cabaña 80m²"
         </p>
-      </form>
+      </form> */}
       </div>
 
           {/* Características con iconos */}

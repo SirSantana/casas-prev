@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import Button, { ButtonVariant } from "../Button/Button";
 import renderStars from "../../utils/renderStars";
+import CotizarModal from '@/components/Modal/CotizacionModal';
 
 const empresasData = [
   {
@@ -60,6 +61,7 @@ const FiltroEmpresas = () => {
   const [filtroTipo, setFiltroTipo] = useState("");
   const [precioRange, setPrecioRange] = useState([0, 5000]);
   const [isMobile, setIsMobile] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -78,9 +80,10 @@ const FiltroEmpresas = () => {
   );
 
   return (
+    <>
     <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row gap-6">
       {/* Filtros - Adaptados para mobile */}
-      <div className={`bg-white p-5 rounded-xl shadow-sm border border-secondary/20 ${isMobile ? 'w-full sticky top-0 z-10' : 'w-64 h-fit sticky top-6'}`}>
+      <div className={`bg-white p-5 rounded-xl shadow-sm border border-secondary/20 ${isMobile ? 'w-full sticky top-0 z-10' : 'w-64 h-fit sticky top-24'}`}>
         <button 
           className={`md:hidden w-full flex justify-between items-center text-primary font-bold mb-4`}
           onClick={() => document.getElementById('filters').classList.toggle('hidden')}
@@ -177,9 +180,8 @@ const FiltroEmpresas = () => {
         {empresasFiltradas.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {empresasFiltradas.map((empresa) => (
-              <Link
+              <div
                 key={empresa.id}
-                href={`/fabricantes/${empresa.id}`}
                 className="border border-secondary/20 rounded-xl p-5 bg-white flex flex-col gap-4 transition-all hover:shadow-md"
               >
                 {/* Imagen */}
@@ -229,7 +231,7 @@ const FiltroEmpresas = () => {
                 </div>
 
                 {/* Botones */}
-                <div className="flex flex-col gap-2 w-full">
+                <div  className="flex flex-col gap-2 w-full">
                   <Button 
                     fullWidth 
                     variant={ButtonVariant.terciary}
@@ -239,11 +241,16 @@ const FiltroEmpresas = () => {
                   <Button 
                     variant={ButtonVariant.primary} 
                     fullWidth
+                    onClick={(e) => {
+                      setOpenModal(true);
+                      e.preventDefault(); // Evita la navegación del Link
+                      e.stopPropagation(); // Detiene el burbujeo del evento
+                    }}
                   >
                     Solicitar Cotización
                   </Button>
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
         ) : (
@@ -266,7 +273,12 @@ const FiltroEmpresas = () => {
           </div>
         )}
       </div>
+     
     </div>
+     {
+      openModal && <CotizarModal openModal={openModal} setOpenModal={setOpenModal} />
+    }
+    </>
   );
 };
 
