@@ -427,6 +427,8 @@ const WallDrawer = () => {
     if (!wall) return;
 
     const node = e.target;
+    node.fill('#8c8c8c');
+    node.getLayer().batchDraw();
     const currentPos = { x: node.x(), y: node.y() };
 
     // Find a snap point near the top-left corner of the wall after dragging
@@ -439,18 +441,10 @@ const WallDrawer = () => {
       snappedX = snap.x;
       snappedY = snap.y;
 
-      // Adjust the wall's position so that the point that snapped (top-left)
-      // is placed at the snap point, while keeping the wall centered on a grid line.
       if (wall.orientation === 'horizontal') {
-        // If the top-left corner snapped to a point (snap.x, snap.y),
-        // the wall's new x should be snap.x
-        // The wall's new y should be centered around the nearest horizontal grid line to snap.y
         snappedY = snapToGrid(snap.y + wall.height / 2) - wall.height / 2;
         snappedX = snap.x;
       } else { // vertical
-        // If the top-left corner snapped to a point (snap.x, snap.y),
-        // the wall's new y should be snap.y
-        // The wall's new x should be centered around the nearest vertical grid line to snap.x
         snappedX = snapToGrid(snap.x + wall.width / 2) - wall.width / 2;
         snappedY = snap.y;
       }
@@ -771,7 +765,7 @@ const WallDrawer = () => {
         zIndex: 100
       }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <h3 style={{ margin: '0' }}>Wall Properties</h3>
+          {/* <h3 style={{ margin: '0' }}>Wall Properties</h3>
           <button
             onClick={() => setShowProperties(false)}
             style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '5px' }}
@@ -800,7 +794,7 @@ const WallDrawer = () => {
             value={displayThickness}
             onChange={(e) => updateWallThickness(selectedWallId, parseInt(e.target.value))}
             style={{ width: '100%' }}
-          />
+          /> */}
         </div>
         <button
           onClick={() => {
@@ -915,12 +909,19 @@ const WallDrawer = () => {
                 handleTouchStart(e);
               }}
               onTouchEnd={handleTouchEnd}
-              hitWidth={40} // Área táctil mucho más grande
-              hitHeight={40}
+              hitWidth={60} // Área táctil mucho más grande
+              hitHeight={60}
               shadowColor="black"
               shadowBlur={5}
               shadowOpacity={0.3}
               shadowOffset={{ x: 2, y: 2 }}
+              onDragMove={(e) => {
+                // Efecto visual durante el arrastre
+                e.target.opacity(0.8);
+                e.target.shadowOpacity(0.5);
+                e.target.getStage().batchDraw();
+              }}
+            
               cornerRadius={1} // Bordes redondeados para mejor apariencia
             />
           ))}
