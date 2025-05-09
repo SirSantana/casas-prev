@@ -201,99 +201,126 @@ const WallDrawer = () => {
 
   const handleMouseDown = (e) => {
     if (activeTool !== 'wall') return;
-  
-  const pointerPos = e.evt?.touches?.[0] || e;
-  const stage = e.target.getStage();
-  const pointerPosition = stage.getPointerPosition(pointerPos);
-  
-  // Transformar las coordenadas según el zoom y la posición
-  const transformedPos = {
-    x: (pointerPosition.x - position.x) / scale,
-    y: (pointerPosition.y - position.y) / scale
-  };
-  
-  if (e.evt?.type === 'touchstart') {
-    e.evt.preventDefault();
-  }
-  
-  const clickedOnEmpty = e.target === e.target.getStage();
-  if (clickedOnEmpty) {
-    // Usar transformedPos en lugar de pos
-    const snap = findIntersectionSnapPoint(transformedPos);
-    
-    if (snap) {
-      const snappedX = snap.x;
-      const snappedY = snap.y;
-      
-      // Determinar orientación inicial...
-      let initialOrientation = 'horizontal'; // Default
-      
-      if (snap.type === 'grid-grid') {
-        const angle = Math.atan2(transformedPos.y - snappedY, transformedPos.x - snappedX);
-        if (Math.abs(angle) < Math.PI / 4 || Math.abs(angle) > 3 * Math.PI / 4) {
-          initialOrientation = 'horizontal';
-        } else {
-          initialOrientation = 'vertical';
-        }
-      } else if (snap.type === 'wall-grid' || snap.type === 'wall-wall') {
-        // Resto del código para determinar orientación...
-        // Usar transformedPos en lugar de pos
-        const angle = Math.atan2(transformedPos.y - snappedY, transformedPos.x - snappedX);
-        if (Math.abs(angle) < Math.PI / 4 || Math.abs(angle) > 3 * Math.PI / 4) {
-          initialOrientation = 'horizontal';
-        } else {
-          initialOrientation = 'vertical';
-        }
-      }
-      
-      setNewWall({
-        x: snappedX,
-        y: snappedY,
-        width: 0,
-        height: 0,
-        id: `wall-${Date.now()}`,
-        orientation: initialOrientation,
-        startX: snappedX,
-        startY: snappedY,
-      });
-      
-      setDrawing(true);
-      setSelectedWallId(null);
-      if (stageRef.current) {
-        stageRef.current.container().style.cursor = 'crosshair';
-      }
-      setShowTooltip(false);
+
+    const pointerPos = e.evt?.touches?.[0] || e;
+    const stage = e.target.getStage();
+    const pointerPosition = stage.getPointerPosition(pointerPos);
+
+    // Transformar las coordenadas según el zoom y la posición
+    const transformedPos = {
+      x: (pointerPosition.x - position.x) / scale,
+      y: (pointerPosition.y - position.y) / scale
+    };
+
+    if (e.evt?.type === 'touchstart') {
+      e.evt.preventDefault();
     }
-    } else {
+
+    const clickedOnEmpty = e.target === e.target.getStage();
+    if (activeTool === 'wall' && clickedOnEmpty) {
+      // Usar transformedPos en lugar de pos
+      const snap = findIntersectionSnapPoint(transformedPos);
+
+      if (snap) {
+        const snappedX = snap.x;
+        const snappedY = snap.y;
+
+        // Determinar orientación inicial...
+        let initialOrientation = 'horizontal'; // Default
+
+        if (snap.type === 'grid-grid') {
+          const angle = Math.atan2(transformedPos.y - snappedY, transformedPos.x - snappedX);
+          if (Math.abs(angle) < Math.PI / 4 || Math.abs(angle) > 3 * Math.PI / 4) {
+            initialOrientation = 'horizontal';
+          } else {
+            initialOrientation = 'vertical';
+          }
+        } else if (snap.type === 'wall-grid' || snap.type === 'wall-wall') {
+          // Resto del código para determinar orientación...
+          // Usar transformedPos en lugar de pos
+          const angle = Math.atan2(transformedPos.y - snappedY, transformedPos.x - snappedX);
+          if (Math.abs(angle) < Math.PI / 4 || Math.abs(angle) > 3 * Math.PI / 4) {
+            initialOrientation = 'horizontal';
+          } else {
+            initialOrientation = 'vertical';
+          }
+        }
+
+        setNewWall({
+          x: snappedX,
+          y: snappedY,
+          width: 0,
+          height: 0,
+          id: `wall-${Date.now()}`,
+          orientation: initialOrientation,
+          startX: snappedX,
+          startY: snappedY,
+        });
+
+        setDrawing(true);
+        setSelectedWallId(null);
+        if (stageRef.current) {
+          stageRef.current.container().style.cursor = 'crosshair';
+        }
+        setShowTooltip(false);
+      }
+    } else if (!clickedOnEmpty) {
+      // Tocar un elemento existente
       const node = e.target;
       if (node && node.id && node.id()) {
         e.cancelBubble = true;
-        handleSelectWall(node.id());
+
+        // En móvil, iniciar arrastre inmediato si no estamos en modo dibujo
+        if (activeTool !== 'wall' && e.evt?.type === 'touchstart') {
+          setSelectedWallId(node.id());
+
+          // Calcular posición relativa para el arrastre
+          const touch = e.evt.touches[0];
+          const stage = node.getStage();
+          const stageContainer = stage.container();
+          const stageRect = stageContainer.getBoundingClientRect();
+
+          const relativePos = {
+            x: touch.clientX - stageRect.left,
+            y: touch.clientY - stageRect.top
+          };
+
+          // Iniciar arrastre manualmente
+          node.startDrag(relativePos);
+
+          // Feedback visual
+          node.fill('#a0a0a0');
+          stage.batchDraw();
+        } else {
+          // Para desktop o cuando no es touch, manejar normalmente
+          handleSelectWall(node.id());
+        }
       }
+
       if (stageRef.current) {
-        stageRef.current.container().style.cursor = 'default';
+        stageRef.current.container().style.cursor = activeTool === 'wall' ? 'crosshair' : 'move';
       }
     }
   };
 
   const handleMouseMove = (e) => {
     if (!drawing || !newWall) return;
-  
+
     const pointerPos = e.evt?.touches?.[0] || e;
     const stage = e.target.getStage();
     const pointerPosition = stage.getPointerPosition(pointerPos);
-    
+
     // Transformar las coordenadas
     const transformedPos = {
       x: (pointerPosition.x - position.x) / scale,
       y: (pointerPosition.y - position.y) / scale
     };
-  
+
     let currentX = transformedPos.x;
     let currentY = transformedPos.y;
-  
+
     let finalX, finalY, finalWidth, finalHeight;
-  
+
     // Restricciones según orientación...
     if (newWall.orientation === 'horizontal') {
       currentY = newWall.startY;
@@ -308,7 +335,7 @@ const WallDrawer = () => {
       finalX = newWall.startX - defaultThickness / 2;
       finalWidth = defaultThickness;
     }
-  
+
     setNewWall({
       ...newWall,
       x: finalX,
@@ -320,20 +347,20 @@ const WallDrawer = () => {
 
   const handleMouseUp = () => {
     if (!drawing || !newWall || !stageRef.current) return;
-  
+
     const pointerPosition = stageRef.current.getPointerPosition();
-    
+
     // Transformar las coordenadas
     const transformedPos = {
       x: (pointerPosition.x - position.x) / scale,
       y: (pointerPosition.y - position.y) / scale
     };
-    
+
     // Encuentra un punto de intersección cerca de la posición final del ratón
     const snap = findIntersectionSnapPoint(transformedPos, newWall.id);
-  
+
     let finalWall = { ...newWall };
-  
+
     // Finalizar muro con punto de inicio y fin ajustados
     if (snap) {
       // Usar el punto de inicio ajustado y el punto final ajustado
@@ -358,17 +385,17 @@ const WallDrawer = () => {
         finalWall.x = finalWall.startX - defaultThickness / 2;
         finalWall.width = defaultThickness;
       }
-  
+
       const finalLength = finalWall.orientation === 'horizontal' ? finalWall.width : finalWall.height;
       const minWallLength = gridSize / 5;
-  
+
       if (finalLength > minWallLength) {
         setWalls([...walls, finalWall]);
         setSelectedWallId(finalWall.id);
         setShowProperties(true);
       }
     }
-  
+
     setNewWall(null);
     setDrawing(false);
     stageRef.current.container().style.cursor = 'default';
@@ -640,78 +667,78 @@ const WallDrawer = () => {
 
     setWalls(updatedWalls);
   };
-// 3. Función para manejar el zoom con la rueda del mouse
-const handleWheel = (e) => {
-  e.evt.preventDefault();
-  
-  const scaleBy = 1.1;
-  const stage = e.target.getStage();
-  const oldScale = scale;
-  
-  const pointerPosition = stage.getPointerPosition();
-  
-  const mousePointTo = {
-    x: (pointerPosition.x - position.x) / oldScale,
-    y: (pointerPosition.y - position.y) / oldScale
+  // 3. Función para manejar el zoom con la rueda del mouse
+  const handleWheel = (e) => {
+    e.evt.preventDefault();
+
+    const scaleBy = 1.1;
+    const stage = e.target.getStage();
+    const oldScale = scale;
+
+    const pointerPosition = stage.getPointerPosition();
+
+    const mousePointTo = {
+      x: (pointerPosition.x - position.x) / oldScale,
+      y: (pointerPosition.y - position.y) / oldScale
+    };
+
+    // Determinar dirección del zoom (in o out)
+    const direction = e.evt.deltaY > 0 ? -1 : 1;
+
+    // Calcular nuevo scale con límites
+    const newScale = direction > 0 ? oldScale * scaleBy : oldScale / scaleBy;
+
+    // Establecer límites de zoom (min: 0.1, max: 5)
+    const boundedScale = Math.max(0.1, Math.min(5, newScale));
+
+    setScale(boundedScale);
+
+    const newPos = {
+      x: pointerPosition.x - mousePointTo.x * boundedScale,
+      y: pointerPosition.y - mousePointTo.y * boundedScale
+    };
+
+    setPosition(newPos);
   };
-  
-  // Determinar dirección del zoom (in o out)
-  const direction = e.evt.deltaY > 0 ? -1 : 1;
-  
-  // Calcular nuevo scale con límites
-  const newScale = direction > 0 ? oldScale * scaleBy : oldScale / scaleBy;
-  
-  // Establecer límites de zoom (min: 0.1, max: 5)
-  const boundedScale = Math.max(0.1, Math.min(5, newScale));
-  
-  setScale(boundedScale);
-  
-  const newPos = {
-    x: pointerPosition.x - mousePointTo.x * boundedScale,
-    y: pointerPosition.y - mousePointTo.y * boundedScale
-  };
-  
-  setPosition(newPos);
-};
   // Render the grid lines
   const renderGrid = () => {
     const gridLines = [];
-  
-  // Ajustar la distancia entre líneas según el zoom
-  const zoomedGridSize = gridSize * scale;
-  
-  // Calcular los límites del grid visible
-  const startX = Math.floor(-position.x / scale / gridSize) * gridSize;
-  const endX = Math.ceil((canvasWidth - position.x) / scale / gridSize) * gridSize;
-  
-  const startY = Math.floor(-position.y / scale / gridSize) * gridSize;
-  const endY = Math.ceil((canvasHeight - position.y) / scale / gridSize) * gridSize;
-  
-  // Generar líneas verticales
-  for (let i = startX; i <= endX; i += gridSize) {
-    gridLines.push(
-      <Line
-        key={`v-${i}`}
-        points={[i, startY, i, endY]}
-        stroke="#e0e0e0"
-        strokeWidth={1 / scale} // Ajustar el grosor para que se vea consistente
-      />
-    );
-  }
- 
-  // Generar líneas horizontales
-  for (let i = startY; i <= endY; i += gridSize) {
-    gridLines.push(
-      <Line
-        key={`h-${i}`}
-        points={[startX, i, endX, i]}
-        stroke="#e0e0e0"
-        strokeWidth={1 / scale} // Ajustar el grosor para que se vea consistente
-      />
-    );
-  }
-  
-  return gridLines;
+
+    // Ajustar la distancia entre líneas según el zoom
+    const zoomedGridSize = gridSize * scale;
+
+    // Calcular los límites del grid visible
+    const startX = Math.floor(-position.x / scale / gridSize) * gridSize;
+    const endX = Math.ceil((canvasWidth - position.x) / scale / gridSize) * gridSize;
+
+    const startY = Math.floor(-position.y / scale / gridSize) * gridSize;
+    const endY = Math.ceil((canvasHeight - position.y) / scale / gridSize) * gridSize;
+
+    // Generar líneas verticales
+    for (let i = startX; i <= endX; i += gridSize) {
+      gridLines.push(
+        <Line
+          key={`v-${i}`}
+          points={[i, startY, i, endY]}
+          stroke="#e0e0e0"
+          strokeWidth={1 / scale} // Ajustar el grosor para que se vea consistente
+        />
+      );
+    }
+
+    // Generar líneas horizontales
+    for (let i = startY; i <= endY; i += gridSize) {
+      gridLines.push(
+        <Line
+          key={`h-${i}`}
+          points={[startX, i, endX, i]}
+          stroke="#e0e0e0"
+          strokeWidth={1 / scale} // Ajustar el grosor para que se vea consistente
+        />
+      );
+    }
+
+    return gridLines;
   };
 
   const WallPropertiesPanel = () => {
@@ -856,22 +883,45 @@ const handleWheel = (e) => {
               height={wall.height}
               fill="#8c8c8c"
               stroke="#595959"
-              strokeWidth={1}
-              draggable={activeTool == 'wall'}
+              strokeWidth={2} // Grosor aumentado para mejor visibilidad
+              draggable={activeTool !== 'wall'} // Habilitar arrastre siempre que no estemos en modo dibujo
               onDragStart={(e) => {
                 e.cancelBubble = true;
                 setSelectedWallId(wall.id);
+                // Feedback visual al comenzar a arrastrar
+                e.target.fill('#a0a0a0');
+                e.target.getStage().batchDraw();
               }}
               onDragEnd={(e) => {
-                const pos = e.target.getStage().getPointerPosition(e.evt?.touches?.[0] || e);
-                handleWallDragEnd({ ...e, target: e.target, stageRef }, wall.id);
+                handleWallDragEnd(e, wall.id);
+                // Restaurar color original
+                e.target.fill('#8c8c8c');
+                e.target.getStage().batchDraw();
               }}
               onClick={() => handleSelectWall(wall.id)}
               onTap={() => handleSelectWall(wall.id)}
-              onTouchStart={handleTouchStart}
+              onTouchStart={(e) => {
+                e.cancelBubble = true;
+                // Iniciar arrastre inmediato en móvil
+                if (activeTool !== 'wall') {
+                  const touch = e.evt.touches[0];
+                  const stage = e.target.getStage();
+                  const relativePos = {
+                    x: touch.clientX - stage.container().getBoundingClientRect().left,
+                    y: touch.clientY - stage.container().getBoundingClientRect().top
+                  };
+                  e.target.startDrag(relativePos);
+                }
+                handleTouchStart(e);
+              }}
               onTouchEnd={handleTouchEnd}
-              hitWidth={25} // Área táctil más grande
-              hitHeight={25}
+              hitWidth={40} // Área táctil mucho más grande
+              hitHeight={40}
+              shadowColor="black"
+              shadowBlur={5}
+              shadowOpacity={0.3}
+              shadowOffset={{ x: 2, y: 2 }}
+              cornerRadius={1} // Bordes redondeados para mejor apariencia
             />
           ))}
           {newWall && (
@@ -896,7 +946,7 @@ const handleWheel = (e) => {
               // Obtener el muro seleccionado
               const selectedWall = walls.find(wall => wall.id === selectedWallId);
               if (!selectedWall) return oldBox;
-              
+
               // Para muros horizontales, mantener la altura fija
               if (selectedWall.orientation === 'horizontal') {
                 return {
@@ -904,7 +954,7 @@ const handleWheel = (e) => {
                   height: oldBox.height,
                   y: oldBox.y
                 };
-              } 
+              }
               // Para muros verticales, mantener el ancho fijo
               else {
                 return {
@@ -912,12 +962,13 @@ const handleWheel = (e) => {
                   width: oldBox.width,
                   x: oldBox.x
                 };
-              }}}
-              enabledAnchors={selectedWallId ? 
-                (walls.find(w => w.id === selectedWallId)?.orientation === 'horizontal' ? 
-                  ['middle-left', 'middle-right'] : 
-                  ['top-center', 'bottom-center']) : 
-                []}
+              }
+            }}
+            enabledAnchors={selectedWallId ?
+              (walls.find(w => w.id === selectedWallId)?.orientation === 'horizontal' ?
+                ['middle-left', 'middle-right'] :
+                ['top-center', 'bottom-center']) :
+              []}
           />
         </Layer>
       </Stage>
