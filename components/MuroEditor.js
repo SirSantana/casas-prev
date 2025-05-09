@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Stage, Layer, Rect, Transformer, Line } from 'react-konva';
-import { Settings, Trash2, Move, Edit3, X, ChevronRight, Info, Sidebar } from 'lucide-react';
+import { Settings, Trash2, Move, Edit3, X, ChevronRight, Info, Sidebar, Plus, Minus } from 'lucide-react';
 import SidebarComponent from './SidebarComponent';
 import HelpTooltip from './HelpTooltip';
 import FurniturePalette from './FurnitureComponent';
@@ -35,18 +35,34 @@ const WallDrawer = () => {
   const [selectedWallId, setSelectedWallId] = useState(null);
   const [defaultThickness, setDefaultThickness] = useState(5);
   const [drawing, setDrawing] = useState(false);
-  const [showSidebar, setShowSidebar] = useState(true);
+  const [showSidebar, setShowSidebar] = useState(false); // Default to hidden on mobile
   const [showProperties, setShowProperties] = useState(false);
   const [activeTool, setActiveTool] = useState('wall');
   const [showTooltip, setShowTooltip] = useState(true);
-
-  const canvasWidth = window.innerWidth;
-  const canvasHeight = window.innerHeight;
-  const gridSize = 50;
+  const [isPinching, setIsPinching] = useState(false);
+  const [lastCenter, setLastCenter] = useState(null);
+  const [lastDist, setLastDist] = useState(0);
+  const [scale, setScale] = useState(1);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
+  const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
+  const [gridSize, setGridSize] = useState(50);
+  
   const snapTolerance = 25;
 
   const stageRef = useRef();
   const transformerRef = useRef();
+
+  // Resize handler for responsiveness
+  useEffect(() => {
+    const handleResize = () => {
+      setViewportWidth(window.innerWidth);
+      setViewportHeight(window.innerHeight);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Function to align a value to the grid
   const snapToGrid = (value) => {
@@ -83,8 +99,8 @@ const WallDrawer = () => {
       }
 
       // Check intersections with vertical grid lines
-      for (let i = 0; i <= canvasWidth; i += gridSize) {
-        const gridLine = { p1: { x: i, y: 0 }, p2: { x: i, y: canvasHeight } };
+      for (let i = 0; i <= viewportWidth; i += gridSize) {
+        const gridLine = { p1: { x: i, y: 0 }, p2: { x: i, y: viewportHeight } };
         wallSegments.forEach(wallSegment => {
           const intersection = getLinesIntersection(wallSegment.p1, wallSegment.p2, gridLine.p1, gridLine.p2);
           if (intersection) {
@@ -98,8 +114,8 @@ const WallDrawer = () => {
       }
 
       // Check intersections with horizontal grid lines
-      for (let i = 0; i <= canvasHeight; i += gridSize) {
-        const gridLine = { p1: { x: 0, y: i }, p2: { x: canvasWidth, y: i } };
+      for (let i = 0; i <= viewportHeight; i += gridSize) {
+        const gridLine = { p1: { x: 0, y: i }, p2: { x: viewportWidth, y: i } };
         wallSegments.forEach(wallSegment => {
           const intersection = getLinesIntersection(wallSegment.p1, wallSegment.p2, gridLine.p1, gridLine.p2);
           if (intersection) {
@@ -157,71 +173,92 @@ const WallDrawer = () => {
     return closestSnap;
   };
 
-  const handleMouseDown = (e) => {
+  // Convert stage coordinates to canvas coordinates
+  const getRelativePointerPosition = (stage) => {
+    const pointerPosition = stage.getPointerPosition();
+    if (!pointerPosition) return null;
+    
+    return {
+      x: (pointerPosition.x - position.x) / scale,
+      y: (pointerPosition.y - position.y) / scale
+    };
+  };
+
+  // Common touch and mouse down handler
+  const handleInteractionStart = (pos) => {
     if (activeTool !== 'wall') return;
 
-    const clickedOnEmpty = e.target === e.target.getStage();
-    if (clickedOnEmpty) {
-      const pos = e.target.getStage().getPointerPosition();
-      const snap = findIntersectionSnapPoint(pos);
+    const snap = findIntersectionSnapPoint(pos);
 
-      if (snap) {
-        const snappedX = snap.x;
-        const snappedY = snap.y;
+    if (snap) {
+      const snappedX = snap.x;
+      const snappedY = snap.y;
 
-        // Determine initial orientation based on the snap point type and mouse position
-        let initialOrientation = 'horizontal'; // Default
+      // Determine initial orientation based on snap point type
+      let initialOrientation = 'horizontal'; // Default
 
-        if (snap.type === 'grid-grid') {
+      if (snap.type === 'grid-grid') {
+        const angle = Math.atan2(pos.y - snappedY, pos.x - snappedX);
+        if (Math.abs(angle) < Math.PI / 4 || Math.abs(angle) > 3 * Math.PI / 4) {
+          initialOrientation = 'horizontal';
+        } else {
+          initialOrientation = 'vertical';
+        }
+      } else if (snap.type === 'wall-grid' || snap.type === 'wall-wall') {
+        // If snapping to an existing wall feature, try to match its orientation or infer from pointer
+        const closestWall = walls.find(wall => {
+          // Simple check if the snap point is one of the wall's corners/endpoints
+          const wallPoints = [
+            { x: wall.x, y: wall.y },
+            { x: wall.x + wall.width, y: wall.y },
+            { x: wall.x + wall.width, y: wall.y + wall.height },
+            { x: wall.x, y: wall.y + wall.height },
+          ];
+          return wallPoints.some(p => Math.sqrt((snap.x - p.x) ** 2 + (snap.y - p.y) ** 2) < 5); // Small tolerance
+        });
+
+        if (closestWall) {
+          initialOrientation = closestWall.orientation === 'horizontal' ? 'vertical' : 'horizontal'; // Often start perpendicular
+        } else {
+          // If not a wall endpoint, infer from pointer movement relative to snap point
           const angle = Math.atan2(pos.y - snappedY, pos.x - snappedX);
           if (Math.abs(angle) < Math.PI / 4 || Math.abs(angle) > 3 * Math.PI / 4) {
             initialOrientation = 'horizontal';
           } else {
             initialOrientation = 'vertical';
           }
-        } else if (snap.type === 'wall-grid' || snap.type === 'wall-wall') {
-          // If snapping to an existing wall feature, try to match its orientation or infer from mouse
-          const closestWall = walls.find(wall => {
-            // Simple check if the snap point is one of the wall's corners/endpoints
-            const wallPoints = [
-              { x: wall.x, y: wall.y },
-              { x: wall.x + wall.width, y: wall.y },
-              { x: wall.x + wall.width, y: wall.y + wall.height },
-              { x: wall.x, y: wall.y + wall.height },
-            ];
-            return wallPoints.some(p => Math.sqrt((snap.x - p.x) ** 2 + (snap.y - p.y) ** 2) < 5); // Small tolerance
-          });
-
-          if (closestWall) {
-            initialOrientation = closestWall.orientation === 'horizontal' ? 'vertical' : 'horizontal'; // Often start perpendicular
-          } else {
-            // If not a wall endpoint, infer from mouse movement relative to snap point
-            const angle = Math.atan2(pos.y - snappedY, pos.x - snappedX);
-            if (Math.abs(angle) < Math.PI / 4 || Math.abs(angle) > 3 * Math.PI / 4) {
-              initialOrientation = 'horizontal';
-            } else {
-              initialOrientation = 'vertical';
-            }
-          }
         }
+      }
 
-        setNewWall({
-          x: snappedX,
-          y: snappedY,
-          width: 0,
-          height: 0,
-          id: `wall-${Date.now()}`,
-          orientation: initialOrientation,
-          startX: snappedX, // Store the snapped start point
-          startY: snappedY,
-        });
+      setNewWall({
+        x: snappedX,
+        y: snappedY,
+        width: 0,
+        height: 0,
+        id: `wall-${Date.now()}`,
+        orientation: initialOrientation,
+        startX: snappedX, // Store the snapped start point
+        startY: snappedY,
+      });
 
-        setDrawing(true);
-        setSelectedWallId(null);
-        if (stageRef.current) {
-          stageRef.current.container().style.cursor = 'crosshair';
-        }
-        setShowTooltip(false);
+      setDrawing(true);
+      setSelectedWallId(null);
+      if (stageRef.current) {
+        stageRef.current.container().style.cursor = 'crosshair';
+      }
+      setShowTooltip(false);
+    }
+  };
+
+  // Handle mouse down
+  const handleMouseDown = (e) => {
+    if (e.evt.button !== 0) return; // Only handle left clicks
+
+    const clickedOnEmpty = e.target === e.target.getStage();
+    if (clickedOnEmpty) {
+      const pos = getRelativePointerPosition(e.target.getStage());
+      if (pos) {
+        handleInteractionStart(pos);
       }
     } else {
       const node = e.target;
@@ -235,17 +272,46 @@ const WallDrawer = () => {
     }
   };
 
-  const handleMouseMove = (e) => {
-    if (!drawing || !newWall) return;
+  // Handle touch start for mobile devices
+  const handleTouchStart = (e) => {
+    // Detect pinch gesture (2 finger touch)
+    const touches = e.evt.touches;
+    if (touches.length === 2) {
+      setIsPinching(true);
+      const center = getCenter(touches);
+      const dist = getDistance(touches);
+      setLastCenter(center);
+      setLastDist(dist);
+      return;
+    }
 
-    const pos = e.target.getStage().getPointerPosition();
+    const stage = e.target.getStage();
+    const pos = getRelativePointerPosition(stage);
+    if (!pos) return;
+
+    const target = e.target;
+    if (target !== stage) {
+      // Clicked on an object
+      if (target.id && target.id()) {
+        e.cancelBubble = true;
+        handleSelectWall(target.id());
+      }
+    } else {
+      // Clicked on empty stage
+      handleInteractionStart(pos);
+    }
+  };
+
+  // Common touch and mouse move handler
+  const handleInteractionMove = (pos) => {
+    if (!drawing || !newWall) return;
 
     let currentX = pos.x;
     let currentY = pos.y;
 
     let finalX, finalY, finalWidth, finalHeight;
 
-    // Restrict drawing to the initial orientation and calculate based on snapped start
+    // Restrict drawing to the initial orientation
     if (newWall.orientation === 'horizontal') {
       currentY = newWall.startY; // Keep Y fixed to the snapped start Y
       finalX = Math.min(newWall.startX, currentX);
@@ -269,10 +335,70 @@ const WallDrawer = () => {
     });
   };
 
-  const handleMouseUp = () => {
+  // Handle mouse move
+  const handleMouseMove = (e) => {
+    const pos = getRelativePointerPosition(e.target.getStage());
+    if (!pos) return;
+    
+    handleInteractionMove(pos);
+  };
+
+  // Handle touch move for mobile devices
+  const handleTouchMove = (e) => {
+    e.evt.preventDefault(); // Prevent scrolling while interacting with canvas
+    
+    const touches = e.evt.touches;
+    
+    // Handle pinch to zoom
+    if (isPinching && touches.length === 2) {
+      const center = getCenter(touches);
+      const dist = getDistance(touches);
+      
+      if (!lastCenter || !lastDist) {
+        setLastCenter(center);
+        setLastDist(dist);
+        return;
+      }
+      
+      // Calculate new scale
+      const newScale = scale * (dist / lastDist);
+      const boundedScale = Math.max(0.5, Math.min(newScale, 3)); // Limit scale between 0.5 and 3
+      
+      // Calculate new position so we zoom into/out of the center point
+      const pointTo = {
+        x: (center.x - position.x) / scale,
+        y: (center.y - position.y) / scale,
+      };
+      
+      const newPos = {
+        x: center.x - pointTo.x * boundedScale,
+        y: center.y - pointTo.y * boundedScale,
+      };
+      
+      setScale(boundedScale);
+      setPosition(newPos);
+      setLastCenter(center);
+      setLastDist(dist);
+      return;
+    }
+    
+    // Handle wall drawing with single touch
+    if (drawing && touches.length === 1) {
+      const stage = e.target.getStage();
+      const pos = getRelativePointerPosition(stage);
+      if (pos) {
+        handleInteractionMove(pos);
+      }
+    }
+  };
+
+  // Common touch and mouse up handler
+  const handleInteractionEnd = () => {
     if (!drawing || !newWall || !stageRef.current) return;
 
-    const pos = stageRef.current.getPointerPosition();
+    const pos = getRelativePointerPosition(stageRef.current);
+    if (!pos) return;
+    
     // Find an intersection snap point near the final mouse position
     const snap = findIntersectionSnapPoint(pos, newWall.id);
 
@@ -280,8 +406,7 @@ const WallDrawer = () => {
 
     // Finalize wall based on snapped start and snapped end (if a snap point was found at the end)
     if (snap) {
-      // Use the snapped start (newWall.startX, newWall.startY) and the snapped end (snap.x, snap.y)
-      // to determine the final wall's dimensions and position.
+      // Use the snapped start and the snapped end to determine the final wall's dimensions and position
       if (finalWall.orientation === 'horizontal') {
         finalWall.width = snap.x - finalWall.startX;
         // Adjust x if drawn to the left
@@ -324,6 +449,38 @@ const WallDrawer = () => {
     stageRef.current.container().style.cursor = 'default';
   };
 
+  // Handle mouse up
+  const handleMouseUp = () => {
+    handleInteractionEnd();
+  };
+
+  // Handle touch end for mobile devices
+  const handleTouchEnd = (e) => {
+    if (isPinching) {
+      setIsPinching(false);
+      setLastCenter(null);
+      setLastDist(0);
+      return;
+    }
+    
+    handleInteractionEnd();
+  };
+
+  // Utility functions for touch gestures
+  const getDistance = (touches) => {
+    return Math.sqrt(
+      Math.pow(touches[0].clientX - touches[1].clientX, 2) +
+      Math.pow(touches[0].clientY - touches[1].clientY, 2)
+    );
+  };
+
+  const getCenter = (touches) => {
+    return {
+      x: (touches[0].clientX + touches[1].clientX) / 2,
+      y: (touches[0].clientY + touches[1].clientY) / 2,
+    };
+  };
+
   const handleSelectWall = (wallId) => {
     setSelectedWallId(wallId);
     setShowProperties(true);
@@ -362,18 +519,11 @@ const WallDrawer = () => {
       snappedX = snap.x;
       snappedY = snap.y;
 
-      // Adjust the wall's position so that the point that snapped (top-left)
-      // is placed at the snap point, while keeping the wall centered on a grid line.
+      // Adjust the wall's position so that the point that snapped is placed at the snap point
       if (wall.orientation === 'horizontal') {
-        // If the top-left corner snapped to a point (snap.x, snap.y),
-        // the wall's new x should be snap.x
-        // The wall's new y should be centered around the nearest horizontal grid line to snap.y
         snappedY = snapToGrid(snap.y + wall.height / 2) - wall.height / 2;
         snappedX = snap.x;
       } else { // vertical
-        // If the top-left corner snapped to a point (snap.x, snap.y),
-        // the wall's new y should be snap.y
-        // The wall's new x should be centered around the nearest vertical grid line to snap.x
         snappedX = snapToGrid(snap.x + wall.width / 2) - wall.width / 2;
         snappedY = snap.y;
       }
@@ -595,22 +745,22 @@ const WallDrawer = () => {
   const renderGrid = () => {
     const gridLines = [];
 
-    for (let i = 0; i <= canvasWidth; i += gridSize) {
+    for (let i = 0; i <= viewportWidth; i += gridSize) {
       gridLines.push(
         <Line
           key={`v-${i}`}
-          points={[i, 0, i, canvasHeight]}
+          points={[i, 0, i, viewportHeight]}
           stroke="#e0e0e0"
           strokeWidth={1}
         />
       );
     }
 
-    for (let i = 0; i <= canvasHeight; i += gridSize) {
+    for (let i = 0; i <= viewportHeight; i += gridSize) {
       gridLines.push(
         <Line
           key={`h-${i}`}
-          points={[0, i, canvasWidth, i]}
+          points={[0, i, viewportWidth, i]}
           stroke="#e0e0e0"
           strokeWidth={1}
         />
@@ -709,8 +859,8 @@ const WallDrawer = () => {
   return (
     <div style={{ position: 'relative', width: '100%', height: '100vh', overflow: 'hidden' }}>
       <Stage
-        width={canvasWidth}
-        height={canvasHeight}
+        width={viewportWidth}
+        height={viewportHeight}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
