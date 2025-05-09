@@ -76,7 +76,7 @@ export default function SmartFormSection() {
                 <ShieldCheck className="w-6 h-6 mt-1" />
               </div>
               <div>
-                <h4 className="text-lg font-semibold text-secondary">Paso 3: Recibe propuestas</h4>
+                <h4 className="text-lg font-semibold text-secondary ">Paso 3: Recibe propuestas</h4>
                 <p className="text-white text-sm">
                   Las empresas te contactarán directamente por WhatsApp con cotizaciones personalizadas.
                 </p>
