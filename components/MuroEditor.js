@@ -909,8 +909,8 @@ const WallDrawer = () => {
                 handleTouchStart(e);
               }}
               onTouchEnd={handleTouchEnd}
-              hitWidth={60} // Área táctil mucho más grande
-              hitHeight={60}
+              hitWidth={200} // Área táctil mucho más grande
+              hitHeight={200}
               shadowColor="black"
               shadowBlur={5}
               shadowOpacity={0.3}
