@@ -2,7 +2,7 @@ const ZoomControls = ({scale, setScale, setPosition}) => {
     return (
       <div style={{
         position: 'absolute',
-        bottom: '10%',
+        bottom: '14%',
         right: '20px',
         backgroundColor: 'white',
         borderRadius: '4px',
