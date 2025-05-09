@@ -161,7 +161,7 @@ const WallDrawer = () => {
     width: window.innerWidth,
     height: window.innerHeight
   });
-  
+
   useEffect(() => {
     const handleResize = () => {
       setCanvasSize({
@@ -169,18 +169,20 @@ const WallDrawer = () => {
         height: window.innerHeight
       });
     };
-  
+
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   const handleMouseDown = (e) => {
     if (activeTool !== 'wall') return;
-    
+    const pointerPos = e.evt?.touches?.[0] || e;
+    const pos = e.target.getStage().getPointerPosition(pointerPos);
+    if (e.evt?.type === 'touchstart') {
+      e.evt.preventDefault();
+    }
     const clickedOnEmpty = e.target === e.target.getStage();
     if (clickedOnEmpty) {
-      const pointerPos = e.evt?.touches?.[0] || e;
-    const pos = e.target.getStage().getPointerPosition(pointerPos);
       const snap = findIntersectionSnapPoint(pos);
 
       if (snap) {
@@ -255,9 +257,9 @@ const WallDrawer = () => {
 
   const handleMouseMove = (e) => {
     if (!drawing || !newWall) return;
-  
-  const pointerPos = e.evt?.touches?.[0] || e;
-  const pos = e.target.getStage().getPointerPosition(pointerPos);
+
+    const pointerPos = e.evt?.touches?.[0] || e;
+    const pos = e.target.getStage().getPointerPosition(pointerPos);
 
 
     let currentX = pos.x;
@@ -731,15 +733,15 @@ const WallDrawer = () => {
         e.preventDefault();
       }
     };
-    
+
     document.addEventListener('touchmove', preventDefault, { passive: false });
-    
+
     return () => {
       document.removeEventListener('touchmove', preventDefault);
     };
   }, []);
   return (
-    <div style={{ position: 'relative', width: '100%', height: '100vh', overflow: 'hidden' }}>
+    <div style={{ position: 'relative', width: '100%', height: '100vh', overflow: 'hidden', touchAction: 'none', }}>
       <Stage
         width={canvasSize.width}
         height={canvasSize.height}
@@ -750,6 +752,10 @@ const WallDrawer = () => {
         onMouseUp={handleMouseUp}
         onTouchEnd={handleMouseUp}
         ref={stageRef}
+        style={{
+          touchAction: 'none',
+          userSelect: 'none'
+        }}
       >
         <Layer>
           {renderGrid()}
