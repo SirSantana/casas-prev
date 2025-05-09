@@ -893,12 +893,31 @@ const handleWheel = (e) => {
             rotateEnabled={false}
             keepRatio={false}
             boundBoxFunc={(oldBox, newBox) => {
-              if (newBox.width < 5 || newBox.height < 5) {
-                return oldBox;
-              }
-              return newBox;
-            }}
-            enabledAnchors={['middle-left', 'middle-right', 'top-center', 'bottom-center']}
+              // Obtener el muro seleccionado
+              const selectedWall = walls.find(wall => wall.id === selectedWallId);
+              if (!selectedWall) return oldBox;
+              
+              // Para muros horizontales, mantener la altura fija
+              if (selectedWall.orientation === 'horizontal') {
+                return {
+                  ...newBox,
+                  height: oldBox.height,
+                  y: oldBox.y
+                };
+              } 
+              // Para muros verticales, mantener el ancho fijo
+              else {
+                return {
+                  ...newBox,
+                  width: oldBox.width,
+                  x: oldBox.x
+                };
+              }}}
+              enabledAnchors={selectedWallId ? 
+                (walls.find(w => w.id === selectedWallId)?.orientation === 'horizontal' ? 
+                  ['middle-left', 'middle-right'] : 
+                  ['top-center', 'bottom-center']) : 
+                []}
           />
         </Layer>
       </Stage>
