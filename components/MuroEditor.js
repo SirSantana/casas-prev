@@ -765,7 +765,7 @@ const WallDrawer = () => {
       <SidebarComponent setDefaultThickness={setDefaultThickness} setShowProperties={setShowProperties} showProperties={showProperties} showTooltip={showTooltip} setShowTooltip={setShowTooltip} activeTool={activeTool} setActiveTool={setActiveTool} />
       {showProperties && <WallPropertiesPanel />}
       <HelpTooltip showTooltip={showTooltip} setShowTooltip={setShowTooltip} />
-      <FurniturePalette />
+      {/* <FurniturePalette /> */}
       <BottomToolbar />
       <HeaderToolbar />
       <RightCornerButtons />
