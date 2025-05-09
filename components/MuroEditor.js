@@ -7,6 +7,7 @@ import FurniturePalette from './FurnitureComponent';
 import BottomToolbar from './BottomToolbar';
 import HeaderToolbar from './HeaderToolbar';
 import RightCornerButtons from './RightCornerButtons';
+import ZoomControls from './ZoomControls';
 
 // Helper function to calculate the intersection point of two line segments
 const getLinesIntersection = (p1, p2, p3, p4) => {
@@ -40,6 +41,9 @@ const WallDrawer = () => {
   const [activeTool, setActiveTool] = useState('wall');
   const [showTooltip, setShowTooltip] = useState(true);
 
+  const [scale, setScale] = useState(1);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+
   const canvasWidth = window.innerWidth;
   const canvasHeight = window.innerHeight;
   const gridSize = 50;
@@ -47,6 +51,27 @@ const WallDrawer = () => {
 
   const stageRef = useRef();
   const transformerRef = useRef();
+
+  const [longPressTimer, setLongPressTimer] = useState(null);
+
+  const handleTouchStart = (e) => {
+    const timer = setTimeout(() => {
+      // Lógica para selección detallada (propiedades) después de toque largo
+      const node = e.target;
+      if (node && node.id()) {
+        handleSelectWall(node.id());
+      }
+    }, 500); // 500ms para considerar toque largo
+    setLongPressTimer(timer);
+  };
+
+  const handleTouchEnd = () => {
+    if (longPressTimer) {
+      clearTimeout(longPressTimer);
+      setLongPressTimer(null);
+    }
+  };
+
 
   // Function to align a value to the grid
   const snapToGrid = (value) => {
@@ -176,73 +201,69 @@ const WallDrawer = () => {
 
   const handleMouseDown = (e) => {
     if (activeTool !== 'wall') return;
-    const pointerPos = e.evt?.touches?.[0] || e;
-    const pos = e.target.getStage().getPointerPosition(pointerPos);
-    if (e.evt?.type === 'touchstart') {
-      e.evt.preventDefault();
-    }
-    const clickedOnEmpty = e.target === e.target.getStage();
-    if (clickedOnEmpty) {
-      const snap = findIntersectionSnapPoint(pos);
-
-      if (snap) {
-        const snappedX = snap.x;
-        const snappedY = snap.y;
-
-        // Determine initial orientation based on the snap point type and mouse position
-        let initialOrientation = 'horizontal'; // Default
-
-        if (snap.type === 'grid-grid') {
-          const angle = Math.atan2(pos.y - snappedY, pos.x - snappedX);
-          if (Math.abs(angle) < Math.PI / 4 || Math.abs(angle) > 3 * Math.PI / 4) {
-            initialOrientation = 'horizontal';
-          } else {
-            initialOrientation = 'vertical';
-          }
-        } else if (snap.type === 'wall-grid' || snap.type === 'wall-wall') {
-          // If snapping to an existing wall feature, try to match its orientation or infer from mouse
-          const closestWall = walls.find(wall => {
-            // Simple check if the snap point is one of the wall's corners/endpoints
-            const wallPoints = [
-              { x: wall.x, y: wall.y },
-              { x: wall.x + wall.width, y: wall.y },
-              { x: wall.x + wall.width, y: wall.y + wall.height },
-              { x: wall.x, y: wall.y + wall.height },
-            ];
-            return wallPoints.some(p => Math.sqrt((snap.x - p.x) ** 2 + (snap.y - p.y) ** 2) < 5); // Small tolerance
-          });
-
-          if (closestWall) {
-            initialOrientation = closestWall.orientation === 'horizontal' ? 'vertical' : 'horizontal'; // Often start perpendicular
-          } else {
-            // If not a wall endpoint, infer from mouse movement relative to snap point
-            const angle = Math.atan2(pos.y - snappedY, pos.x - snappedX);
-            if (Math.abs(angle) < Math.PI / 4 || Math.abs(angle) > 3 * Math.PI / 4) {
-              initialOrientation = 'horizontal';
-            } else {
-              initialOrientation = 'vertical';
-            }
-          }
+  
+  const pointerPos = e.evt?.touches?.[0] || e;
+  const stage = e.target.getStage();
+  const pointerPosition = stage.getPointerPosition(pointerPos);
+  
+  // Transformar las coordenadas según el zoom y la posición
+  const transformedPos = {
+    x: (pointerPosition.x - position.x) / scale,
+    y: (pointerPosition.y - position.y) / scale
+  };
+  
+  if (e.evt?.type === 'touchstart') {
+    e.evt.preventDefault();
+  }
+  
+  const clickedOnEmpty = e.target === e.target.getStage();
+  if (clickedOnEmpty) {
+    // Usar transformedPos en lugar de pos
+    const snap = findIntersectionSnapPoint(transformedPos);
+    
+    if (snap) {
+      const snappedX = snap.x;
+      const snappedY = snap.y;
+      
+      // Determinar orientación inicial...
+      let initialOrientation = 'horizontal'; // Default
+      
+      if (snap.type === 'grid-grid') {
+        const angle = Math.atan2(transformedPos.y - snappedY, transformedPos.x - snappedX);
+        if (Math.abs(angle) < Math.PI / 4 || Math.abs(angle) > 3 * Math.PI / 4) {
+          initialOrientation = 'horizontal';
+        } else {
+          initialOrientation = 'vertical';
         }
-
-        setNewWall({
-          x: snappedX,
-          y: snappedY,
-          width: 0,
-          height: 0,
-          id: `wall-${Date.now()}`,
-          orientation: initialOrientation,
-          startX: snappedX, // Store the snapped start point
-          startY: snappedY,
-        });
-
-        setDrawing(true);
-        setSelectedWallId(null);
-        if (stageRef.current) {
-          stageRef.current.container().style.cursor = 'crosshair';
+      } else if (snap.type === 'wall-grid' || snap.type === 'wall-wall') {
+        // Resto del código para determinar orientación...
+        // Usar transformedPos en lugar de pos
+        const angle = Math.atan2(transformedPos.y - snappedY, transformedPos.x - snappedX);
+        if (Math.abs(angle) < Math.PI / 4 || Math.abs(angle) > 3 * Math.PI / 4) {
+          initialOrientation = 'horizontal';
+        } else {
+          initialOrientation = 'vertical';
         }
-        setShowTooltip(false);
       }
+      
+      setNewWall({
+        x: snappedX,
+        y: snappedY,
+        width: 0,
+        height: 0,
+        id: `wall-${Date.now()}`,
+        orientation: initialOrientation,
+        startX: snappedX,
+        startY: snappedY,
+      });
+      
+      setDrawing(true);
+      setSelectedWallId(null);
+      if (stageRef.current) {
+        stageRef.current.container().style.cursor = 'crosshair';
+      }
+      setShowTooltip(false);
+    }
     } else {
       const node = e.target;
       if (node && node.id && node.id()) {
@@ -257,31 +278,37 @@ const WallDrawer = () => {
 
   const handleMouseMove = (e) => {
     if (!drawing || !newWall) return;
-
+  
     const pointerPos = e.evt?.touches?.[0] || e;
-    const pos = e.target.getStage().getPointerPosition(pointerPos);
-
-
-    let currentX = pos.x;
-    let currentY = pos.y;
-
+    const stage = e.target.getStage();
+    const pointerPosition = stage.getPointerPosition(pointerPos);
+    
+    // Transformar las coordenadas
+    const transformedPos = {
+      x: (pointerPosition.x - position.x) / scale,
+      y: (pointerPosition.y - position.y) / scale
+    };
+  
+    let currentX = transformedPos.x;
+    let currentY = transformedPos.y;
+  
     let finalX, finalY, finalWidth, finalHeight;
-
-    // Restrict drawing to the initial orientation and calculate based on snapped start
+  
+    // Restricciones según orientación...
     if (newWall.orientation === 'horizontal') {
-      currentY = newWall.startY; // Keep Y fixed to the snapped start Y
+      currentY = newWall.startY;
       finalX = Math.min(newWall.startX, currentX);
       finalWidth = Math.abs(currentX - newWall.startX);
-      finalY = newWall.startY - defaultThickness / 2; // Center the wall on the snapped Y line
+      finalY = newWall.startY - defaultThickness / 2;
       finalHeight = defaultThickness;
-    } else { // Vertical
-      currentX = newWall.startX; // Keep X fixed to the snapped start X
+    } else {
+      currentX = newWall.startX;
       finalY = Math.min(newWall.startY, currentY);
       finalHeight = Math.abs(currentY - newWall.startY);
-      finalX = newWall.startX - defaultThickness / 2; // Center the wall on the snapped X line
+      finalX = newWall.startX - defaultThickness / 2;
       finalWidth = defaultThickness;
     }
-
+  
     setNewWall({
       ...newWall,
       x: finalX,
@@ -293,54 +320,55 @@ const WallDrawer = () => {
 
   const handleMouseUp = () => {
     if (!drawing || !newWall || !stageRef.current) return;
-
-    const pos = stageRef.current.getPointerPosition();
-    // Find an intersection snap point near the final mouse position
-    const snap = findIntersectionSnapPoint(pos, newWall.id);
-
+  
+    const pointerPosition = stageRef.current.getPointerPosition();
+    
+    // Transformar las coordenadas
+    const transformedPos = {
+      x: (pointerPosition.x - position.x) / scale,
+      y: (pointerPosition.y - position.y) / scale
+    };
+    
+    // Encuentra un punto de intersección cerca de la posición final del ratón
+    const snap = findIntersectionSnapPoint(transformedPos, newWall.id);
+  
     let finalWall = { ...newWall };
-
-    // Finalize wall based on snapped start and snapped end (if a snap point was found at the end)
+  
+    // Finalizar muro con punto de inicio y fin ajustados
     if (snap) {
-      // Use the snapped start (newWall.startX, newWall.startY) and the snapped end (snap.x, snap.y)
-      // to determine the final wall's dimensions and position.
+      // Usar el punto de inicio ajustado y el punto final ajustado
       if (finalWall.orientation === 'horizontal') {
         finalWall.width = snap.x - finalWall.startX;
-        // Adjust x if drawn to the left
         if (finalWall.width < 0) {
           finalWall.x = snap.x;
           finalWall.width = Math.abs(finalWall.width);
         } else {
           finalWall.x = finalWall.startX;
         }
-        // Y position is determined by the snapped start Y, centered on the grid line
         finalWall.y = finalWall.startY - defaultThickness / 2;
-        finalWall.height = defaultThickness; // Ensure thickness is maintained
-      } else { // Vertical
+        finalWall.height = defaultThickness;
+      } else {
         finalWall.height = snap.y - finalWall.startY;
-        // Adjust y if drawn upwards
         if (finalWall.height < 0) {
           finalWall.y = snap.y;
           finalWall.height = Math.abs(finalWall.height);
         } else {
           finalWall.y = finalWall.startY;
         }
-        // X position is determined by the snapped start X, centered on the grid line
         finalWall.x = finalWall.startX - defaultThickness / 2;
-        finalWall.width = defaultThickness; // Ensure thickness is maintained
+        finalWall.width = defaultThickness;
       }
-
-      // Only add the wall if it has a significant positive size after snapping
+  
       const finalLength = finalWall.orientation === 'horizontal' ? finalWall.width : finalWall.height;
       const minWallLength = gridSize / 5;
-
+  
       if (finalLength > minWallLength) {
         setWalls([...walls, finalWall]);
         setSelectedWallId(finalWall.id);
         setShowProperties(true);
       }
     }
-
+  
     setNewWall(null);
     setDrawing(false);
     stageRef.current.container().style.cursor = 'default';
@@ -612,34 +640,78 @@ const WallDrawer = () => {
 
     setWalls(updatedWalls);
   };
-
+// 3. Función para manejar el zoom con la rueda del mouse
+const handleWheel = (e) => {
+  e.evt.preventDefault();
+  
+  const scaleBy = 1.1;
+  const stage = e.target.getStage();
+  const oldScale = scale;
+  
+  const pointerPosition = stage.getPointerPosition();
+  
+  const mousePointTo = {
+    x: (pointerPosition.x - position.x) / oldScale,
+    y: (pointerPosition.y - position.y) / oldScale
+  };
+  
+  // Determinar dirección del zoom (in o out)
+  const direction = e.evt.deltaY > 0 ? -1 : 1;
+  
+  // Calcular nuevo scale con límites
+  const newScale = direction > 0 ? oldScale * scaleBy : oldScale / scaleBy;
+  
+  // Establecer límites de zoom (min: 0.1, max: 5)
+  const boundedScale = Math.max(0.1, Math.min(5, newScale));
+  
+  setScale(boundedScale);
+  
+  const newPos = {
+    x: pointerPosition.x - mousePointTo.x * boundedScale,
+    y: pointerPosition.y - mousePointTo.y * boundedScale
+  };
+  
+  setPosition(newPos);
+};
   // Render the grid lines
   const renderGrid = () => {
     const gridLines = [];
-
-    for (let i = 0; i <= canvasWidth; i += gridSize) {
-      gridLines.push(
-        <Line
-          key={`v-${i}`}
-          points={[i, 0, i, canvasHeight]}
-          stroke="#e0e0e0"
-          strokeWidth={1}
-        />
-      );
-    }
-
-    for (let i = 0; i <= canvasHeight; i += gridSize) {
-      gridLines.push(
-        <Line
-          key={`h-${i}`}
-          points={[0, i, canvasWidth, i]}
-          stroke="#e0e0e0"
-          strokeWidth={1}
-        />
-      );
-    }
-
-    return gridLines;
+  
+  // Ajustar la distancia entre líneas según el zoom
+  const zoomedGridSize = gridSize * scale;
+  
+  // Calcular los límites del grid visible
+  const startX = Math.floor(-position.x / scale / gridSize) * gridSize;
+  const endX = Math.ceil((canvasWidth - position.x) / scale / gridSize) * gridSize;
+  
+  const startY = Math.floor(-position.y / scale / gridSize) * gridSize;
+  const endY = Math.ceil((canvasHeight - position.y) / scale / gridSize) * gridSize;
+  
+  // Generar líneas verticales
+  for (let i = startX; i <= endX; i += gridSize) {
+    gridLines.push(
+      <Line
+        key={`v-${i}`}
+        points={[i, startY, i, endY]}
+        stroke="#e0e0e0"
+        strokeWidth={1 / scale} // Ajustar el grosor para que se vea consistente
+      />
+    );
+  }
+ 
+  // Generar líneas horizontales
+  for (let i = startY; i <= endY; i += gridSize) {
+    gridLines.push(
+      <Line
+        key={`h-${i}`}
+        points={[startX, i, endX, i]}
+        stroke="#e0e0e0"
+        strokeWidth={1 / scale} // Ajustar el grosor para que se vea consistente
+      />
+    );
+  }
+  
+  return gridLines;
   };
 
   const WallPropertiesPanel = () => {
@@ -752,6 +824,21 @@ const WallDrawer = () => {
         onMouseUp={handleMouseUp}
         onTouchEnd={handleMouseUp}
         ref={stageRef}
+        scaleX={scale}
+        scaleY={scale}
+        x={position.x}
+        y={position.y}
+        draggable={activeTool === 'pan'}
+        onDragEnd={(e) => {
+          // Solo actualizar position si estamos usando la herramienta pan
+          if (activeTool === 'pan') {
+            setPosition({
+              x: e.target.x(),
+              y: e.target.y()
+            });
+          }
+        }}
+        onWheel={handleWheel}
         style={{
           touchAction: 'none',
           userSelect: 'none'
@@ -770,14 +857,21 @@ const WallDrawer = () => {
               fill="#8c8c8c"
               stroke="#595959"
               strokeWidth={1}
-              draggable={activeTool === 'select'}
-              onDragEnd={(e) => handleWallDragEnd(e, wall.id)}
+              draggable={activeTool == 'wall'}
+              onDragStart={(e) => {
+                e.cancelBubble = true;
+                setSelectedWallId(wall.id);
+              }}
+              onDragEnd={(e) => {
+                const pos = e.target.getStage().getPointerPosition(e.evt?.touches?.[0] || e);
+                handleWallDragEnd({ ...e, target: e.target, stageRef }, wall.id);
+              }}
               onClick={() => handleSelectWall(wall.id)}
               onTap={() => handleSelectWall(wall.id)}
-              onTransformEnd={() => handleTransformEnd(wall.id)}
-              name={wall.orientation}
-              hitWidth={20}
-              hitHeight={20}
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
+              hitWidth={25} // Área táctil más grande
+              hitHeight={25}
             />
           ))}
           {newWall && (
@@ -810,11 +904,13 @@ const WallDrawer = () => {
       </Stage>
       <SidebarComponent setDefaultThickness={setDefaultThickness} setShowProperties={setShowProperties} showProperties={showProperties} showTooltip={showTooltip} setShowTooltip={setShowTooltip} activeTool={activeTool} setActiveTool={setActiveTool} />
       {showProperties && <WallPropertiesPanel />}
+
       <HelpTooltip showTooltip={showTooltip} setShowTooltip={setShowTooltip} />
       {/* <FurniturePalette /> */}
       <BottomToolbar />
       <HeaderToolbar />
       <RightCornerButtons />
+      <ZoomControls scale={scale} setPosition={setPosition} setScale={setScale} />
     </div>
   );
 };

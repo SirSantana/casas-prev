@@ -1,6 +1,6 @@
 import { Edit3, Info, Move, Settings, Trash2 } from "lucide-react";
 
-const SidebarComponent = ({ activeTool, setActiveTool, setDefaultThickness=5, setWalls, setSelectedWallId, setShowProperties, setShowTooltip, showTooltip }) => {
+const SidebarComponent = ({ activeTool, setActiveTool, setDefaultThickness = 5, setWalls, setSelectedWallId, setShowProperties, setShowTooltip, showTooltip }) => {
   return (
     <div className="sidebar" style={{
       position: 'absolute',
@@ -15,6 +15,19 @@ const SidebarComponent = ({ activeTool, setActiveTool, setDefaultThickness=5, se
       gap: '10px',
       zIndex: 100
     }}>
+      <div
+        className={`sidebar-button ${activeTool === 'pan' ? 'active' : ''}`}
+        onClick={() => setActiveTool('pan')}
+        style={{
+          backgroundColor: activeTool === 'pan' ? '#e6f7ff' : 'white',
+          padding: '10px',
+          borderRadius: '4px',
+          cursor: 'pointer',
+          marginBottom: '10px'
+        }}
+      >
+        <Move size={20} color={activeTool === 'pan' ? '#1890ff' : '#595959'} />
+      </div>
       <button
         onClick={() => setActiveTool('wall')}
         style={{
