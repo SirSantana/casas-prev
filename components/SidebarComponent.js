@@ -1,4 +1,4 @@
-import { Edit3, Info, Move, Settings, Trash2 } from "lucide-react";
+import { Edit3, Fingerprint, Info, Move, Settings, Touchpad, Trash2 } from "lucide-react";
 
 const SidebarComponent = ({ activeTool, setActiveTool, setDefaultThickness = 5, setWalls, setSelectedWallId, setShowProperties, setShowTooltip, showTooltip }) => {
   return (
@@ -82,6 +82,15 @@ const SidebarComponent = ({ activeTool, setActiveTool, setDefaultThickness = 5, 
         title="Settings"
       >
         <Settings size={20} />
+      </button>
+      <button
+        onClick={() => setActiveTool(activeTool === 'touch-move' ? 'select' : 'touch-move')}
+        style={{
+          backgroundColor: activeTool === 'touch-move' ? '#1890ff' : '#f0f0f0',
+          color: activeTool === 'touch-move' ? 'white' : 'black'
+        }}
+      >
+        <Fingerprint size={20} />
       </button>
       <button
         onClick={() => {

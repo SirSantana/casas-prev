@@ -201,7 +201,24 @@ const WallDrawer = () => {
 
   const handleMouseDown = (e) => {
     if (activeTool !== 'wall') return;
-
+    if (activeTool === 'touch-move' && e.evt?.type === 'touchstart') {
+      const node = e.target;
+      if (node && node.id && node.id()) {
+        e.cancelBubble = true;
+        setSelectedWallId(node.id());
+        
+        // Iniciar arrastre inmediato
+        const touch = e.evt.touches[0];
+        const stage = node.getStage();
+        const stageRect = stage.container().getBoundingClientRect();
+        const relativePos = {
+          x: touch.clientX - stageRect.left,
+          y: touch.clientY - stageRect.top
+        };
+        node.startDrag(relativePos);
+        return;
+      }
+    }
     const pointerPos = e.evt?.touches?.[0] || e;
     const stage = e.target.getStage();
     const pointerPosition = stage.getPointerPosition(pointerPos);
@@ -833,6 +850,9 @@ const WallDrawer = () => {
       document.removeEventListener('touchmove', preventDefault);
     };
   }, []);
+
+  console.log(activeTool);
+  
   return (
     <div style={{ position: 'relative', width: '100%', height: '100vh', overflow: 'hidden', touchAction: 'none', }}>
       <Stage
@@ -862,10 +882,11 @@ const WallDrawer = () => {
         onWheel={handleWheel}
         style={{
           touchAction: 'none',
-          userSelect: 'none'
+          userSelect: 'none',
+          cursor: activeTool === 'select' ? 'pointer' : 'default' 
         }}
       >
-        <Layer>
+        <Layer >
           {renderGrid()}
           {walls.map((wall) => (
             <Rect
@@ -921,12 +942,13 @@ const WallDrawer = () => {
                 e.target.shadowOpacity(0.5);
                 e.target.getStage().batchDraw();
               }}
-            
+              
               cornerRadius={1} // Bordes redondeados para mejor apariencia
             />
           ))}
           {newWall && (
             <Rect
+            
               x={newWall.x}
               y={newWall.y}
               width={newWall.width}
@@ -940,6 +962,7 @@ const WallDrawer = () => {
             />
           )}
           <Transformer
+          
             ref={transformerRef}
             rotateEnabled={false}
             keepRatio={false}
