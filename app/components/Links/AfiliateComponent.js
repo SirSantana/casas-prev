@@ -268,13 +268,12 @@ const GamingSetupAffiliate = () => {
                         >
                           <div className="relative w-full h-full">
                             {/* Hotspot traslúcido */}
-                           <div className="absolute inset-0 bg-black/50 backdrop-blur-[8px] rounded-lg border-2 border-black/80 group-hover:border-black/95 group-hover:bg-black/60 group-active:scale-95 transition-all duration-300 shadow-xl group-hover:shadow-2xl">
- <div className="flex items-center justify-center h-full">
-   <IconComponent className="w-5 h-5  text-white drop-shadow-lg group-hover:scale-110 transition-transform duration-300" />
- </div>
+                           <div className="absolute inset-0 bg-black/50 backdrop-blur-[8px] rounded-lg group-hover:bg-black/60 group-active:scale-95 transition-all duration-300 shadow-xl group-hover:shadow-2xl">
+  <div className="flex items-center justify-center h-full">
+    <IconComponent className="w-5 h-5 text-white drop-shadow-lg group-hover:scale-110 transition-transform duration-300" />
+  </div>
 </div>
                             {/* Efecto de pulso */}
-                            <div className="absolute inset-0 border-2 border-white/60 rounded-lg opacity-0 group-hover:opacity-70 animate-pulse transition-opacity duration-300"></div>
 
                             {/* Número del producto */}
                             <div className="absolute -top-1 -right-1 w-4 h-4 bg-gray-900/90 backdrop-blur-sm text-white text-xs rounded-full flex items-center justify-center font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-lg">
@@ -282,13 +281,11 @@ const GamingSetupAffiliate = () => {
                             </div>
 
                             {/* Nombre del producto en mobile */}
-                            {isMobile && (
-                              <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                              <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2  transition-opacity duration-300">
                                 <div className="bg-black/80 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
                                   {product.category}
                                 </div>
                               </div>
-                            )}
                           </div>
                         </div>
                       );
