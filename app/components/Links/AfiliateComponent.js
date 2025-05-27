@@ -12,7 +12,7 @@ const GamingSetupAffiliate = () => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 768);
     };
-    
+
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
@@ -31,7 +31,7 @@ const GamingSetupAffiliate = () => {
       category: 'Monitor',
       icon: Monitor,
       amazonUrl: 'https://amazon.com/your-affiliate-link-1',
-      position: { 
+      position: {
         desktop: { top: '15%', left: '40%' },
         mobile: { top: '20%', left: '60%' }
       },
@@ -50,7 +50,7 @@ const GamingSetupAffiliate = () => {
       category: 'Headphones',
       icon: Headphones,
       amazonUrl: 'https://amazon.com/your-affiliate-link-2',
-      position: { 
+      position: {
         desktop: { top: '25%', left: '15%' },
         mobile: { top: '15%', left: '25%' }
       },
@@ -68,7 +68,7 @@ const GamingSetupAffiliate = () => {
       category: 'Gaming Mouse',
       icon: Mouse,
       amazonUrl: 'https://amazon.com/your-affiliate-link-3',
-      position: { 
+      position: {
         desktop: { top: '65%', left: '55%' },
         mobile: { top: '60%', left: '70%' }
       },
@@ -87,7 +87,7 @@ const GamingSetupAffiliate = () => {
       category: 'Mechanical Keyboard',
       icon: Keyboard,
       amazonUrl: 'https://amazon.com/your-affiliate-link-4',
-      position: { 
+      position: {
         desktop: { top: '75%', left: '25%' },
         mobile: { top: '75%', left: '40%' }
       },
@@ -105,7 +105,7 @@ const GamingSetupAffiliate = () => {
       category: 'Controller',
       icon: Gamepad2,
       amazonUrl: 'https://amazon.com/your-affiliate-link-5',
-      position: { 
+      position: {
         desktop: { top: '60%', left: '75%' },
         mobile: { top: '50%', left: '85%' }
       },
@@ -124,7 +124,7 @@ const GamingSetupAffiliate = () => {
       category: 'Microphone',
       icon: Mic,
       amazonUrl: 'https://amazon.com/your-affiliate-link-6',
-      position: { 
+      position: {
         desktop: { top: '35%', left: '75%' },
         mobile: { top: '25%', left: '80%' }
       },
@@ -213,18 +213,16 @@ const GamingSetupAffiliate = () => {
               onMouseMove={handleMouseMove}
             >
               {/* Setup Image Container */}
-              <div className={`relative w-full ${
-                isMobile 
-                  ? 'h-[93vh] overflow-x-auto scrollbar-hide' 
+              <div className={`relative w-full ${isMobile
+                  ? 'h-[93vh] overflow-x-auto scrollbar-hide'
                   : 'h-[70vh] lg:h-screen'
-              }`}>
-                
+                }`}>
+
                 {/* Image wrapper for horizontal scroll */}
-                <div className={`relative ${
-                  isMobile 
+                <div className={`relative ${isMobile
                     ? 'w-[200vw] h-full' // Imagen más ancha en mobile para scroll horizontal
                     : 'w-full h-full'
-                }`}>
+                  }`}>
                   {/* Tu imagen del setup */}
                   <img
                     src="/setup1.jpg"
@@ -252,17 +250,17 @@ const GamingSetupAffiliate = () => {
                     .map((product) => {
                       const IconComponent = product.icon;
                       const position = isMobile ? product.position.mobile : product.position.desktop;
-                      
+
                       return (
                         <div
                           key={product.id}
-                          className="absolute cursor-pointer group touch-manipulation"
+                          className={`absolute  ${product.hotspotSize} cursor-pointer group touch-manipulation animate-pulse`}
                           style={{
                             top: position.top,
                             left: position.left,
                             transform: 'translate(-50%, -50%)',
-                            width: isMobile ? '50px' : '80px',
-                            height: isMobile ? '35px' : '60px',
+                            //  width: isMobile ? '70px' : '80px',
+                            //  height: isMobile ? '50px' : '60px',
                           }}
                           onMouseEnter={(e) => !isMobile && handleMouseEnter(product, e)}
                           onMouseLeave={() => !isMobile && handleMouseLeave()}
@@ -270,15 +268,15 @@ const GamingSetupAffiliate = () => {
                         >
                           <div className="relative w-full h-full">
                             {/* Hotspot traslúcido */}
-                            <div className="absolute inset-0 bg-white/25 backdrop-blur-[3px] rounded-lg border-2 border-white/50 group-hover:border-white/90 group-hover:bg-white/35 group-active:scale-95 transition-all duration-300 shadow-lg group-hover:shadow-xl">
-                              <div className="flex items-center justify-center h-full">
-                                <IconComponent className="w-3 h-3 sm:w-4 sm:h-4 text-white drop-shadow-lg group-hover:scale-110 transition-transform duration-300" />
-                              </div>
-                            </div>
-                            
+                           <div className="absolute inset-0 bg-white/50 backdrop-blur-[8px] rounded-lg border-2 border-white/80 group-hover:animate-[borderBlink_1s_infinite] group-active:scale-95 transition-all duration-300 shadow-xl group-hover:shadow-2xl">
+  <div className="flex items-center justify-center h-full">
+    <IconComponent className="w-5 h-5 text-white drop-shadow-lg group-hover:scale-110 transition-transform duration-300" />
+  </div>
+</div>
+
                             {/* Efecto de pulso */}
                             <div className="absolute inset-0 border-2 border-white/60 rounded-lg opacity-0 group-hover:opacity-70 animate-pulse transition-opacity duration-300"></div>
-                            
+
                             {/* Número del producto */}
                             <div className="absolute -top-1 -right-1 w-4 h-4 bg-gray-900/90 backdrop-blur-sm text-white text-xs rounded-full flex items-center justify-center font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-lg">
                               {products.indexOf(product) + 1}
@@ -312,7 +310,7 @@ const GamingSetupAffiliate = () => {
               </div>
 
               {/* Instruction text */}
-              <div className="text-center py-4 lg:py-6 bg-gradient-to-r from-gray-50/50 via-white/80 to-gray-50/50 border-t border-gray-200">
+              <div className="text-center py-4 lg:py-6 bg-gradient-to-r from-gray-50/50 via-white/80 to-gray-50/50 border-t border-gray-200 sm:fixed top-0 left-0 right-0 z-10">
                 <p className="text-gray-600 text-sm font-medium flex items-center justify-center space-x-2">
                   {isMobile ? (
                     <span>👆 Toca los productos • ⬅️➡️ Desliza para explorar</span>
@@ -328,18 +326,16 @@ const GamingSetupAffiliate = () => {
         {/* Product Hover/Touch Card */}
         {hoveredProduct && (
           <div
-            className={`fixed z-50 pointer-events-none ${
-              isMobile ? 'inset-0 flex items-center justify-center bg-black/50 pointer-events-auto' : ''
-            }`}
+            className={`fixed z-50 pointer-events-none ${isMobile ? 'inset-0 flex items-center justify-center bg-black/50 pointer-events-auto' : ''
+              }`}
             style={!isMobile ? {
               left: mousePosition.x + 20,
               top: mousePosition.y - 140,
             } : {}}
             onClick={isMobile ? () => setHoveredProduct(null) : undefined}
           >
-            <div className={`bg-white rounded-xl shadow-2xl border border-gray-200 p-4 sm:p-6 transform animate-in slide-in-from-bottom-2 duration-200 ${
-              isMobile ? 'w-[90vw] max-w-sm mx-4 pointer-events-auto' : 'w-80'
-            }`}>
+            <div className={`bg-white rounded-xl shadow-2xl border border-gray-200 p-4 sm:p-6 transform animate-in slide-in-from-bottom-2 duration-200 ${isMobile ? 'w-[90vw] max-w-sm mx-4 pointer-events-auto' : 'w-80'
+              }`}>
               <div className="space-y-3 sm:space-y-4">
                 <div>
                   <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider mb-1">
@@ -380,7 +376,7 @@ const GamingSetupAffiliate = () => {
                   </button>
                 )} */}
               </div>
-             
+
             </div>
           </div>
         )}
@@ -485,9 +481,9 @@ const GamingSetupAffiliate = () => {
           <section className="py-8 lg:py-12 text-center">
             <div className="max-w-3xl mx-auto bg-gray-50 rounded-xl p-4 sm:p-6 border border-gray-200">
               <p className="text-sm text-gray-600 leading-relaxed">
-                <strong className="text-gray-900">Transparencia:</strong> Como asociado de Amazon, 
-                recibimos una comisión por las compras que califiquen, sin costo adicional para ti. 
-                Los precios y disponibilidad pueden cambiar. 
+                <strong className="text-gray-900">Transparencia:</strong> Como asociado de Amazon,
+                recibimos una comisión por las compras que califiquen, sin costo adicional para ti.
+                Los precios y disponibilidad pueden cambiar.
                 <span className="block mt-2 text-xs">
                   Última actualización: {new Date().toLocaleDateString('es-ES')}
                 </span>
