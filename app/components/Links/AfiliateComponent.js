@@ -268,12 +268,11 @@ const GamingSetupAffiliate = () => {
                         >
                           <div className="relative w-full h-full">
                             {/* Hotspot traslúcido */}
-                           <div className="absolute inset-0 bg-white/50 backdrop-blur-[8px] rounded-lg border-2 border-white/80 group-hover:animate-[borderBlink_1s_infinite] group-active:scale-95 transition-all duration-300 shadow-xl group-hover:shadow-2xl">
-  <div className="flex items-center justify-center h-full">
-    <IconComponent className="w-5 h-5 text-white drop-shadow-lg group-hover:scale-110 transition-transform duration-300" />
-  </div>
+                           <div className="absolute inset-0 bg-black/50 backdrop-blur-[8px] rounded-lg border-2 border-black/80 group-hover:border-black/95 group-hover:bg-black/60 group-active:scale-95 transition-all duration-300 shadow-xl group-hover:shadow-2xl">
+ <div className="flex items-center justify-center h-full">
+   <IconComponent className="w-5 h-5  text-white drop-shadow-lg group-hover:scale-110 transition-transform duration-300" />
+ </div>
 </div>
-
                             {/* Efecto de pulso */}
                             <div className="absolute inset-0 border-2 border-white/60 rounded-lg opacity-0 group-hover:opacity-70 animate-pulse transition-opacity duration-300"></div>
 
