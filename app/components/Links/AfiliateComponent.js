@@ -215,7 +215,7 @@ const GamingSetupAffiliate = () => {
               {/* Setup Image Container */}
               <div className={`relative w-full ${
                 isMobile 
-                  ? 'h-[60vh] overflow-x-auto scrollbar-hide' 
+                  ? 'h-[93vh] overflow-x-auto scrollbar-hide' 
                   : 'h-[70vh] lg:h-screen'
               }`}>
                 
@@ -367,7 +367,7 @@ const GamingSetupAffiliate = () => {
                   </div>
                 </div>
 
-                {isMobile && (
+                {/* {isMobile && (
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
@@ -378,14 +378,9 @@ const GamingSetupAffiliate = () => {
                     <span>Ver en Amazon</span>
                     <ExternalLink className="w-4 h-4" />
                   </button>
-                )}
+                )} */}
               </div>
-              
-              {isMobile && (
-                <div className="text-center mt-3 text-xs text-gray-500">
-                  Toca fuera para cerrar
-                </div>
-              )}
+             
             </div>
           </div>
         )}
@@ -451,13 +446,13 @@ const GamingSetupAffiliate = () => {
                         )}
                       </div>
 
-                      <button
+                      {/* <button
                         onClick={() => window.open(product.amazonUrl, '_blank')}
                         className="w-full bg-gray-900 text-white font-semibold py-3 px-4 rounded-lg hover:bg-gray-800 active:bg-gray-950 transition-colors duration-200 flex items-center justify-center space-x-2 group touch-manipulation"
                       >
                         <span>Ver en Amazon</span>
                         <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
-                      </button>
+                      </button> */}
                     </div>
                   </div>
                 );
