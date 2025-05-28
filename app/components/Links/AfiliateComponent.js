@@ -339,7 +339,7 @@ const GamingSetupAffiliate = () => {
             {/* Zone Navigation for Mobile */}
             <div className="relative bg-gray-50 overflow-hidden shadow-xl" onMouseMove={handleMouseMove}>
       {/* Setup Image Container */}
-      <div className={`relative ${isMobile ? 'h-[70vh] overflow-x-auto' : 'h-[70vh] lg:h-screen'}`}>
+      <div className={`relative ${isMobile ? 'h-[80vh] overflow-x-auto' : 'h-[70vh] lg:h-screen'}`}>
   {/* Este div es el que crecerá según el ancho natural de la imagen */}
   <div className="relative h-full w-max">
     <img
@@ -416,7 +416,7 @@ const GamingSetupAffiliate = () => {
                 </div>
 
                 {/* Scroll indicators for mobile */}
-                {isMobile && (
+                {/* {isMobile && (
                   <>
                     <div className="fixed left-2 top-1/2 transform -translate-y-1/2 bg-black/60 text-white p-2 rounded-full animate-pulse">
                       <ArrowLeft className="w-4 h-4" />
@@ -425,7 +425,7 @@ const GamingSetupAffiliate = () => {
                       <ArrowRight className="w-4 h-4" />
                     </div>
                   </>
-                )}
+                )} */}
               </div>
 
               {/* Instruction text */}
