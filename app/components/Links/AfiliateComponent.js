@@ -18,132 +18,17 @@ const GamingSetupAffiliate = () => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Productos del setup con posiciones para desktop y mobile
-  // const products = [
-  //   {
-  //     id: 'monitor',
-  //     name: 'ASUS ROG Swift 27" 165Hz',
-  //     price: '$329.99',
-  //     originalPrice: '$399.99',
-  //     rating: 4.8,
-  //     reviews: 2847,
-  //     image: '/api/placeholder/200/150',
-  //     category: 'Monitor',
-  //     icon: Monitor,
-  //     amazonUrl: 'https://amazon.com/your-affiliate-link-1',
-  //     position: {
-  //       desktop: { top: '15%', left: '40%' },
-  //       mobile: { top: '20%', left: '60%' }
-  //     },
-  //     hotspotSize: 'w-32 h-20',
-  //     description: 'Monitor gaming de alta frecuencia con tecnología G-SYNC',
-  //     zone: 0 // Centro-derecha
-  //   },
-  //   {
-  //     id: 'headphones',
-  //     name: 'SteelSeries Arctis 7P Wireless',
-  //     price: '$149.99',
-  //     originalPrice: '$179.99',
-  //     rating: 4.6,
-  //     reviews: 1523,
-  //     image: '/api/placeholder/200/150',
-  //     category: 'Headphones',
-  //     icon: Headphones,
-  //     amazonUrl: 'https://amazon.com/your-affiliate-link-2',
-  //     position: {
-  //       desktop: { top: '25%', left: '15%' },
-  //       mobile: { top: '15%', left: '25%' }
-  //     },
-  //     hotspotSize: 'w-24 h-16',
-  //     description: 'Auriculares inalámbricos con sonido surround 7.1',
-  //     zone: 0 // Izquierda
-  //   },
-  //   {
-  //     id: 'mouse',
-  //     name: 'Logitech G Pro X Superlight',
-  //     price: '$149.99',
-  //     rating: 4.7,
-  //     reviews: 3291,
-  //     image: '/api/placeholder/200/150',
-  //     category: 'Gaming Mouse',
-  //     icon: Mouse,
-  //     amazonUrl: 'https://amazon.com/your-affiliate-link-3',
-  //     position: {
-  //       desktop: { top: '65%', left: '55%' },
-  //       mobile: { top: '60%', left: '70%' }
-  //     },
-  //     hotspotSize: 'w-16 h-12',
-  //     description: 'Ratón ultra-ligero para gaming competitivo',
-  //     zone: 1 // Centro-derecha
-  //   },
-  //   {
-  //     id: 'keyboard',
-  //     name: 'Corsair K70 RGB MK.2',
-  //     price: '$169.99',
-  //     originalPrice: '$199.99',
-  //     rating: 4.5,
-  //     reviews: 4156,
-  //     image: '/api/placeholder/200/150',
-  //     category: 'Mechanical Keyboard',
-  //     icon: Keyboard,
-  //     amazonUrl: 'https://amazon.com/your-affiliate-link-4',
-  //     position: {
-  //       desktop: { top: '75%', left: '25%' },
-  //       mobile: { top: '75%', left: '40%' }
-  //     },
-  //     hotspotSize: 'w-40 h-12',
-  //     description: 'Teclado mecánico con switches Cherry MX y RGB',
-  //     zone: 1 // Centro
-  //   },
-  //   {
-  //     id: 'controller',
-  //     name: 'Xbox Wireless Controller',
-  //     price: '$59.99',
-  //     rating: 4.4,
-  //     reviews: 8932,
-  //     image: '/api/placeholder/200/150',
-  //     category: 'Controller',
-  //     icon: Gamepad2,
-  //     amazonUrl: 'https://amazon.com/your-affiliate-link-5',
-  //     position: {
-  //       desktop: { top: '60%', left: '75%' },
-  //       mobile: { top: '50%', left: '85%' }
-  //     },
-  //     hotspotSize: 'w-20 h-16',
-  //     description: 'Control inalámbrico con tecnología de baja latencia',
-  //     zone: 2 // Derecha
-  //   },
-  //   {
-  //     id: 'microphone',
-  //     name: 'Blue Yeti USB Microphone',
-  //     price: '$99.99',
-  //     originalPrice: '$129.99',
-  //     rating: 4.6,
-  //     reviews: 15247,
-  //     image: '/api/placeholder/200/150',
-  //     category: 'Microphone',
-  //     icon: Mic,
-  //     amazonUrl: 'https://amazon.com/your-affiliate-link-6',
-  //     position: {
-  //       desktop: { top: '35%', left: '75%' },
-  //       mobile: { top: '25%', left: '80%' }
-  //     },
-  //     hotspotSize: 'w-12 h-24',
-  //     description: 'Micrófono profesional USB con calidad de estudio',
-  //     zone: 2 // Derecha
-  //   }
-  // ];
   const products = [
     {
       id: 'monitor',
       name: 'ASUS ROG Swift OLED PG27AQDM',
-      price: '$999.99',
+      price: '$747.87',
       rating: 4.9,
       reviews: 215,
       image: '/api/placeholder/200/150',
       category: 'Monitor',
       icon: Monitor,
-      amazonUrl: 'https://amazon.com/your-affiliate-link-monitor',
+      amazonUrl: 'https://amzn.to/44ZPDV5',
       position: {
       desktop: { top: '55%', left: '45%' },
       mobile: { top: '55%', left: '40%' }
@@ -154,14 +39,14 @@ const GamingSetupAffiliate = () => {
     },
     {
     id: 'cpu',
-    name: 'Intel Core i9-13900K',
-    price: '$589.99',
+    name: 'AMD Ryzen 9 7950X3D',
+    price: '$693.99',
     rating: 4.9,
     reviews: 3271,
     image: '/api/placeholder/200/150',
     category: 'Processor',
     icon: Cpu,
-    amazonUrl: 'https://amazon.com/your-affiliate-link-cpu',
+    amazonUrl: 'https://amzn.to/3HhSZJc',
     position: {
       desktop: { top: '40%', left: '70%' },
       mobile: { top: '35%', left: '70%' }
@@ -172,14 +57,14 @@ const GamingSetupAffiliate = () => {
   },
   {
     id: 'case',
-    name: 'HYTE Y60',
+    name: 'Corsair Obsidian 1000D Super-Tower',
     price: '$199.99',
     rating: 4.8,
     reviews: 1249,
     image: '/api/placeholder/200/150',
     category: 'PC Case',
     icon: PcCase,
-    amazonUrl: 'https://amazon.com/your-affiliate-link-case',
+    amazonUrl: 'https://amzn.to/45xMJXQ',
      position: {
       desktop: { top: '25%', left: '60%' },
       mobile: { top: '20%', left: '65%' }
@@ -191,13 +76,13 @@ const GamingSetupAffiliate = () => {
     {
       id: 'gpu',
       name: 'ASUS ROG Strix GeForce RTX 4090 OC',
-      price: '$1,799.99',
+      price: '$730.99',
       rating: 4.8,
       reviews: 412,
       image: '/api/placeholder/200/150',
       category: 'Graphics Card',
       icon: Cpu,
-      amazonUrl: 'https://amazon.com/your-affiliate-link-gpu',
+      amazonUrl: 'https://amzn.to/45vPQQ1',
       position: {
       desktop: { top: '55%', left: '70%' },
       mobile: { top: '50%', left: '70%' }
@@ -209,13 +94,14 @@ const GamingSetupAffiliate = () => {
     {
       id: 'mouse',
       name: 'Logitech G PRO',
-      price: '$129.99',
+      price: '$60.99',
       rating: 4.7,
       reviews: 3291,
       image: '/api/placeholder/200/150',
       category: 'Gaming Mouse',
       icon: Mouse,
-      amazonUrl: 'https://amazon.com/your-affiliate-link-mouse',
+      amazonUrl: 'https://amzn.to/4mys4ZX',
+      amazonUrl2: 'https://amzn.to/4mxjHO5',
       position: {
       desktop: { top: '90%', left: '40%' },
       mobile: { top: '85%', left: '35%' }
@@ -233,7 +119,7 @@ const GamingSetupAffiliate = () => {
       image: '/api/placeholder/200/150',
       category: 'Mechanical Keyboard',
       icon: Keyboard,
-      amazonUrl: 'https://amazon.com/your-affiliate-link-keyboard',
+      amazonUrl: 'https://amzn.to/43AmDRz',
       position: {
       desktop: { top: '90%', left: '25%' },
       mobile: { top: '85%', left: '20%' }
@@ -245,13 +131,13 @@ const GamingSetupAffiliate = () => {
     {
       id: 'camera',
       name: 'Sony Alpha 6600',
-      price: '$1,398.00',
+      price: '$1,198.00',
       rating: 4.7,
       reviews: 978,
       image: '/api/placeholder/200/150',
       category: 'Camera',
       icon: Camera,
-      amazonUrl: 'https://amazon.com/your-affiliate-link-camera',
+      amazonUrl: 'https://amzn.to/4kLt633',
        position: {
       desktop: { top: '35%', left: '40%' },
       mobile: { top: '35%', left: '40%' }
@@ -260,8 +146,7 @@ const GamingSetupAffiliate = () => {
       description: 'Cámara mirrorless compacta para contenido profesional',
       zone: 2
     }
-  ];
-
+  ]
 
   // Zonas para navegación móvil
   const zones = [
@@ -339,13 +224,13 @@ const GamingSetupAffiliate = () => {
             {/* Zone Navigation for Mobile */}
             <div className="relative bg-gray-50 overflow-hidden shadow-xl" onMouseMove={handleMouseMove}>
       {/* Setup Image Container */}
-      <div className={`relative ${isMobile ? 'h-[80vh] overflow-x-auto' : 'h-[70vh] lg:h-screen'}`}>
+      <div className={`relative ${isMobile ? 'h-[90vh] overflow-x-auto' : 'h-[70vh] lg:h-screen'}`}>
   {/* Este div es el que crecerá según el ancho natural de la imagen */}
   <div className="relative h-full w-max">
     <img
       src="/setupxokas1.png"
       alt="Mi Setup Gamer"
-      className="h-full w-auto"
+      className={`${isMobile ? 'w-auto h-full' : ''}`}
       onError={(e) => {
         e.target.style.display = 'none';
         e.target.nextSibling.style.display = 'flex';
@@ -386,16 +271,16 @@ const GamingSetupAffiliate = () => {
                         >
                           <div className="relative w-full h-full">
                             {/* Hotspot traslúcido */}
-                            {/* <div className="absolute inset-0 bg-black/50 backdrop-blur-[8px] rounded-lg group-hover:bg-black/60 group-active:scale-95 transition-all duration-300 shadow-xl group-hover:shadow-2xl">
+                            <div className="absolute inset-0 bg-black/50 backdrop-blur-[8px] rounded-lg group-hover:bg-black/60 group-active:scale-95 transition-all duration-300 shadow-xl group-hover:shadow-2xl">
   <div className="flex items-center justify-center h-full">
     <IconComponent className="w-5 h-5 text-white drop-shadow-lg group-hover:scale-110 transition-transform duration-300" />
   </div>
-</div> */}
-                            <div className="absolute inset-0 bg-white/50 backdrop-blur-[8px] rounded-lg border-2 border-white/80 group-hover:border-white/95 group-hover:bg-white/60 group-active:scale-95 transition-all duration-300 shadow-xl group-hover:shadow-2xl">
+</div>
+                            {/* <div className="absolute inset-0 bg-white/50 backdrop-blur-[8px] rounded-lg border-2 border-white/80 group-hover:border-white/95 group-hover:bg-white/60 group-active:scale-95 transition-all duration-300 shadow-xl group-hover:shadow-2xl">
                               <div className="flex items-center justify-center h-full">
                                 <IconComponent className="w-5 h-5  text-white drop-shadow-lg group-hover:scale-110 transition-transform duration-300" />
                               </div>
-                            </div>
+                            </div> */}
                             {/* Efecto de pulso */}
 
                             {/* Número del producto */}
@@ -482,18 +367,19 @@ const GamingSetupAffiliate = () => {
                   </div>
                 </div>
 
-                {/* {isMobile && (
+                {isMobile && (
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       window.open(hoveredProduct.amazonUrl, '_blank');
                     }}
-                    className="w-full bg-gray-900 text-white font-semibold py-3 px-4 rounded-lg hover:bg-gray-800 transition-colors duration-200 flex items-center justify-center space-x-2"
+                    style={{backgroundColor: '#373737'}}
+                    className="w-full  text-white  py-3 px-4 rounded-lg hover:bg-gray-800 transition-colors duration-200 flex items-center justify-center space-x-2"
                   >
                     <span>Ver en Amazon</span>
                     <ExternalLink className="w-4 h-4" />
                   </button>
-                )} */}
+                )}
               </div>
 
             </div>
@@ -561,13 +447,13 @@ const GamingSetupAffiliate = () => {
                         )}
                       </div>
 
-                      {/* <button
+                      <button
                         onClick={() => window.open(product.amazonUrl, '_blank')}
                         className="w-full bg-gray-900 text-white font-semibold py-3 px-4 rounded-lg hover:bg-gray-800 active:bg-gray-950 transition-colors duration-200 flex items-center justify-center space-x-2 group touch-manipulation"
                       >
                         <span>Ver en Amazon</span>
                         <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
-                      </button> */}
+                      </button>
                     </div>
                   </div>
                 );
