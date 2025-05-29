@@ -1,24 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { ExternalLink, Star, Monitor, Headphones, Mouse, Keyboard, Gamepad2, Mic, ChevronRight, Info, ArrowLeft, ArrowRight, Camera, Cpu, PcCase } from 'lucide-react';
-
-const GamingSetupAffiliate = () => {
-  const [hoveredProduct, setHoveredProduct] = useState(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isMobile, setIsMobile] = useState(false);
-  const [currentZone, setCurrentZone] = useState(0);
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
-  const products = [
+export  const products = [
     {
       id: 'monitor',
       name: 'ASUS ROG Swift OLED PG27AQDM',
@@ -51,7 +34,7 @@ const GamingSetupAffiliate = () => {
       desktop: { top: '40%', left: '70%' },
       mobile: { top: '35%', left: '70%' }
     },
-    hotspotSize: 'w-20 h-20',
+    hotspotSize: 'w-16 h-16',
     description: 'Procesador de 24 núcleos para tareas exigentes como streaming y gaming AAA',
     zone: 1
   },
@@ -69,7 +52,7 @@ const GamingSetupAffiliate = () => {
       desktop: { top: '25%', left: '60%' },
       mobile: { top: '20%', left: '65%' }
     },
-    hotspotSize: 'w-28 h-24',
+    hotspotSize: 'w-20 h-16',
     description: 'Caja con diseño panorámico ideal para setups vistosos y ventilación eficiente',
     zone: 1
   },
@@ -87,7 +70,7 @@ const GamingSetupAffiliate = () => {
       desktop: { top: '55%', left: '70%' },
       mobile: { top: '50%', left: '70%' }
     },
-      hotspotSize: 'w-32 h-20',
+      hotspotSize: 'w-20 h-12',
       description: 'Tarjeta gráfica de alto rendimiento ideal para gaming y streaming en 4K',
       zone: 1
     },
@@ -106,7 +89,7 @@ const GamingSetupAffiliate = () => {
       desktop: { top: '90%', left: '40%' },
       mobile: { top: '85%', left: '35%' }
     },
-      hotspotSize: 'w-16 h-12',
+      hotspotSize: 'w-12 h-8',
       description: 'Ratón inalámbrico profesional con precisión milimétrica',
       zone: 1
     },
@@ -124,7 +107,7 @@ const GamingSetupAffiliate = () => {
       desktop: { top: '90%', left: '25%' },
       mobile: { top: '85%', left: '20%' }
     },
-      hotspotSize: 'w-40 h-12',
+      hotspotSize: 'w-32 h-12',
       description: 'Teclado mecánico inalámbrico de perfil bajo y gran rendimiento',
       zone: 1
     },
@@ -142,11 +125,28 @@ const GamingSetupAffiliate = () => {
       desktop: { top: '35%', left: '40%' },
       mobile: { top: '35%', left: '40%' }
     },
-      hotspotSize: 'w-20 h-16',
+      hotspotSize: 'w-16 h-12',
       description: 'Cámara mirrorless compacta para contenido profesional',
       zone: 2
     }
   ]
+const GamingSetupAffiliate = () => {
+  const [hoveredProduct, setHoveredProduct] = useState(null);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isMobile, setIsMobile] = useState(false);
+  const [currentZone, setCurrentZone] = useState(0);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+ 
 
   // Zonas para navegación móvil
   const zones = [
@@ -230,7 +230,7 @@ const GamingSetupAffiliate = () => {
     <img
       src="/setupxokas1.png"
       alt="Mi Setup Gamer"
-      className={`${isMobile ? 'w-auto h-full' : ''}`}
+      className={`${isMobile ? 'w-auto h-full' : 'w-auto h-auto '}`}
       onError={(e) => {
         e.target.style.display = 'none';
         e.target.nextSibling.style.display = 'flex';
@@ -249,55 +249,58 @@ const GamingSetupAffiliate = () => {
                   <div className="absolute inset-0 bg-gradient-to-br from-black/5 via-transparent to-black/10"></div>
 
                   {/* Product Hotspots */}
-                  {products
-                    .map((product) => {
-                      const IconComponent = product.icon;
-                      const position = isMobile ? product.position.mobile : product.position.desktop;
+                 {products
+  .map((product) => {
+    const IconComponent = product.icon;
+    const position = isMobile ? product.position.mobile : product.position.desktop;
 
-                      return (
-                        <div
-                          key={product.id}
-                          className={`absolute  ${product.hotspotSize} cursor-pointer group touch-manipulation animate-pulse`}
-                          style={{
-                            top: position.top,
-                            left: position.left,
-                            transform: 'translate(-50%, -50%)',
-                            //  width: isMobile ? '70px' : '80px',
-                            //  height: isMobile ? '50px' : '60px',
-                          }}
-                          onMouseEnter={(e) => !isMobile && handleMouseEnter(product, e)}
-                          onMouseLeave={() => !isMobile && handleMouseLeave()}
-                          onClick={(e) => isMobile && handleMobileProductClick(product, e)}
-                        >
-                          <div className="relative w-full h-full">
-                            {/* Hotspot traslúcido */}
-                            <div className="absolute inset-0 bg-black/50 backdrop-blur-[8px] rounded-lg group-hover:bg-black/60 group-active:scale-95 transition-all duration-300 shadow-xl group-hover:shadow-2xl">
-  <div className="flex items-center justify-center h-full">
-    <IconComponent className="w-5 h-5 text-white drop-shadow-lg group-hover:scale-110 transition-transform duration-300" />
-  </div>
-</div>
-                            {/* <div className="absolute inset-0 bg-white/50 backdrop-blur-[8px] rounded-lg border-2 border-white/80 group-hover:border-white/95 group-hover:bg-white/60 group-active:scale-95 transition-all duration-300 shadow-xl group-hover:shadow-2xl">
-                              <div className="flex items-center justify-center h-full">
-                                <IconComponent className="w-5 h-5  text-white drop-shadow-lg group-hover:scale-110 transition-transform duration-300" />
-                              </div>
-                            </div> */}
-                            {/* Efecto de pulso */}
+    return (
+      <div
+        key={product.id}
+        className={`absolute  ${product.hotspotSize} cursor-pointer group`}
+        style={{
+          top: position.top,
+          left: position.left,
+          transform: 'translate(-50%, -50%)',
+          //  width: isMobile ? '70px' : '80px',
+          //  height: isMobile ? '50px' : '60px',
+        }}
+        onMouseEnter={(e) => !isMobile && handleMouseEnter(product, e)}
+        onMouseLeave={() => !isMobile && handleMouseLeave()}
+        onClick={(e) => isMobile && handleMobileProductClick(product, e)}
+      >
+        <div className="relative w-full h-full">
+          {/* Hotspot traslúcido versión oscura */}
+          <div 
+            className="absolute inset-0 backdrop-blur-[2px] rounded-lg transition-all duration-300 shadow-lg group-hover:shadow-xl"
+            style={{
+              backgroundColor: 'rgba(0, 0, 0, 0.3)',
+              animation: 'hotspotBlinkDark 3s ease-in-out infinite'
+            }}
+          >
+            <div className="flex items-center justify-center h-full">
+              <IconComponent className="w-4 h-4 sm:w-5 sm:h-5 text-white drop-shadow-lg group-hover:scale-110 transition-transform duration-300" />
+            </div>
+          </div>
+          
+          {/* Efecto de pulso */}
 
-                            {/* Número del producto */}
-                            <div className="absolute -top-1 -right-1 w-4 h-4 bg-gray-900/90 backdrop-blur-sm text-white text-xs rounded-full flex items-center justify-center font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-lg">
-                              {products.indexOf(product) + 1}
-                            </div>
+          {/* Número del producto */}
+          <div className="absolute -top-1 -right-1 w-4 h-4 bg-gray-900/90 backdrop-blur-sm text-white text-xs rounded-full flex items-center justify-center font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-lg">
+            {products.indexOf(product) + 1}
+          </div>
 
-                            {/* Nombre del producto en mobile */}
-                            <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2  transition-opacity duration-300">
-                              <div className="bg-black/80 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
-                                {product.category}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })}
+          {/* Nombre del producto en mobile */}
+          <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2  transition-opacity duration-300">
+            <div className="bg-black/80 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
+              {product.category}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  })
+}
                 </div>
 
                 {/* Scroll indicators for mobile */}
@@ -526,6 +529,17 @@ const GamingSetupAffiliate = () => {
         .scrollbar-hide::-webkit-scrollbar {
           display: none;
         }
+           @keyframes hotspotBlinkDark {
+            0% { 
+              background-color: rgba(0, 0, 0, 0.3);
+            }
+            50% { 
+              background-color: rgba(0, 0, 0, 0.8);
+            }
+            100% { 
+              background-color: rgba(0, 0, 0, 0.3);
+            }
+          }
       `}</style>
     </div>
   );
