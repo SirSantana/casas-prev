@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import MarkdownRenderer from './MarkdownRenderer';
 import Layout from '../Layout';
+import CotizacionForm from '../Cotizar/ComponentCotizar';
 
 const MarkdownViewer = ({ content, meta }) => {
   const articleFaqSchema = {
@@ -182,128 +183,7 @@ const MarkdownViewer = ({ content, meta }) => {
             )}
           </div>
 
-          {/* Sección de Contacto Mejorada - Ancho Completo */}
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 bg-gradient-to-br from-secondary to-secondary/50 rounded-2xl p-8 shadow-lg relative overflow-hidden">
-            {/* Elementos decorativos de fondo */}
-            <div className="absolute top-0 right-0 w-40 h-40 bg-accent/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
-            <div className="absolute bottom-0 left-0 w-20 h-20 bg-primary/10 rounded-full translate-y-1/2 -translate-x-1/2"></div>
-            <div className="absolute top-1/2 left-1/4 w-16 h-16 bg-terciary/5 rounded-full"></div>
-
-            <h2 className="text-2xl font-bold mb-3 text-primary flex items-center gap-2 relative z-10">
-              <Phone className="w-6 h-6 text-accent" />
-              ¿Necesitas más información?
-            </h2>
-
-            <p className="text-terciary mb-6 relative z-10">
-              Nuestros expertos en casas prefabricadas están listos para resolver todas tus dudas y ayudarte a encontrar el hogar perfecto para ti.
-            </p>
-
-            <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 relative z-10">
-              {/* Información de contacto */}
-              <div className="lg:col-span-2 bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-md">
-                <h3 className="text-lg font-semibold mb-4 text-primary border-b border-secondary/30 pb-2">Contáctanos</h3>
-
-                <div className="space-y-4">
-                  <div className="flex items-center gap-4 group hover:bg-secondary/10 p-2 rounded-lg transition-colors duration-300">
-                    <div className="bg-accent/20 p-3 rounded-full">
-                      <Phone className="w-5 h-5 text-primary" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-xs text-gray font-medium uppercase tracking-wider">Teléfono</p>
-                      <a href="tel:+573001234567" className="font-bold text-primary hover:text-terciary transition-colors duration-300">
-                        +57 300 123 4567
-                      </a>
-                    </div>
-                    <ArrowRight className="w-4 h-4 text-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  </div>
-
-                  <div className="flex items-center gap-4 group hover:bg-secondary/10 p-2 rounded-lg transition-colors duration-300">
-                    <div className="bg-accent/20 p-3 rounded-full">
-                      <Mail className="w-5 h-5 text-primary" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-xs text-gray font-medium uppercase tracking-wider">Correo</p>
-                      <a href="mailto:contacto@casasprefabricadas.com" className="font-bold text-primary hover:text-terciary transition-colors duration-300">
-                        contacto@casasprefabricadas.com
-                      </a>
-                    </div>
-                    <ArrowRight className="w-4 h-4 text-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  </div>
-
-                  <div className="flex items-center gap-4 group hover:bg-secondary/10 p-2 rounded-lg transition-colors duration-300">
-                    <div className="bg-accent/20 p-3 rounded-full">
-                      <MapPin className="w-5 h-5 text-primary" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-xs text-gray font-medium uppercase tracking-wider">Oficina</p>
-                      <p className="font-bold text-primary">Medellín, Colombia</p>
-                    </div>
-                    <ArrowRight className="w-4 h-4 text-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  </div>
-                </div>
-              </div>
-
-              {/* Formulario de contacto rápido */}
-              <div className="lg:col-span-3 bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-md">
-                <h3 className="text-lg font-semibold mb-4 text-primary border-b border-secondary/30 pb-2">Formulario rápido</h3>
-                <form className="space-y-4">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label htmlFor="name" className="text-xs font-medium text-gray mb-1 block">Nombre</label>
-                      <input
-                        type="text"
-                        id="name"
-                        className="w-full px-4 py-2 rounded-lg border border-secondary/30 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all duration-300"
-                        placeholder="Tu nombre"
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="email" className="text-xs font-medium text-gray mb-1 block">Correo electrónico</label>
-                      <input
-                        type="email"
-                        id="email"
-                        className="w-full px-4 py-2 rounded-lg border border-secondary/30 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all duration-300"
-                        placeholder="tucorreo@ejemplo.com"
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <label htmlFor="message" className="text-xs font-medium text-gray mb-1 block">Mensaje</label>
-                    <textarea
-                      id="message"
-                      rows="3"
-                      className="w-full px-4 py-2 rounded-lg border border-secondary/30 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all duration-300"
-                      placeholder="¿En qué podemos ayudarte?"
-                    ></textarea>
-                  </div>
-                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-                    <label className="flex items-center gap-2 text-sm text-gray cursor-pointer group">
-                      <input type="checkbox" className="w-4 h-4 rounded border-secondary/30 text-primary focus:ring-primary" />
-                      <span className="group-hover:text-primary transition-colors duration-300">Acepto la política de privacidad</span>
-                    </label>
-                    <button
-                      type="submit"
-                      className="inline-flex items-center justify-center gap-2 bg-primary text-white font-medium py-2 px-6 rounded-full hover:bg-terciary transition-all duration-300 shadow-md hover:shadow-lg"
-                    >
-                      Enviar
-                      <ArrowRight className="w-4 h-4" />
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </div>
-
-            {/* Botón de contacto alternativo */}
-            <div className="mt-6 flex justify-center relative z-10">
-              <a
-                href="/contacto"
-                className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm text-primary font-medium py-3 px-6 rounded-full hover:bg-white/40 transition-all duration-300 border border-primary/20"
-              >
-                Ver más opciones de contacto
-                <ArrowRight className="w-5 h-5" />
-              </a>
-            </div>
-          </div>
+              <CotizacionForm />
 
 
 

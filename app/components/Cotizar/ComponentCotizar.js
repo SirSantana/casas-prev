@@ -87,7 +87,7 @@ export default function CotizacionForm() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
       <div className="w-full max-w-md rounded-2xl bg-white p-6 sm:p-8 shadow-2xl relative overflow-hidden">
         {/* Elemento decorativo */}
         <div className="absolute -top-24 -right-24 w-48 h-48 rounded-full bg-secondary opacity-60 blur-xl"></div>

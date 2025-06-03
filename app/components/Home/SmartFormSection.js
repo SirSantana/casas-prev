@@ -78,7 +78,7 @@ export default function SmartFormSection() {
               <div>
                 <h4 className="text-lg font-semibold text-secondary ">Paso 3: Recibe propuestas</h4>
                 <p className="text-white text-sm">
-                  Las empresas te contactarán directamente por WhatsApp con cotizaciones personalizadas.
+                  Las empresas te contactarán directamente por WhatsApp con cotizaciones personalizadas
                 </p>
               </div>
             </div>
