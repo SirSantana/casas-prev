@@ -146,7 +146,7 @@ const GamingSetupAffiliate = () => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
- 
+
 
   // Zonas para navegación móvil
   const zones = [
@@ -282,7 +282,7 @@ const GamingSetupAffiliate = () => {
               <IconComponent className="w-4 h-4 sm:w-5 sm:h-5 text-white drop-shadow-lg group-hover:scale-110 transition-transform duration-300" />
             </div>
           </div>
-          
+
           {/* Efecto de pulso */}
 
           {/* Número del producto */}
@@ -546,3 +546,4 @@ const GamingSetupAffiliate = () => {
 };
 
 export default GamingSetupAffiliate;
+

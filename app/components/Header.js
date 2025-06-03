@@ -27,9 +27,9 @@ const Navbar = () => {
 
         {/* Links desktop */}
         <div className="hidden md:flex items-center space-x-6 text-sm font-medium text-terciary">
-          <Link href="/casas" className="hover:text-primary transition">Casas</Link>
+          {/* <Link href="/casas" className="hover:text-primary transition">Casas</Link> */}
           <Link href="/empresas/registro" className="hover:text-primary transition">Tienes una Empresa?</Link>
-          <Link href="/empresas/registro" className="hover:text-primary transition">Contacto</Link>
+          {/* <Link href="/empresas/registro" className="hover:text-primary transition">Contacto</Link> */}
           <Link href="/cotizar" className=" ml-4 bg-primary text-white px-4 py-2 rounded-xl hover:bg-primary/80 transition-all">
             Cotizar
           </Link>

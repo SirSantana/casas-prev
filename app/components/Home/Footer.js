@@ -1,12 +1,16 @@
+'use client';
 import { ArrowRight, Facebook, Instagram, Twitter, MapPin, Phone, Mail } from 'lucide-react';
 import CTAFinal from "./CTA";
+import CotizarModal from '../Modal/CotizacionModal';
+import { useState } from 'react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
-  
+  const [openModal, setOpenModal] = useState(false);
+
   return (
     <>
-      <CTAFinal />
+      <CTAFinal openModal={openModal} setOpenModal={setOpenModal} />
       <footer className="bg-[#261B37] text-gray-300 pt-12 pb-8">
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
@@ -61,7 +65,7 @@ const Footer = () => {
                 </li>
                 <li>
                   <a href="/cotizar" className="hover:text-white transition-colors flex items-center gap-1 group">
-                    <span>Solicitar Cotización</span>
+                    <span>Quiero construir una casa</span>
                     <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-all" />
                   </a>
                 </li>
@@ -99,6 +103,9 @@ const Footer = () => {
             </div>
           </div>
         </div>
+        {
+          openModal && <CotizarModal openModal={openModal} setOpenModal={setOpenModal} />
+        }
       </footer>
     </>
   );
