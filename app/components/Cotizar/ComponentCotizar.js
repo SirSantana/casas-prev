@@ -4,6 +4,7 @@ import Button from '@/components/Button/Button';
 import Input from '@/components/Input/Input';
 import { Send, MapPin, Mail, User, Phone, ArrowRight, Check, ChevronRight, CheckCircle } from 'lucide-react';
 import { useState } from 'react';
+import { supabase } from '../../../lib/supabaseClient';
 
 
 export default function CotizacionForm() {
@@ -38,33 +39,40 @@ export default function CotizacionForm() {
   };
 
   const handleSubmit = async () => {
-    setLoading(true);
-    setSuccess(false);
-    
-    try {
-      // Simulamos la llamada a la base de datos
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      const { nombre, telefono, departamento, mensaje } = formState;
-      console.log('Datos enviados:', { nombre, telefono, departamento, mensaje });
-      
-      setLoading(false);
-      setSuccess(true);
-      setFormState({ nombre: '', telefono: '', departamento: '', mensaje: '' });
-      
-      // Reset después de 3 segundos para demo
-      setTimeout(() => {
-        setSuccess(false);
-        setStep(1);
-        setFormSubmitted(false);
-      }, 3000);
-      
-    } catch (err) {
-      console.error('Error al enviar:', err);
-      setLoading(false);
-      alert('Hubo un error al enviar tu cotización. Intenta nuevamente.');
-    }
-  };
+ setLoading(true);
+ setSuccess(false);
+ 
+ try {
+   const { nombre, telefono, departamento, mensaje } = formState;
+
+   const { error } = await supabase.from('cotizaciones').insert([
+     {
+       nombre,
+       telefono,
+       departamento,
+       mensaje,
+     }
+   ]);
+   
+   setLoading(false);
+   if (error) throw error;
+   
+   setSuccess(true);
+   setFormState({ nombre: '', telefono: '', departamento: '', mensaje: '' });
+   
+   // Reset después de 3 segundos
+   setTimeout(() => {
+     setSuccess(false);
+     setStep(1);
+     setFormSubmitted(false);
+   }, 3000);
+   
+ } catch (err) {
+   console.error('Error al guardar en Supabase:', err.message);
+   setLoading(false);
+   alert('Hubo un error al enviar tu cotización. Intenta nuevamente.');
+ }
+};
 
   const resetForm = () => {
     setStep(1);
