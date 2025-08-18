@@ -126,7 +126,8 @@ const ApartmentRental = () => {
   const contactWhatsApp = () => {
     const phoneNumber = "573138562763"; // Número de Colombia con código de país
     const message = encodeURIComponent(
-      "Hola, estoy interesado en el inmueble. ¿Podrías darme más información?"
+      "Hola, estoy interesado en el inmueble. ¿Podrías darme más información? " 
+       + "https://www.prefabcasas.com/apto-rionegro"
     );
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
     window.open(whatsappUrl, "_blank");
