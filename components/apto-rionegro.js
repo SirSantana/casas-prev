@@ -28,6 +28,7 @@ import {
   Shirt,
   Zap,
   Bus,
+  PenTool,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -98,6 +99,7 @@ const ApartmentRental = () => {
       label: "Servicios públicos independientes (se pagan según consumo)",
     },
     { icon: Bus, label: "A 3 minutos de estaciones de TransMilenio" },
+    { icon: PenTool, label: "1-6 años de construido" },
   ];
 
   const nextImage = () => {
