@@ -31,7 +31,7 @@ import {
   PenTool,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-
+import QRPropertyInvitation from "./QR-invitation";
 
 const ApartmentRental = () => {
   const [currentImage, setCurrentImage] = useState(0);
@@ -129,8 +129,8 @@ const ApartmentRental = () => {
   const contactWhatsApp = () => {
     const phoneNumber = "573138562763"; // Número de Colombia con código de país
     const message = encodeURIComponent(
-      "Hola, estoy interesado en el inmueble. ¿Podrías darme más información? " 
-       + "https://www.prefabcasas.com/apto-rionegro"
+      "Hola, estoy interesado en el inmueble. ¿Podrías darme más información? " +
+        "https://www.prefabcasas.com/apto-rionegro"
     );
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
     window.open(whatsappUrl, "_blank");
@@ -143,7 +143,6 @@ const ApartmentRental = () => {
   };
   return (
     <>
-      
       <div className={styles.app}>
         {/* Header */}
         <header className={styles.header}>
@@ -422,23 +421,23 @@ const ApartmentRental = () => {
               {/* Map */}
               <div>
                 <h2 className={styles.sectionTitle}>Ubicación Estratégica</h2>
-                    <div
-                      style={{
-                        width: "100%",
-                        height: "400px",
-                      }}
-                    >
-                      <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3976.4098876389776!2d-74.08947008562436!3d4.676899943534748!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f9b0e0e0e0e0e%3A0x0e0e0e0e0e0e0e0e!2sCarrera%2057%20%2394-25%2C%20Bogot%C3%A1%2C%20Colombia!5e0!3m2!1ses!2sco!4v1692123456789!5m2!1ses!2sco"
-                        width="100%"
-                        height="100%"
-                        style={{ border: 0, borderRadius: "8px" }}
-                        allowFullScreen=""
-                        loading="lazy"
-                        referrerPolicy="no-referrer-when-downgrade"
-                        title="Ubicación del inmueble - Carrera 57 #94-25, Bogotá"
-                      ></iframe>
-                    </div>
+                <div
+                  style={{
+                    width: "100%",
+                    height: "400px",
+                  }}
+                >
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3976.4098876389776!2d-74.08947008562436!3d4.676899943534748!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f9b0e0e0e0e0e%3A0x0e0e0e0e0e0e0e0e!2sCarrera%2057%20%2394-25%2C%20Bogot%C3%A1%2C%20Colombia!5e0!3m2!1ses!2sco!4v1692123456789!5m2!1ses!2sco"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0, borderRadius: "8px" }}
+                    allowFullScreen=""
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title="Ubicación del inmueble - Carrera 57 #94-25, Bogotá"
+                  ></iframe>
+                </div>
               </div>
             </div>
 
@@ -467,57 +466,13 @@ const ApartmentRental = () => {
                     Llamar Ahora
                   </button>
                 </div>
-
-                {/* Contact Form
-                <div>
-                  <div className={styles.formGroup}>
-                    <input
-                      type="text"
-                      name="name"
-                      placeholder="Tu nombre completo"
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      className={styles.formInput}
-                    />
-
-                    <input
-                      type="email"
-                      name="email"
-                      placeholder="tu@email.com"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      className={styles.formInput}
-                    />
-
-                    <input
-                      type="tel"
-                      name="phone"
-                      placeholder="+57 xxx xxx xxxx"
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      className={styles.formInput}
-                    />
-
-                    <textarea
-                      name="message"
-                      placeholder="Cuéntanos sobre tus preferencias o preguntas..."
-                      value={formData.message}
-                      onChange={handleInputChange}
-                      rows={4}
-                      className={styles.formTextarea}
-                    />
-
-                    <button
-                      onClick={handleSubmit}
-                      className={`${styles.btn} ${styles.btnPrimary}`}
-                    >
-                      Enviar Mensaje
-                    </button>
-                  </div>
-                </div> */}
               </div>
             </div>
+            
           </section>
+          <div><QRPropertyInvitation />
+
+            </div>
         </main>
 
         {/* Image Modal */}
