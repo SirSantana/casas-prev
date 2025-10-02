@@ -1,415 +1,375 @@
-'use client';
-import { useState } from 'react';
-import { ExternalLink, Star, Monitor, Headphones, Mouse, Keyboard, Gamepad2, Mic, ChevronRight, Info } from 'lucide-react';
-import { products } from './AfiliateComponent';
+"use client";
+import React, { useState, useRef, useEffect } from "react";
 
-const GamingSetupAffiliate2 = () => {
-  const [hoveredProduct, setHoveredProduct] = useState(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isMobile, setIsMobile] = useState(false);
+export default function InteractiveRoomViewer() {
+  const [hoveredPoint, setHoveredPoint] = useState(null);
+  const [transform, setTransform] = useState({ x: 0, y: 0, scale: 1 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const [lastTouchDistance, setLastTouchDistance] = useState(0);
+  const [imageDimensions, setImageDimensions] = useState({ width: 0, height: 0 });
+  const containerRef = useRef(null);
+  const imageRef = useRef(null);
 
+  // Puntos de interés con sus posiciones (en porcentaje)
+  const hotspots = [
+    {
+      id: 1,
+      x: 30,
+      y: 20,
+      label: "Nanoleaf Panels",
+      icon: "🔷",
+      description: "Custom LED wall decoration",
+    },
+    {
+      id: 2,
+      x: 50,
+      y: 50,
+      label: "Gaming Monitors",
+      icon: "🖥️",
+      description: "Triple monitor setup",
+    },
+    {
+      id: 3,
+      x: 70,
+      y: 45,
+      label: "Gaming PC",
+      icon: "💻",
+      description: "Custom water-cooled build",
+    },
+    {
+      id: 4,
+      x: 80,
+      y: 60,
+      label: "Gaming Chair",
+      icon: "🪑",
+      description: "Ergonomic gaming chair",
+    },
+    {
+      id: 5,
+      x: 20,
+      y: 30,
+      label: "Wall Plants",
+      icon: "🌿",
+      description: "Decorative hanging plants",
+    },
+  ];
 
-  const handleMouseEnter = (product, event) => {
-    // if (window.innerWidth > 768) {
-    setHoveredProduct(product);
-    setMousePosition({ x: event.clientX, y: event.clientY });
-    // }
+  // Cargar dimensiones de la imagen
+  useEffect(() => {
+    const img = imageRef.current;
+    if (img) {
+      const handleLoad = () => {
+        setImageDimensions({
+          width: img.naturalWidth,
+          height: img.naturalHeight,
+        });
+      };
+
+      if (img.complete) {
+        handleLoad();
+      } else {
+        img.addEventListener('load', handleLoad);
+        return () => img.removeEventListener('load', handleLoad);
+      }
+    }
+  }, []);
+
+  const constrainTransform = (x, y, scale) => {
+    if (!containerRef.current || !imageDimensions.width) return { x, y };
+
+    const container = containerRef.current;
+    const containerWidth = container.clientWidth;
+    const containerHeight = container.clientHeight;
+    
+    // Calcular el tamaño de la imagen - SIEMPRE llenar el alto
+    const imageAspect = imageDimensions.width / imageDimensions.height;
+    
+    // La imagen siempre ocupa el 100% del alto
+    const displayHeight = containerHeight;
+    const displayWidth = containerHeight * imageAspect;
+    
+    // Aplicar escala
+    const scaledWidth = displayWidth * scale;
+    const scaledHeight = displayHeight * scale;
+
+    // Calcular límites
+    const maxX = Math.max(0, (scaledWidth - containerWidth) / 2);
+    const maxY = Math.max(0, (scaledHeight - containerHeight) / 2);
+
+    // Restringir el movimiento
+    const constrainedX = Math.min(Math.max(x, -maxX), maxX);
+    const constrainedY = Math.min(Math.max(y, -maxY), maxY);
+
+    return { x: constrainedX, y: constrainedY };
   };
 
-  const handleMouseMove = (event) => {
-    if (hoveredProduct && window.innerWidth > 768) {
-      setMousePosition({ x: event.clientX, y: event.clientY });
+  // Mouse events
+  const handleMouseDown = (e) => {
+    e.preventDefault();
+    setIsDragging(true);
+    setDragStart({
+      x: e.clientX - transform.x,
+      y: e.clientY - transform.y,
+    });
+  };
+
+  const handleMouseMove = (e) => {
+    if (isDragging) {
+      const newX = e.clientX - dragStart.x;
+      const newY = e.clientY - dragStart.y;
+      const constrained = constrainTransform(newX, newY, transform.scale);
+      
+      setTransform({
+        ...transform,
+        x: constrained.x,
+        y: constrained.y,
+      });
     }
   };
 
-  const handleMouseLeave = () => {
-    setHoveredProduct(null);
+  const handleMouseUp = () => {
+    setIsDragging(false);
   };
 
-  const renderStars = (rating) => {
-    return (
-      <div className="flex items-center space-x-1">
-        {[...Array(5)].map((_, i) => (
-          <Star
-            key={i}
-            className={`w-4 h-4 ${i < Math.floor(rating)
-              ? 'text-amber-400 fill-current'
-              : 'text-gray-300'
-              }`}
-          />
-        ))}
-        <span className="text-sm text-gray-600 ml-2 font-medium">{rating}</span>
-      </div>
-    );
+  // Touch events para mobile
+  const getTouchDistance = (touches) => {
+    const dx = touches[0].clientX - touches[1].clientX;
+    const dy = touches[0].clientY - touches[1].clientY;
+    return Math.sqrt(dx * dx + dy * dy);
+  };
+
+  const handleTouchStart = (e) => {
+    if (e.touches.length === 1) {
+      setIsDragging(true);
+      setDragStart({
+        x: e.touches[0].clientX - transform.x,
+        y: e.touches[0].clientY - transform.y,
+      });
+    } else if (e.touches.length === 2) {
+      setLastTouchDistance(getTouchDistance(e.touches));
+    }
+  };
+
+  const handleTouchMove = (e) => {
+    e.preventDefault();
+    
+    if (e.touches.length === 1 && isDragging) {
+      const newX = e.touches[0].clientX - dragStart.x;
+      const newY = e.touches[0].clientY - dragStart.y;
+      const constrained = constrainTransform(newX, newY, transform.scale);
+      
+      setTransform({
+        ...transform,
+        x: constrained.x,
+        y: constrained.y,
+      });
+    } else if (e.touches.length === 2) {
+      const distance = getTouchDistance(e.touches);
+      if (lastTouchDistance > 0) {
+        const delta = distance / lastTouchDistance;
+        const newScale = Math.min(Math.max(transform.scale * delta, 1), 3);
+        
+        const centerX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+        const centerY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+        
+        const rect = containerRef.current.getBoundingClientRect();
+        const mouseX = centerX - rect.left;
+        const mouseY = centerY - rect.top;
+        
+        const scaleRatio = newScale / transform.scale;
+        const newX = mouseX - (mouseX - transform.x) * scaleRatio;
+        const newY = mouseY - (mouseY - transform.y) * scaleRatio;
+        
+        const constrained = constrainTransform(newX, newY, newScale);
+        setTransform({ x: constrained.x, y: constrained.y, scale: newScale });
+      }
+      setLastTouchDistance(distance);
+    }
+  };
+
+  const handleTouchEnd = () => {
+    setIsDragging(false);
+    setLastTouchDistance(0);
+  };
+
+  const handleWheel = (e) => {
+    e.preventDefault();
+    const delta = e.deltaY > 0 ? 0.95 : 1.05;
+    const newScale = Math.min(Math.max(transform.scale * delta, 1), 3);
+    
+    const rect = containerRef.current.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    
+    const scaleRatio = newScale / transform.scale;
+    const newX = mouseX - (mouseX - transform.x) * scaleRatio;
+    const newY = mouseY - (mouseY - transform.y) * scaleRatio;
+    
+    const constrained = constrainTransform(newX, newY, newScale);
+    setTransform({ x: constrained.x, y: constrained.y, scale: newScale });
+  };
+
+  const handleZoomIn = () => {
+    const newScale = Math.min(transform.scale * 1.3, 3);
+    const constrained = constrainTransform(transform.x, transform.y, newScale);
+    setTransform({ x: constrained.x, y: constrained.y, scale: newScale });
+  };
+
+  const handleZoomOut = () => {
+    const newScale = Math.max(transform.scale * 0.7, 1);
+    const constrained = constrainTransform(transform.x, transform.y, newScale);
+    setTransform({ x: constrained.x, y: constrained.y, scale: newScale });
+  };
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (container) {
+      container.addEventListener("wheel", handleWheel, { passive: false });
+      return () => container.removeEventListener("wheel", handleWheel);
+    }
+  }, [transform, imageDimensions]);
+
+  const resetView = () => {
+    setTransform({ x: 0, y: 0, scale: 1 });
   };
 
   return (
-    <div className="min-h-screen bg-white text-zinc-600">
-      {/* Header */}
-      <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-xl border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-3">
-              <div className="p-2 bg-gray-900 rounded-lg">
-                <Gamepad2 className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h1 className="text-xl font-bold ">ProGamer</h1>
-                <p className="text-xs text-gray-500 hidden sm:block">Setup Collection</p>
-              </div>
-            </div>
-            <div className="hidden sm:flex items-center space-x-2 text-sm text-gray-600">
-              <Info className="w-4 h-4" />
-              <span>Productos seleccionados</span>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Hero Section */}
-        <section className="py-12 lg:py-20">
-          <div className="text-center max-w-4xl mx-auto">
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-              Setup Gaming
-              <span className="block text-gray-600">Profesional</span>
-            </h2>
-            <p className="text-lg sm:text-xl text-gray-600 mb-8 leading-relaxed">
-              Descubre cada componente de mi setup gaming personal.
-              <span className="hidden sm:inline"> Haz hover sobre los productos para ver detalles.</span>
-            </p>
-            <div className="inline-flex items-center px-4 py-2 bg-gray-50 rounded-full text-sm text-gray-700 border border-gray-200">
-              ✨ Precios especiales disponibles
-            </div>
-          </div>
-        </section>
-
-        {/* Gaming Setup Interactive Image */}
-        <section className="mb-20">
-          <div className="relative max-w-6xl mx-auto">
-            <div
-              className="relative bg-gray-50 rounded-2xl lg:rounded-3xl overflow-hidden shadow-xl border border-gray-200"
-              onMouseMove={handleMouseMove}
-            >
-              {/* Setup Image Container */}
-              <div className="relative w-full h-[400px] sm:h-[500px] lg:h-[600px]">
-                {/* Tu imagen del setup */}
-                <img
-                  src="/setupxokas1.png"
-                  alt="Mi Setup Gamer"
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    e.target.style.display = 'none';
-                    e.target.nextSibling.style.display = 'flex';
-                  }}
-                />
-                {/* Fallback placeholder */}
-                <div className="hidden w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 items-center justify-center">
-                  <div className="text-center text-gray-500">
-                    <Monitor className="w-16 h-16 mx-auto mb-4 opacity-50" />
-                    <p className="text-lg font-medium">Setup Gaming</p>
-                    <p className="text-sm">Imagen del setup aquí</p>
-                  </div>
-                </div>
-
-                {/* Overlay sutil para mejor contraste */}
-                <div className="absolute inset-0 bg-gradient-to-br from-black/5 via-transparent to-black/10"></div>
-
-                {/* Product Hotspots - Visible en todas las pantallas */}
-                {products
-  .map((product) => {
-    const IconComponent = product.icon;
-    const position = isMobile ? product.position.mobile : product.position.desktop;
-
-    return (
-      <div
-        key={product.id}
-        className={`absolute  ${product.hotspotSize} cursor-pointer group`}
-        style={{
-          top: position.top,
-          left: position.left,
-          transform: 'translate(-50%, -50%)',
-          //  width: isMobile ? '70px' : '80px',
-          //  height: isMobile ? '50px' : '60px',
-        }}
-        onMouseEnter={(e) => !isMobile && handleMouseEnter(product, e)}
-        onMouseLeave={() => !isMobile && handleMouseLeave()}
-        onClick={(e) => isMobile && handleMobileProductClick(product, e)}
-      >
-        <div className="relative w-full h-full">
-          {/* Hotspot traslúcido */}
-          {/* <div className="absolute inset-0 bg-black/50 backdrop-blur-[8px] rounded-lg group-hover:bg-black/60 group-active:scale-95 transition-all duration-300 shadow-xl group-hover:shadow-2xl">
-            <div className="flex items-center justify-center h-full">
-              <IconComponent className="w-5 h-5 text-white drop-shadow-lg group-hover:scale-110 transition-transform duration-300" />
-            </div>
-          </div> */}
-          
-          <div 
-            className="absolute inset-0 backdrop-blur-[2px] rounded-lg border-2 group-active:border-white/80 transition-all duration-300 shadow-lg group-active:shadow-xl"
-            style={{
-              backgroundColor: 'rgba(255, 255, 255, 0.2)',
-              borderColor: 'rgba(255, 255, 255, 0.4)',
-              animation: 'hotspotBlink 3s ease-in-out infinite'
-            }}
-          >
-            <div className="flex items-center justify-center h-full">
-              <IconComponent className="w-4 h-4 sm:w-5 sm:h-5 text-white drop-shadow-lg group-hover:scale-110 transition-transform duration-300" />
-            </div>
-          </div>
-          {/* <div 
-            className="absolute inset-0 backdrop-blur-[2px] rounded-lg transition-all duration-300 shadow-lg group-active:shadow-xl"
-            style={{
-              backgroundColor: 'rgba(0, 0, 0, 0.3)',
-              animation: 'hotspotBlinkDark 3s ease-in-out infinite'
-            }}
-          >
-            <div className="flex items-center justify-center h-full">
-              <IconComponent className="w-4 h-4 sm:w-5 sm:h-5 text-white drop-shadow-lg group-hover:scale-110 transition-transform duration-300" />
-            </div>
-          </div> */}
-          
-          {/* Efecto de pulso */}
-
-          {/* Número del producto */}
-          <div className="absolute -top-1 -right-1 w-4 h-4 bg-gray-900/90 backdrop-blur-sm text-white text-xs rounded-full flex items-center justify-center font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-lg">
-            {products.indexOf(product) + 1}
-          </div>
-
-          {/* Nombre del producto en mobile */}
-          <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2  transition-opacity duration-300">
-            <div className="bg-black/80 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
-              {product.category}
-            </div>
-          </div>
-        </div>
-        
-        <style jsx>{`
-          @keyframes hotspotBlink {
-            0% { 
-              background-color: rgba(255, 255, 255, 0.2);
-              border-color: rgba(255, 255, 255, 0.4);
-            }
-            50% { 
-              background-color: rgba(255, 255, 255, 0.45);
-              border-color: rgba(255, 255, 255, 0.7);
-            }
-            100% { 
-              background-color: rgba(255, 255, 255, 0.2);
-              border-color: rgba(255, 255, 255, 0.4);
-            }
-          }
-            @keyframes hotspotBlinkDark {
-            0% { 
-              background-color: rgba(0, 0, 0, 0.3);
-            }
-            50% { 
-              background-color: rgba(0, 0, 0, 0.5);
-            }
-            100% { 
-              background-color: rgba(0, 0, 0, 0.3);
-            }
-          }
-        `}</style>
+    <div className="w-full h-screen bg-primary overflow-hidden relative">
+      {/* Controles */}
+      <div className="absolute top-4 right-4 z-20 flex flex-col gap-2">
+        <button
+          onClick={handleZoomIn}
+          disabled={transform.scale >= 3}
+          className="bg-secondary hover:bg-accent text-primary w-12 h-12 rounded-xl shadow-lg transition-all disabled:opacity-40 disabled:cursor-not-allowed font-bold text-xl flex items-center justify-center active:scale-95"
+        >
+          +
+        </button>
+        <button
+          onClick={handleZoomOut}
+          disabled={transform.scale <= 1}
+          className="bg-secondary hover:bg-accent text-primary w-12 h-12 rounded-xl shadow-lg transition-all disabled:opacity-40 disabled:cursor-not-allowed font-bold text-xl flex items-center justify-center active:scale-95"
+        >
+          −
+        </button>
+        <button
+          onClick={resetView}
+          className="bg-terciary hover:bg-primary text-secondary px-3 py-2 rounded-xl shadow-lg transition-all text-xs font-semibold active:scale-95"
+        >
+          Reset
+        </button>
       </div>
-    );
-  })
-}
-              </div>
 
-              {/* Instruction text mejorado */}
-              <div className="text-center py-6 bg-gradient-to-r from-gray-50/50 via-white/80 to-gray-50/50 border-t border-gray-200">
-                <p className="text-gray-600 text-sm font-medium flex items-center justify-center space-x-2">
-                  <span className="hidden sm:inline">🖱️ Pasa el cursor sobre los productos</span>
-                  <span className="sm:hidden">👆 Toca los productos</span>
-                  <span className="hidden sm:inline">para ver detalles y precios</span>
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
+      {/* Instrucciones - Desktop */}
+      <div className="absolute top-4 left-4 z-20 bg-primary/90 text-secondary px-4 py-2 rounded-xl shadow-lg backdrop-blur-sm hidden sm:block">
+        <p className="text-sm font-medium">Arrastra • Scroll para zoom</p>
+      </div>
 
-        {/* Product Hover Card for Desktop */}
-        {hoveredProduct && (
-          <div
-            className="fixed z-50 pointer-events-none "
-            style={{
-              left: mousePosition.x + 20,
-              top: mousePosition.y - 140,
-            }}
-          >
-            <div className="bg-white rounded-xl shadow-2xl border border-gray-200 p-6 w-80 transform animate-in slide-in-from-bottom-2 duration-200">
-              <div className="space-y-4">
-                <div>
-                  <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider mb-1">
-                    {hoveredProduct.category}
-                  </p>
-                  <h3 className="font-bold text-gray-900 text-lg leading-tight mb-2">
-                    {hoveredProduct.name}
-                  </h3>
-                  <p className="text-sm text-gray-600 leading-relaxed">
-                    {hoveredProduct.description}
-                  </p>
-                </div>
+      {/* Instrucciones mobile */}
+      <div className="absolute top-4 left-4 z-20 bg-primary/90 text-secondary px-4 py-2 rounded-xl shadow-lg backdrop-blur-sm sm:hidden">
+        <p className="text-xs font-medium">Arrastra • Pinch para zoom</p>
+      </div>
 
-                <div className="flex items-center justify-between">
-                  {renderStars(hoveredProduct.rating)}
-                  <div className="text-right">
-                    <div className="text-xl font-bold text-gray-900">
-                      {hoveredProduct.price}
-                    </div>
-                    {hoveredProduct.originalPrice && (
-                      <div className="text-sm text-gray-400 line-through">
-                        {hoveredProduct.originalPrice}
-                      </div>
-                    )}
-                  </div>
-                </div>
+      {/* Contenedor de la imagen */}
+      <div
+        ref={containerRef}
+        className={`w-full h-full relative touch-none flex items-center justify-center ${
+          isDragging ? "cursor-grabbing" : "cursor-grab"
+        }`}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
+        <div
+          className="relative flex items-center justify-center"
+          style={{
+            transform: `translate(${transform.x}px, ${transform.y}px) scale(${transform.scale})`,
+            transformOrigin: "center center",
+            transition: isDragging ? "none" : "transform 0.1s ease-out",
+            width: "100%",
+            height: "100%",
+          }}
+        >
+          {/* Imagen de fondo */}
+          <img
+            ref={imageRef}
+            src="/setup1.jpg"
+            alt="Gaming Setup"
+            className="max-w-none h-full select-none"
+            draggable={false}
+          />
 
-                {/* 
-                <button
-                  onClick={() => window.open(hoveredProduct.amazonUrl, '_blank')}
-                  className="w-full bg-gray-900 text-white font-semibold py-3 px-4 rounded-lg hover:bg-gray-800 transition-colors duration-200 flex items-center justify-center space-x-2 pointer-events-auto"
-                >
-                  <span>Ver en Amazon</span>
-                  <ExternalLink className="w-4 h-4" />
-                </button> */}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Products Grid */}
-        <section>
-          <div className="text-center mb-12">
-            <h3 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
-              Productos del Setup
-            </h3>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Cada producto ha sido cuidadosamente seleccionado para ofrecer el mejor rendimiento y calidad.
-            </p>
-          </div>
-
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {products.map((product) => {
-              const IconComponent = product.icon;
-              return (
+          {/* Hotspots - Solo visibles si la imagen está cargada */}
+          {imageDimensions.width > 0 && hotspots.map((point) => (
+            <div
+              key={point.id}
+              className="absolute z-10"
+              style={{
+                left: `${point.x}%`,
+                top: `${point.y}%`,
+                transform: "translate(-50%, -50%)",
+              }}
+              onMouseEnter={() => setHoveredPoint(point.id)}
+              onMouseLeave={() => setHoveredPoint(null)}
+              onClick={() => setHoveredPoint(hoveredPoint === point.id ? null : point.id)}
+            >
+              {/* Punto pulsante */}
+              <div className="relative">
                 <div
-                  key={product.id}
-                  className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-xl hover:border-gray-300 transition-all duration-300 group"
+                  className={`w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-accent border-2 border-secondary flex items-center justify-center cursor-pointer transition-all shadow-lg ${
+                    hoveredPoint === point.id ? "scale-125 bg-secondary border-accent" : ""
+                  }`}
+                  style={{ pointerEvents: "auto" }}
                 >
-                  <div className="flex items-start space-x-4 mb-4">
-                    <div className="p-3 bg-gray-50 rounded-lg group-hover:bg-gray-900 group-hover:text-white transition-colors duration-300">
-                      <IconComponent className="w-5 h-5" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider mb-1">
-                        {product.category}
-                      </p>
-                      <h4 className="font-bold text-gray-900 text-lg leading-tight mb-2">
-                        {product.name}
-                      </h4>
-                      <p className="text-sm text-gray-600 leading-relaxed">
-                        {product.description}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      {renderStars(product.rating)}
-                      <span className="text-xs text-gray-500">
-                        ({product.reviews.toLocaleString()} reviews)
-                      </span>
-                    </div>
-
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <span className="text-2xl font-bold text-gray-900">{product.price}</span>
-                        {product.originalPrice && (
-                          <span className="text-sm text-gray-400 line-through ml-2">
-                            {product.originalPrice}
-                          </span>
-                        )}
-                      </div>
-                      {product.originalPrice && (
-                        <div className="px-2 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded-full">
-                          Oferta
-                        </div>
-                      )}
-                    </div>
-
-                    <button
-                      onClick={() => window.open(product.amazonUrl, '_blank')}
-                      className="w-full bg-gray-900 text-white font-semibold py-3 px-4 rounded-lg hover:bg-gray-800 transition-colors duration-200 flex items-center justify-center space-x-2 group"
-                    >
-                      <span>Ver en Amazon</span>
-                      <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
-                    </button>
-                  </div>
+                  <span className="text-xl sm:text-2xl">{point.icon}</span>
                 </div>
-              );
-            })}
-          </div>
-        </section>
 
-        {/* Stats Section */}
-        <section className="py-16 my-20 bg-gray-50 rounded-2xl">
-          <div className="max-w-4xl mx-auto text-center px-6">
-            <h3 className="text-2xl font-bold text-gray-900 mb-8">¿Por qué confiar en mi selección?</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
-              <div>
-                <div className="text-3xl font-bold text-gray-900 mb-2">5+</div>
-                <p className="text-gray-600">Años de experiencia gaming</p>
-              </div>
-              <div>
-                <div className="text-3xl font-bold text-gray-900 mb-2">100+</div>
-                <p className="text-gray-600">Productos probados</p>
-              </div>
-              <div>
-                <div className="text-3xl font-bold text-gray-900 mb-2">4.7★</div>
-                <p className="text-gray-600">Rating promedio productos</p>
+                {/* Animación de pulso */}
+                <div className="absolute inset-0 rounded-full bg-accent/40 animate-ping"></div>
+
+                {/* Tooltip */}
+                {hoveredPoint === point.id && (
+                  <div 
+                    className="absolute bottom-full mb-3 left-1/2 w-60 sm:w-64"
+                    style={{
+                      transform: `translate(-50%, 0) scale(${1 / transform.scale})`,
+                      transformOrigin: "bottom center",
+                    }}
+                  >
+                    <div className="bg-white rounded-2xl shadow-2xl p-4 border-2 border-accent">
+                      <div className="flex items-center gap-3 mb-2">
+                        <div className="w-12 h-12 bg-gradient-to-br from-accent to-terciary rounded-xl flex items-center justify-center shadow-md">
+                          <span className="text-2xl">{point.icon}</span>
+                        </div>
+                        <h3 className="font-bold text-primary text-base sm:text-lg">
+                          {point.label}
+                        </h3>
+                      </div>
+                      <p className="text-sm text-gray leading-relaxed">
+                        {point.description}
+                      </p>
+                      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full">
+                        <div className="w-0 h-0 border-l-[12px] border-r-[12px] border-t-[12px] border-transparent border-t-accent"></div>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
-          </div>
-        </section>
-
-        {/* Disclaimer */}
-        <section className="py-12 text-center">
-          <div className="max-w-3xl mx-auto bg-gray-50 rounded-xl p-6 border border-gray-200">
-            <p className="text-sm text-gray-600 leading-relaxed">
-              <strong className="text-gray-900">Transparencia:</strong> Como asociado de Amazon,
-              recibimos una comisión por las compras que califiquen, sin costo adicional para ti.
-              Los precios y disponibilidad pueden cambiar.
-              <span className="block mt-2 text-xs">
-                Última actualización: {new Date().toLocaleDateString('es-ES')}
-              </span>
-            </p>
-          </div>
-        </section>
-      </main>
-
-      {/* Footer */}
-      <footer className="bg-gray-50 border-t border-gray-200 mt-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="text-center">
-            <div className="flex items-center justify-center space-x-3 mb-4">
-              <div className="p-2 bg-gray-900 rounded-lg">
-                <Gamepad2 className="w-5 h-5 text-white" />
-              </div>
-              <div className="text-left">
-                <div className="font-bold text-gray-900">ProGamer</div>
-                <div className="text-sm text-gray-600">Setup Collection</div>
-              </div>
-            </div>
-            <p className="text-gray-600 max-w-md mx-auto">
-              Los mejores productos gaming, cuidadosamente seleccionados para maximizar tu rendimiento.
-            </p>
-          </div>
+          ))}
         </div>
-      </footer>
+      </div>
+
+      {/* Indicador de zoom */}
+      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-primary/90 text-secondary px-5 py-2 rounded-xl shadow-lg backdrop-blur-sm border border-terciary">
+        <p className="text-sm font-bold">
+          {Math.round(transform.scale * 100)}%
+        </p>
+      </div>
     </div>
   );
-};
-
-export default GamingSetupAffiliate2;
+}
