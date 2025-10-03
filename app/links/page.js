@@ -154,7 +154,7 @@ const products = [
         {/* Card Stack Container */}
         <div 
           className="relative mb-8 select-none touch-pan-y" 
-          style={{ height: '60vh' }}
+          style={{ height: '70vh' }}
           onTouchStart={onTouchStart}
           onTouchMove={onTouchMove}
           onTouchEnd={onTouchEnd}
@@ -190,16 +190,21 @@ const products = [
                   <img 
                     src={product.image} 
                     alt={product.name}
-                    className="absolute inset-0 w-full h-full object-cover"
+                    className="absolute inset-0 w-full h-full object-contain"
                   />
                   
                   {/* Gradient Overlay for Text Readability */}
-                  <div style={{height:'20%', top:'80%'}} className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                <div
+  style={{ height: '20%', top: '80%' }}
+  className="absolute inset-0 bg-gradient-to-t from-neutral-950/80 via-neutral-900/20 to-transparent backdrop-blur-lg"
+></div>
+
+
             
                   {/* Content */}
                   <div className="relative h-full flex flex-col justify-end p-8 text-white">
                     <div>
-                      <h2 className="text-4xl font-mono font-bold leading-tight drop-shadow-2xl">
+                      <h2 className="text-4xl font-mono font-bold leading-tight drop-shadow-2xl" >
                         {product.name}
                       </h2>
                       
