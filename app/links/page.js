@@ -141,9 +141,12 @@ const products = [
 
   return (
     <div className="min-h-screen bg-neutral-50 flex items-center justify-center p-6">
-      <div className="w-full max-w-md">
+      <div className="w-full max-w-xs">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
+          <button className="p-2 hover:bg-neutral-200 rounded-full transition-colors">
+            <X className="w-6 h-6 text-neutral-700" />
+          </button>
           <h1 className="text-xl font-semibold text-neutral-900">Mis productos</h1>
           <div className="w-10"></div>
         </div>
@@ -191,13 +194,16 @@ const products = [
                   />
                   
                   {/* Gradient Overlay for Text Readability */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
+                  <div style={{height:'20%', top:'80%'}} className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
             
                   {/* Content */}
                   <div className="relative h-full flex flex-col justify-end p-8 text-white">
-                      <h2 className="text-4xl font-bold leading-tight mb-3 drop-shadow-2xl">
+                    <div>
+                      <h2 className="text-4xl font-mono font-bold leading-tight drop-shadow-2xl">
                         {product.name}
                       </h2>
+                      
+                    </div>
                   </div>
                 </div>
               </div>
@@ -224,8 +230,7 @@ const products = [
         </div>
 
         {/* Link Section */}
-        <div className="mt-8 bg-white rounded-2xl p-6 shadow-sm">
-          <p className="text-xs text-neutral-500 mb-2 uppercase tracking-wide">Tu link de referido</p>
+          <p className="text-xs text-neutral-500 mb-2 uppercase tracking-wide">Link Amazon</p>
           <div className="flex gap-2">
             <input
               type="text"
@@ -244,9 +249,9 @@ const products = [
               )}
             </button>
           </div>
-        </div>
+
         {/* Stats */}
-        {/* <div className="grid grid-cols-3 gap-4 mt-6">
+        <div className="grid grid-cols-3 gap-4 mt-6">
           <div className="bg-white rounded-xl p-4 text-center shadow-sm">
             <p className="text-2xl font-bold text-neutral-900">1.2K</p>
             <p className="text-xs text-neutral-500 mt-1">Clicks</p>
@@ -259,7 +264,7 @@ const products = [
             <p className="text-2xl font-bold text-neutral-900">$2.4K</p>
             <p className="text-xs text-neutral-500 mt-1">Ganado</p>
           </div>
-        </div> */}
+        </div>
       </div>
     </div>
   );
