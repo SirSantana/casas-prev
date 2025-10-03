@@ -12,46 +12,75 @@ export default function InteractiveRoomViewer() {
   const imageRef = useRef(null);
 
   // Puntos de interés con sus posiciones (en porcentaje)
+  // Para imágenes panorámicas, distribuye los hotspots a lo largo de todo el ancho (0-100%)
   const hotspots = [
+    // Lado izquierdo de la imagen
     {
       id: 1,
-      x: 30,
+      x: 15,
+      y: 25,
+      label: "Wall Plants",
+      icon: "🌿",
+      description: "Decorative hanging plants",
+    },
+    {
+      id: 2,
+      x: 25,
       y: 20,
       label: "Nanoleaf Panels",
       icon: "🔷",
       description: "Custom LED wall decoration",
     },
+    // Centro de la imagen (visible al inicio)
     {
-      id: 2,
-      x: 50,
+      id: 3,
+      x: 45,
       y: 50,
       label: "Gaming Monitors",
       icon: "🖥️",
       description: "Triple monitor setup",
     },
     {
-      id: 3,
-      x: 70,
+      id: 4,
+      x: 50,
+      y: 35,
+      label: "Desk Setup",
+      icon: "⌨️",
+      description: "Mechanical keyboard and mouse",
+    },
+    // Centro-derecha
+    {
+      id: 5,
+      x: 65,
       y: 45,
       label: "Gaming PC",
       icon: "💻",
       description: "Custom water-cooled build",
     },
     {
-      id: 4,
-      x: 80,
+      id: 6,
+      x: 75,
       y: 60,
       label: "Gaming Chair",
       icon: "🪑",
       description: "Ergonomic gaming chair",
     },
+    // Lado derecho de la imagen (requiere scroll)
     {
-      id: 5,
-      x: 20,
+      id: 7,
+      x: 85,
+      y: 40,
+      label: "Speakers",
+      icon: "🔊",
+      description: "High-quality audio system",
+    },
+    {
+      id: 8,
+      x: 92,
       y: 30,
-      label: "Wall Plants",
-      icon: "🌿",
-      description: "Decorative hanging plants",
+      label: "Shelf Decor",
+      icon: "📚",
+      description: "Books and collectibles",
     },
   ];
 
@@ -313,9 +342,14 @@ export default function InteractiveRoomViewer() {
                 top: `${point.y}%`,
                 transform: "translate(-50%, -50%)",
               }}
-              onMouseEnter={() => setHoveredPoint(point.id)}
-              onMouseLeave={() => setHoveredPoint(null)}
-              onClick={() => setHoveredPoint(hoveredPoint === point.id ? null : point.id)}
+              onMouseEnter={() => !('ontouchstart' in window) && setHoveredPoint(point.id)}
+              onMouseLeave={() => !('ontouchstart' in window) && setHoveredPoint(null)}
+              onClick={(e) => {
+                e.stopPropagation();
+                if ('ontouchstart' in window) {
+                  setHoveredPoint(hoveredPoint === point.id ? null : point.id);
+                }
+              }}
             >
               {/* Punto pulsante */}
               <div className="relative">
