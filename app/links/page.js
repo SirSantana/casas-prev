@@ -1,6 +1,6 @@
 'use client'
 import { useState, useRef, useEffect } from 'react';
-import { X, Copy, Check, ExternalLink } from 'lucide-react';
+import { X, Copy, Check, ExternalLink, Grid3x3, List } from 'lucide-react';
 
 export default function ReferralLinksPage() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -9,6 +9,7 @@ export default function ReferralLinksPage() {
   const [touchEnd, setTouchEnd] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState(0);
+  const [viewMode, setViewMode] = useState('cards'); // 'cards' or 'list'
 
 const products = [
   {
@@ -143,133 +144,191 @@ const products = [
     <div className="min-h-screen bg-neutral-50 flex items-center justify-center p-6">
       <div className="w-full max-w-xs">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+        {/* <div className="flex items-center justify-between mb-8">
           <button className="p-2 hover:bg-neutral-200 rounded-full transition-colors">
             <X className="w-6 h-6 text-neutral-700" />
           </button>
           <h1 className="text-xl font-semibold text-neutral-900">Mis productos</h1>
           <div className="w-10"></div>
+        </div> */}
+
+        {/* View Mode Toggle */}
+        <div className="flex justify-center mb-6">
+          <div className="bg-white rounded-full p-1 shadow-sm flex gap-1">
+            <button
+              onClick={() => setViewMode('cards')}
+              className={`p-2.5 rounded-full transition-all ${
+                viewMode === 'cards' 
+                  ? 'bg-neutral-900 text-white' 
+                  : 'text-neutral-500 hover:text-neutral-700'
+              }`}
+            >
+              <Grid3x3 className="w-5 h-5" />
+            </button>
+            <button
+              onClick={() => setViewMode('list')}
+              className={`p-2.5 rounded-full transition-all ${
+                viewMode === 'list' 
+                  ? 'bg-neutral-900 text-white' 
+                  : 'text-neutral-500 hover:text-neutral-700'
+              }`}
+            >
+              <List className="w-5 h-5" />
+            </button>
+          </div>
         </div>
 
-        {/* Card Stack Container */}
-        <div 
-          className="relative mb-8 select-none touch-pan-y" 
-          style={{ height: '70vh' }}
-          onTouchStart={onTouchStart}
-          onTouchMove={onTouchMove}
-          onTouchEnd={onTouchEnd}
-        >
-          {products.map((product, index) => {
-            const offset = index - currentSlide;
-            const isVisible = Math.abs(offset) <= 2;
-            const dragInfluence = isDragging ? dragOffset * 0.5 : 0;
-            
-            return (
-              <div
-                key={product.id}
-                className={`absolute inset-0 transition-all ease-out ${
-                  isDragging ? 'duration-0' : 'duration-500'
-                } ${
-                  isVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
-                }`}
-                style={{
-                  transform: `
-                    translateX(${offset * 20 + dragInfluence}px)
-                    translateY(${Math.abs(offset) * 8}px)
-                    scale(${1 - Math.abs(offset) * 0.05})
-                    rotateY(${offset * -5 + (dragInfluence * 0.05)}deg)
-                    rotateZ(${isDragging && offset === 0 ? dragInfluence * 0.02 : 0}deg)
-                  `,
-                  zIndex: 10 - Math.abs(offset),
-                  transformStyle: 'preserve-3d'
-                }}
-              >
-                {/* Card */}
-                <div className="relative h-full rounded-3xl overflow-hidden shadow-2xl bg-white">
-                  {/* Image Background */}
-                  <img 
-                    src={product.image} 
-                    alt={product.name}
-                    className="absolute inset-0 w-full h-full object-contain"
+        {/* Cards View */}
+        {viewMode === 'cards' && (
+          <>
+            {/* Card Stack Container */}
+            <div 
+              className="relative mb-8 select-none touch-pan-y" 
+              style={{ height: '70vh' }}
+              onTouchStart={onTouchStart}
+              onTouchMove={onTouchMove}
+              onTouchEnd={onTouchEnd}
+            >
+              {products.map((product, index) => {
+                const offset = index - currentSlide;
+                const isVisible = Math.abs(offset) <= 2;
+                const dragInfluence = isDragging ? dragOffset * 0.5 : 0;
+                
+                return (
+                  <div
+                    key={product.id}
+                    className={`absolute inset-0 transition-all ease-out ${
+                      isDragging ? 'duration-0' : 'duration-500'
+                    } ${
+                      isVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                    }`}
+                    style={{
+                      transform: `
+                        translateX(${offset * 20 + dragInfluence}px)
+                        translateY(${Math.abs(offset) * 8}px)
+                        scale(${1 - Math.abs(offset) * 0.05})
+                        rotateY(${offset * -5 + (dragInfluence * 0.05)}deg)
+                        rotateZ(${isDragging && offset === 0 ? dragInfluence * 0.02 : 0}deg)
+                      `,
+                      zIndex: 10 - Math.abs(offset),
+                      transformStyle: 'preserve-3d'
+                    }}
+                  >
+                    {/* Card */}
+                    <div className="relative h-full rounded-3xl overflow-hidden shadow-2xl bg-white">
+                      {/* Image Background */}
+                      <img 
+                        src={product.image} 
+                        alt={product.name}
+                        className="absolute inset-0 w-full h-full object-contain"
+                      />
+                      {/* Content */}
+                      <div className="relative h-full flex flex-col justify-end p-8 text-black">
+                        <div>
+                          <h2 className="text-4xl font-mono font-bold leading-tight drop-shadow-2xl" >
+                            {product.name}
+                          </h2>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Swipe Indicator */}
+            <div className="flex justify-center mb-4">
+              <div className="flex gap-2">
+                {products.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentSlide(index)}
+                    className={`transition-all ${
+                      index === currentSlide 
+                        ? 'w-8 h-2 bg-neutral-900 rounded-full' 
+                        : 'w-2 h-2 bg-neutral-300 rounded-full hover:bg-neutral-400'
+                    }`}
+                    aria-label={`Ir a slide ${index + 1}`}
                   />
+                ))}
+              </div>
+            </div>
+
+            {/* Link Section */}
+            <p className="text-xs text-neutral-500 mb-2 uppercase tracking-wide">Link Amazon</p>
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={currentProduct.link}
+                readOnly
+                className="flex-1 px-4 py-3 bg-neutral-50 rounded-xl text-sm font-mono text-neutral-700 border border-neutral-200"
+              />
+              <button
+                onClick={() => copyToClipboard(currentProduct.link, currentProduct.id)}
+                className="px-6 py-3 bg-neutral-900 text-white rounded-xl hover:bg-neutral-800 transition-colors flex items-center gap-2"
+              >
+                {copiedId === currentProduct.id ? (
+                  <Check className="w-5 h-5" />
+                ) : (
+                  <Copy className="w-5 h-5" />
+                )}
+              </button>
+            </div>
+          </>
+        )}
+
+        {/* List View */}
+        {viewMode === 'list' && (
+          <div className="space-y-3  w-full">
+            {products.map((product) => (
+              <div 
+                key={product.id}
+                className="bg-white rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow"
+              >
+                <div className="flex gap-4">
+                  {/* Product Image */}
+                  <div className="w-20 h-20 rounded-xl overflow-hidden bg-neutral-100 flex-shrink-0">
+                    <img 
+                      src={product.image} 
+                      alt={product.name}
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
                   
-                  {/* Gradient Overlay for Text Readability */}
-                <div
-  style={{ height: '20%', top: '80%' }}
-  className="absolute inset-0 bg-gradient-to-t from-neutral-950/80 via-neutral-900/20 to-transparent backdrop-blur-lg"
-></div>
-
-
-            
-                  {/* Content */}
-                  <div className="relative h-full flex flex-col justify-end p-8 text-white">
-                    <div>
-                      <h2 className="text-4xl font-mono font-bold leading-tight drop-shadow-2xl" >
-                        {product.name}
-                      </h2>
-                      
+                  {/* Product Info */}
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-semibold text-neutral-900 mb-1 truncate">
+                      {product.name}
+                    </h3>
+                    <p className="text-xs text-neutral-500 mb-2 line-clamp-2">
+                      {product.description}
+                    </p>
+                    
+                    {/* Link and Copy Button */}
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={product.link}
+                        readOnly
+                        className="flex-1 w-[70%] px-3 py-2 bg-neutral-50 rounded-lg text-xs font-mono text-neutral-600 border border-neutral-200"
+                      />
+                      <button
+                        onClick={() => copyToClipboard(product.link, product.id)}
+                        className="px-3 py-2 bg-neutral-900 text-white rounded-lg hover:bg-neutral-800 transition-colors flex items-center gap-1"
+                      >
+                        {copiedId === product.id ? (
+                          <Check className="w-4 h-4" />
+                        ) : (
+                          <Copy className="w-4 h-4" />
+                        )}
+                      </button>
                     </div>
                   </div>
                 </div>
               </div>
-            );
-          })}
-        </div>
-
-        {/* Swipe Indicator */}
-        <div className="flex justify-center mb-4">
-          <div className="flex gap-2">
-            {products.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentSlide(index)}
-                className={`transition-all ${
-                  index === currentSlide 
-                    ? 'w-8 h-2 bg-neutral-900 rounded-full' 
-                    : 'w-2 h-2 bg-neutral-300 rounded-full hover:bg-neutral-400'
-                }`}
-                aria-label={`Ir a slide ${index + 1}`}
-              />
             ))}
           </div>
-        </div>
-
-        {/* Link Section */}
-          <p className="text-xs text-neutral-500 mb-2 uppercase tracking-wide">Link Amazon</p>
-          <div className="flex gap-2">
-            <input
-              type="text"
-              value={currentProduct.link}
-              readOnly
-              className="flex-1 px-4 py-3 bg-neutral-50 rounded-xl text-sm font-mono text-neutral-700 border border-neutral-200"
-            />
-            <button
-              onClick={() => copyToClipboard(currentProduct.link, currentProduct.id)}
-              className="px-6 py-3 bg-neutral-900 text-white rounded-xl hover:bg-neutral-800 transition-colors flex items-center gap-2"
-            >
-              {copiedId === currentProduct.id ? (
-                <Check className="w-5 h-5" />
-              ) : (
-                <Copy className="w-5 h-5" />
-              )}
-            </button>
-          </div>
-
-        {/* Stats */}
-        <div className="grid grid-cols-3 gap-4 mt-6">
-          <div className="bg-white rounded-xl p-4 text-center shadow-sm">
-            <p className="text-2xl font-bold text-neutral-900">1.2K</p>
-            <p className="text-xs text-neutral-500 mt-1">Clicks</p>
-          </div>
-          <div className="bg-white rounded-xl p-4 text-center shadow-sm">
-            <p className="text-2xl font-bold text-neutral-900">89</p>
-            <p className="text-xs text-neutral-500 mt-1">Ventas</p>
-          </div>
-          <div className="bg-white rounded-xl p-4 text-center shadow-sm">
-            <p className="text-2xl font-bold text-neutral-900">$2.4K</p>
-            <p className="text-xs text-neutral-500 mt-1">Ganado</p>
-          </div>
-        </div>
+        )}
       </div>
     </div>
   );
