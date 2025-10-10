@@ -18,6 +18,7 @@ const products = [
     description: "Monitor gaming 144Hz con panel IPS",
     link: "https://example.com/ref/xiaomi-monitor",
     commission: "30% recurrente",
+    price:390,
     image: "/img1.png",
     accent: "bg-orange-500"
   },
@@ -28,6 +29,8 @@ const products = [
     link: "https://example.com/ref/iphone-15",
     commission: "5% por venta",
     image: "/img2.png",
+    price:390,
+
     accent: "bg-blue-500"
   },
   {
@@ -37,6 +40,8 @@ const products = [
     link: "https://example.com/ref/samsung-s24",
     commission: "7% por venta",
     image: "/img3.png",
+    price:390,
+
     accent: "bg-purple-500"
   },
   {
@@ -46,6 +51,8 @@ const products = [
     link: "https://example.com/ref/macbook-air",
     commission: "3% por venta",
     image: "/img4.png",
+    price:390,
+
     accent: "bg-neutral-500"
   },
   {
@@ -55,6 +62,8 @@ const products = [
     link: "https://example.com/ref/sony-headphones",
     commission: "10% por venta",
     image: "/img3.png",
+    price:390,
+
     accent: "bg-black"
   },
   {
@@ -64,6 +73,8 @@ const products = [
     link: "https://example.com/ref/ipad-pro",
     commission: "4% por venta",
     image: "/img1.png",
+    price:390,
+
     accent: "bg-neutral-700"
   },
   {
@@ -73,6 +84,8 @@ const products = [
     link: "https://example.com/ref/logitech-mouse",
     commission: "15% por venta",
      image: "/img2.png",
+    price:390,
+
     accent: "bg-blue-600"
   },
   {
@@ -82,7 +95,8 @@ const products = [
     link: "https://example.com/ref/apple-watch",
     commission: "5% por venta",
     image: "https://i.imgur.com/YourImageID8.png",
-    accent: "bg-red-500"
+    accent: "bg-red-500",
+    price:390,
   }
 ];
 
@@ -141,7 +155,7 @@ const products = [
   const currentProduct = products[currentSlide];
 
   return (
-    <div className="min-h-screen bg-neutral-50 flex items-center justify-center p-6">
+    <div className="min-h-screen bg-neutral-50 flex  justify-center p-6">
       <div className="w-full max-w-xs">
         {/* Header */}
         {/* <div className="flex items-center justify-between mb-8">
@@ -184,7 +198,7 @@ const products = [
             {/* Card Stack Container */}
             <div 
               className="relative mb-8 select-none touch-pan-y" 
-              style={{ height: '70vh' }}
+              style={{ height: '65vh' }}
               onTouchStart={onTouchStart}
               onTouchMove={onTouchMove}
               onTouchEnd={onTouchEnd}
@@ -198,36 +212,46 @@ const products = [
                   <div
                     key={product.id}
                     className={`absolute inset-0 transition-all ease-out ${
-                      isDragging ? 'duration-0' : 'duration-500'
+                      isDragging ? 'duration-0' : 'duration-700'
                     } ${
                       isVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
                     }`}
                     style={{
                       transform: `
-                        translateX(${offset * 20 + dragInfluence}px)
-                        translateY(${Math.abs(offset) * 8}px)
-                        scale(${1 - Math.abs(offset) * 0.05})
-                        rotateY(${offset * -5 + (dragInfluence * 0.05)}deg)
-                        rotateZ(${isDragging && offset === 0 ? dragInfluence * 0.02 : 0}deg)
+                        translateX(${offset * 15 + dragInfluence}px)
+                        translateY(${Math.abs(offset) * 10}px)
+                        scale(${1 - Math.abs(offset) * 0.08})
+                        rotateZ(${offset * 2 + (isDragging && offset === 0 ? dragInfluence * 0.015 : 0)}deg)
                       `,
                       zIndex: 10 - Math.abs(offset),
-                      transformStyle: 'preserve-3d'
+                      filter: offset !== 0 ? 'brightness(0.7) blur(1px)' : 'none'
                     }}
                   >
                     {/* Card */}
-                    <div className="relative h-full rounded-3xl overflow-hidden shadow-2xl bg-white">
+                    <div className="relative h-full rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-white to-neutral-50 border border-neutral-200/50">
                       {/* Image Background */}
-                      <img 
-                        src={product.image} 
-                        alt={product.name}
-                        className="absolute inset-0 w-full h-full object-contain"
-                      />
+                      <div className="absolute inset-0 p-6 flex items-center justify-center">
+                        <img 
+                          src={product.image} 
+                          alt={product.name}
+                          className="w-full h-full object-contain drop-shadow-2xl"
+                        />
+                      </div>
+                      
+                      {/* Gradient Overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/10 to-transparent"></div>
+                      
                       {/* Content */}
-                      <div className="relative h-full flex flex-col justify-end p-8 text-black">
-                        <div>
-                          <h2 className="text-4xl font-mono font-bold leading-tight drop-shadow-2xl" >
+                      <div className="relative h-full flex flex-col justify-end p-6">
+                        <div className="space-y-2">
+                          <h2 className="text-3xl font-bold leading-tight text-white drop-shadow-lg">
                             {product.name}
                           </h2>
+                          <div className="flex items-center gap-2 pt-1">
+                            <span className="px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-xs font-medium text-white">
+                              ${product.price}.00
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </div>
