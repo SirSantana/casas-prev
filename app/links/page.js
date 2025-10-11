@@ -14,90 +14,79 @@ export default function ReferralLinksPage() {
 const products = [
   {
     id: 1,
-    name: "Xiaomi Monitor 27\"",
+    name: "AMD Ryzen 7 7700X",
     description: "Monitor gaming 144Hz con panel IPS",
-    link: "https://example.com/ref/xiaomi-monitor",
+    link: "https://amzn.to/3W0VFPx",
     commission: "30% recurrente",
-    price:390,
-    image: "/img1.png",
+    price:264.00,
+    image: "https://m.media-amazon.com/images/I/51lXCYo7GkL._AC_SX679_.jpg",
     accent: "bg-orange-500"
   },
   {
     id: 2,
-    name: "iPhone 15 Pro",
+    name: "ASUS TUF GAMING B650-PLUS",
     description: "Último modelo con titanio y cámara de 48MP",
-    link: "https://example.com/ref/iphone-15",
+    link: "https://amzn.to/43fVJii",
     commission: "5% por venta",
-    image: "/img2.png",
-    price:390,
+    image: "https://m.media-amazon.com/images/I/81ogi-krqkL._AC_SX679_.jpg",
+    price:169.99,
 
     accent: "bg-blue-500"
   },
   {
     id: 3,
-    name: "Samsung Galaxy S24",
+    name: "Crucial Kit de RAM DDR5 Pro de 32 GB",
     description: "Smartphone con IA y cámara de 200MP",
-    link: "https://example.com/ref/samsung-s24",
+    link: "https://amzn.to/4ocxdqi",
     commission: "7% por venta",
-    image: "/img3.png",
-    price:390,
+    image: "https://m.media-amazon.com/images/I/51Niqgy0cHL._AC_SX679_PIbundle-2,TopRight,0,0_SH20_.jpg",
+    price:129.99,
 
     accent: "bg-purple-500"
   },
   {
     id: 4,
-    name: "MacBook Air M3",
+    name: "Crucial P3 Plus 1TB",
     description: "Laptop ultradelgada con chip M3",
-    link: "https://example.com/ref/macbook-air",
+    link: "https://amzn.to/4nMltva",
     commission: "3% por venta",
-    image: "/img4.png",
-    price:390,
+    image: "https://m.media-amazon.com/images/I/51pMg25AthL._AC_SX679_.jpg",
+    price:62.64,
 
     accent: "bg-neutral-500"
   },
   {
     id: 5,
-    name: "Sony WH-1000XM5",
+    name: "Thermalright Peerless Assassin 120 SE V2",
     description: "Auriculares con cancelación de ruido líder",
-    link: "https://example.com/ref/sony-headphones",
+    link: "https://amzn.to/473KzOO",
     commission: "10% por venta",
-    image: "/img3.png",
-    price:390,
-
+    image: "https://m.media-amazon.com/images/I/71qSaiAR6yL._AC_SX679_.jpg",
+    price:37.90,
     accent: "bg-black"
   },
   {
     id: 6,
-    name: "iPad Pro 12.9\"",
+    name: "MSI RTX 3060 12 GB",
     description: "Tablet profesional con chip M2",
-    link: "https://example.com/ref/ipad-pro",
+    link: "https://amzn.to/471GGtB",
     commission: "4% por venta",
-    image: "/img1.png",
-    price:390,
-
+    image: "https://m.media-amazon.com/images/I/71tduSp8ooL._AC_SX466_.jpg",
+    price:279.97,
     accent: "bg-neutral-700"
   },
   {
     id: 7,
-    name: "Logitech MX Master 3S",
+    name: "Corsair CX750W 80+ Bronze",
     description: "Mouse ergonómico para productividad",
-    link: "https://example.com/ref/logitech-mouse",
+    link: "https://amzn.to/4n1omqH",
     commission: "15% por venta",
-     image: "/img2.png",
-    price:390,
+     image: "https://m.media-amazon.com/images/I/71NcQsKlIvL._AC_SX679_.jpg",
+    price:84.99,
 
     accent: "bg-blue-600"
   },
-  {
-    id: 8,
-    name: "Apple Watch Series 9",
-    description: "Smartwatch con pantalla siempre activa",
-    link: "https://example.com/ref/apple-watch",
-    commission: "5% por venta",
-    image: "https://i.imgur.com/YourImageID8.png",
-    accent: "bg-red-500",
-    price:390,
-  }
+
 ];
 
   const minSwipeDistance = 50;
@@ -234,7 +223,7 @@ const products = [
                         <img 
                           src={product.image} 
                           alt={product.name}
-                          className="w-full h-full object-contain drop-shadow-2xl"
+                          className="w-full h-full object-contain "
                         />
                       </div>
                       
