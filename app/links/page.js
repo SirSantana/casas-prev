@@ -238,7 +238,7 @@ const products = [
                           </h2>
                           <div className="flex items-center gap-2 pt-1">
                             <span className="px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-xs font-medium text-white">
-                              ${product.price}.00
+                              ${product.price}
                             </span>
                           </div>
                         </div>
@@ -314,7 +314,7 @@ const products = [
                       {product.name}
                     </h3>
                     <p className="text-xs text-neutral-500 mb-2 line-clamp-2">
-                      {product.description}
+                      ${product.price}
                     </p>
                     
                     {/* Link and Copy Button */}
