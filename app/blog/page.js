@@ -49,7 +49,20 @@ export default function BlogPage() {
       destacado: false,
       link: "material-casas-prefabricadas"
     
-    }
+    },
+    {
+      id: 4,
+      titulo: "What Is a Modular Home? A Complete Beginner's Guide",
+      extracto: "In the **U.S. housing market**, modular construction has emerged as a fast, high-quality, and cost-efficient alternative to traditional site-built homes. However, the term modular home is often confused with manufactured home (or the older mobile home).",
+      autor: "María Rodríguez",
+      fecha: "18 de abril, 2025",
+      tiempoLectura: "5 min",
+      categoria: "Construcción",
+      imagen: "/ck40-1.jpg",
+      destacado: false,
+      link: "what-is-modular-home-guide"
+    
+    },
 
   ];
 
