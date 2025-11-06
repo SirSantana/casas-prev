@@ -65,7 +65,7 @@ export const metadata = {
   },
 
 };
-export const faqs = [
+ const faqs = [
   {
     question: "How long does it take to build a modular home?",
     answer:
