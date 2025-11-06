@@ -4,7 +4,6 @@ import HowItWorksEn from '@/components/HomeEn/HowItWorks';
 import BenefitsSectionEn from '@/components/HomeEn/Beneficios';
 import SmartFormSectionEn from '@/components/HomeEn/SmartFormSection';
 
-import Layout from './Layout';
 export const metadata = {
   title: 'Modular Homes in the United States | Compare Builders, Models & Prices',
 
